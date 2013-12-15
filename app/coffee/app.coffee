@@ -18,6 +18,4 @@ define([
           templateUrl: 'game.html'
           controller: "GameCtrl"
     ])
-
-  #angular.bootstrap document, ['diplomacy']
 )
