@@ -7,11 +7,13 @@
 </head>
 <body>
 
-  <script src="lib/angular/angular.js"></script>
-  <script src="lib/angular/angular-route.js"></script>
-  <script src="lib/angular/angular-resource.js"></script>
-  <script src="js/services.js"></script>
-  <script src="js/controllers.js"></script>
-  <script src="js/app.js"></script>
+  <div ng-controller="GameListCtrl">
+    <h2>Available Games</h2>
+    <div class="game-row" ng-repeat="(id, game) in games">
+      {{ id }} ({{ game.Members.length }} players)
+    </div>
+  </div>
+
+  <script src="lib/requirejs/require.js" data-main="js/main.js"></script>
 </body>
 </html>
