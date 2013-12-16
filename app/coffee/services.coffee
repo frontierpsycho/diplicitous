@@ -52,7 +52,7 @@ define([
 
       Service.send = (message) ->
         counter = 0
-        interval = null
+        timeoutId = null
 
         sendInner = ->
           if this.connected
@@ -60,15 +60,16 @@ define([
             this.ws.send(message)
 
             console.debug "Sent message, stopping"
-            clearInterval(interval)
+            clearTimeout(timeoutId)
           else
-            interval = setInterval =>
+            timeoutId = setTimeout =>
               counter += 1
               console.debug "Tried #{counter} times"
               if counter >= 50
                 console.debug "Failed, stopping"
-                clearInterval(interval)
-              sendInner.bind(this, message)()
+                clearTimeout(timeoutId)
+              else
+                sendInner.bind(this, message)()
             , 10
 
         sendInner.bind(this)()
