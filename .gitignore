@@ -8,3 +8,4 @@ build.xml
 .idea/*
 *.swp
 .sass-cache/
+app/css/*.css
