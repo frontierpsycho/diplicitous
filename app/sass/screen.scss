@@ -34,9 +34,10 @@ body {
 
     div.game-row {
       @include squish(1, 1);
-      @include span-columns($total-columns - 2);
+      @include span-columns($total-columns - 2, $padding: 1em);
       background-color: #FF7B00;
-      padding: 1em;
+      padding-top: 1em;
+      padding-bottom: 1em;
       color: white;
       font-size: 1.2em;
       &:hover {

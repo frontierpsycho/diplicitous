@@ -1,6 +1,6 @@
 define([
   'angular'
-], (ng) ->
+], (angular) ->
   'use strict'
 
   angular.module('diplomacyServices', [])
