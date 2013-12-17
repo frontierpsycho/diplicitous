@@ -14,8 +14,11 @@ define([
     .config(['$routeProvider', ($routeProvider) ->
 
       $routeProvider
-        .when "/game/:gameId",
-          templateUrl: 'game.html'
-          controller: "GameCtrl"
+        .when "/games",
+          templateUrl: 'views/games.html'
+          controller: "GameListCtrl"
+        #.when "/game/:gameId",
+        #  templateUrl: 'game.html'
+        #  controller: "GameCtrl"
     ])
 )

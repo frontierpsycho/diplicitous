@@ -11,16 +11,16 @@ define([
     ($scope, GameListService) ->
       $scope.games = GameListService.get()
   ])
-  ###  .controller('GameCtrl', [
-      '$scope'
-      '$routeParams'
-      (
-        $scope
-        $routeParams
-      ) ->
-        $scope.game = {}
+  ###.controller('GameCtrl', [
+    '$scope'
+    '$routeParams'
+    (
+      $scope
+      $routeParams
+    ) ->
+      $scope.game = {}
 
-        console.debug 'GameCtrl'
-    ])
+      console.debug 'GameCtrl'
+  ])
   ###
 )
