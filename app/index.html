@@ -1,16 +1,28 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Diplomacy</title>
-  <link rel="stylesheet" href="css/screen.css"/>
+<meta charset="utf-8">
+<title>Diplomacy</title>
+<link rel="stylesheet" href="css/screen.css"/>
 </head>
 <body>
-  <div class="dimmer"></div>
-  <div class="container" ng-controller="GameListCtrl">
-    <ng-view></ng-view>
-  </div>
+<div class="dimmer"></div>
 
-  <script src="lib/requirejs/require.js" data-main="js/main.js"></script>
+<div class="menu-wrapper">
+  <div class="menu">
+    <h2>Diplomacy</h2>
+    <div class="nav">
+      <ul>
+        <li>Games</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container" ng-controller="GameListCtrl">
+    <ng-view></ng-view>
+</div>
+
+<script src="lib/requirejs/require.js" data-main="js/main.js"></script>
 </body>
 </html>

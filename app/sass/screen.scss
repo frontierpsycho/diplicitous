@@ -24,7 +24,27 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 0;
+  z-index: -1;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+.menu-wrapper {
+  @include container;
+  @include susy-grid-background;
+
+  background-color: darkred;
+
+  .menu {
+    @include span-columns($total-columns, $padding: 1em);
+
+    color: #FFF;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+
 }
 
 .container {
@@ -32,9 +52,12 @@ body {
   @include susy-grid-background;
 
   position: relative;
-  z-index: 1;
   background-color: white;
   height: 1200px;
+
+  h2 {
+    margin: 1em;
+  }
 
   .content {
     @include span-columns($total-columns);
@@ -47,6 +70,7 @@ body {
       padding-bottom: 1em;
       color: white;
       font-size: 1.2em;
+
       &:hover {
         background-color: #DC6A00;
       }
