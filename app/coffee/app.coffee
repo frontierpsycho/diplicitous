@@ -1,6 +1,7 @@
 define([
   'angular'
   'angular-route'
+  'wsService'
   'services'
   'controllers'
 ], (ng) ->
