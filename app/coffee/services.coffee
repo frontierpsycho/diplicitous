@@ -74,14 +74,14 @@ define([
 
         sendInner.bind(this)()
 
-      Service.subscribeToGames = ->
+      Service.subscribe = (uri) ->
         defer = $q.defer()
 
         console.log "Subscribing"
         message =
           "Type": "Subscribe"
           "Object":
-            "URI": "/games/current"
+            "URI": uri
 
         this.send(JSON.stringify(message))
         promise = defer
@@ -94,12 +94,28 @@ define([
         Service =
           gameList: {}
 
-        wsService.registerList("/games/current", Service.gameList)
+        uri = "/games/current"
+
+        wsService.registerList(uri, Service.gameList)
 
         Service.get = ->
           # TODO return a sorted list instead
-          wsService.subscribeToGames()
+          wsService.subscribe(uri)
           this.gameList
+
+        Service
+    ])
+    .factory('GameService', ['wsService', (wsService) ->
+        Service =
+          games: {}
+
+        uri = (id) -> "/games/#{id}"
+
+        Service.get = (id) ->
+          this.games[id] = {}
+          wsService.registerList(uri(id), Service.games[id])
+          wsService.subscribe(uri(id))
+          this.games[id]
 
         Service
     ])
