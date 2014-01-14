@@ -30,8 +30,12 @@ angular.module('diplomacyServices')
 
         if data['Type'] == 'Create' or data['Type'] == 'Fetch'
           $rootScope.$apply ->
-            for item in data['Object']['Data']
-              list[item['Id']] = item
+            containedData = data['Object']['Data']
+            if Array.isArray(containedData)
+              for item in containedData
+                list[item['Id']] = item
+            else
+              list['game'] = containedData
 
         if data['Type'] == 'Delete'
           $rootScope.$apply ->
