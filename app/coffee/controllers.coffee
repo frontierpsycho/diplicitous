@@ -1,6 +1,10 @@
 define([
   'angular'
-], (ng) ->
+  'snap'
+], (
+  ng
+  Snap
+) ->
   'use strict'
 
   diplomacyControllers = angular.module 'diplomacyControllers', []
@@ -22,6 +26,11 @@ define([
     ) ->
       $scope.game = GameService.get($routeParams.gameId)
 
-      console.debug 'GameCtrl', $routeParams.gameId
+      s = Snap("#map")
+      Snap.load("img/classical.svg", (data) ->
+        console.log "Loaded map!"
+        s.append(data)
+      )
+
   ])
 )

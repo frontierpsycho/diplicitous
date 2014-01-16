@@ -35,7 +35,16 @@ angular.module('diplomacyServices')
               for item in containedData
                 list[item['Id']] = item
             else
-              list['game'] = containedData
+              list['data'] = containedData
+
+        if data['Type'] == 'Update'
+          $rootScope.$apply ->
+            containedData = data['Object']['Data']
+            if Array.isArray(containedData)
+              for item in containedData
+                list[item['Id']] = item
+            else
+              list['data'] = containedData
 
         if data['Type'] == 'Delete'
           $rootScope.$apply ->

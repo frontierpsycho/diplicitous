@@ -4,6 +4,7 @@ require.config(
       'domReady': '../lib/requirejs/domReady',
       'angular': '../lib/angular/angular'
       'angular-route': '../lib/angular/angular-route'
+      'snap': '../lib/snap/snap.svg'
 
     # angular does not support AMD out of the box, put it in a shim
     shim:

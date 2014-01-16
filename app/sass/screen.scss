@@ -75,5 +75,14 @@ h2 {
         background-color: #DC6A00;
       }
     }
+
+    $sidebar-columns: 5;
+    div#map {
+      @include span-columns($total-columns - $sidebar-columns);
+    }
+
+    div#sidebar {
+      @include span-columns($sidebar-columns omega)
+    }
   }
 }
