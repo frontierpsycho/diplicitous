@@ -1,9 +1,10 @@
 define([
   'angular'
+  'wsService'
 ], (angular) ->
   'use strict'
 
-  angular.module('diplomacyServices', [])
+  angular.module('diplomacyServices')
     .factory('GameListService', ['wsService', (wsService) ->
         Service =
           gameList: {}
