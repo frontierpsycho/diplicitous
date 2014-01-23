@@ -76,7 +76,7 @@ h2 {
       }
     }
 
-    $sidebar-columns: 5;
+    $sidebar-columns: 6;
     div#map {
       @include span-columns($total-columns - $sidebar-columns);
     }
