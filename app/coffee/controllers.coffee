@@ -29,6 +29,14 @@ define([
       s = Snap("#map")
       Snap.load("img/classical.svg", (data) ->
         console.log "Loaded map!"
+        data.select("#provinces").attr
+          style: ""
+        provinces = data.selectAll("#provinces path")
+        for province in provinces
+          province.attr
+            style: ""
+            fill: "#FFFFFF"
+            "fill-opacity": "0"
         s.append(data)
       )
 
