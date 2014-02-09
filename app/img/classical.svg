@@ -933,7 +933,7 @@
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="supply centers"
-     style="display:inline"
+     style="display:inline; pointer-events: none;"
      transform="translate(602.34811,513.94131)"
      sodipodi:insensitive="true"><path
        id="sweCenter"
@@ -1291,7 +1291,7 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="names"
-     style="display:inline"
+     style="display:inline; pointer-events: none;"
      transform="translate(602.34811,513.94131)"
      sodipodi:insensitive="true">
 
