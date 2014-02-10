@@ -7,6 +7,22 @@ define([
 ) ->
   'use strict'
 
+  powers =
+    Austria:
+      colour: "#B22222"
+    England:
+      colour: "#4B0082"
+    France:
+      colour: "#ADD8E6"
+    Germany:
+      colour: "#414141"
+    Italy:
+      colour: "#3E954A"
+    Russia:
+      colour: "#E5E5E5"
+    Turkey:
+      colour: "#F0E68C"
+
   diplomacyControllers = angular.module 'diplomacyControllers', []
 
   diplomacyControllers.controller('GameListCtrl', [
@@ -26,9 +42,12 @@ define([
     ) ->
       $scope.game = GameService.get($routeParams.gameId)
 
+      svgData = null
+
       s = Snap("#map")
       Snap.load("img/classical.svg", (data) ->
         console.log "Loaded map!"
+        svgData = data
         data.select("#provinces").attr
           style: ""
         provinces = data.selectAll("#provinces path")
@@ -38,6 +57,20 @@ define([
             fill: "#FFFFFF"
             "fill-opacity": "0"
         s.append(data)
+
+        setTimeout ->
+          for provinceName,unit of $scope.game.data.Phase.Units
+            provinceName = provinceName.replace '/', '-'
+            console.debug("##{provinceName}", unit)
+
+            province = s.select("##{provinceName}")
+
+            province.attr
+              style: ""
+              fill: powers[unit.Nation].colour
+              "fill-opacity": "0.8"
+        , 1000
+
       )
 
   ])
