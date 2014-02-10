@@ -44,7 +44,7 @@ define([
 
       svgData = null
 
-      s = Snap("#map")
+      $scope.map = Snap("#map")
       Snap.load("img/classical.svg", (data) ->
         console.log "Loaded map!"
         svgData = data
@@ -56,20 +56,23 @@ define([
             style: ""
             fill: "#FFFFFF"
             "fill-opacity": "0"
-        s.append(data)
+        $scope.map.append(data)
 
-        setTimeout ->
+        deregisterWatch = $scope.$watch('game', ->
+          console.debug "Game loaded!", $scope.game.data.Id
+
           for provinceName,unit of $scope.game.data.Phase.Units
             provinceName = provinceName.replace '/', '-'
-            console.debug("##{provinceName}", unit)
 
-            province = s.select("##{provinceName}")
+            province = $scope.map.select("##{provinceName}")
 
             province.attr
               style: ""
               fill: powers[unit.Nation].colour
               "fill-opacity": "0.8"
-        , 1000
+
+            deregisterWatch()
+        )
 
       )
 
