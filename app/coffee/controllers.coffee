@@ -1,9 +1,11 @@
 define([
   'angular'
   'snap'
+  'map'
 ], (
   ng
   Snap
+  Map
 ) ->
   'use strict'
 
@@ -42,39 +44,8 @@ define([
     ) ->
       $scope.game = GameService.get($routeParams.gameId)
 
-      svgData = null
-
-      $scope.map = Snap("#map")
-      Snap.load("img/classical.svg", (data) ->
-        console.log "Loaded map!"
-        svgData = data
-        data.select("#provinces").attr
-          style: ""
-        provinces = data.selectAll("#provinces path")
-        for province in provinces
-          province.attr
-            style: ""
-            fill: "#FFFFFF"
-            "fill-opacity": "0"
-        $scope.map.append(data)
-
-        deregisterWatch = $scope.$watch('game', ->
-          console.debug "Game loaded!", $scope.game.data.Id
-
-          for provinceName,unit of $scope.game.data.Phase.Units
-            provinceName = provinceName.replace '/', '-'
-
-            province = $scope.map.select("##{provinceName}")
-
-            province.attr
-              style: ""
-              fill: powers[unit.Nation].colour
-              "fill-opacity": "0.8"
-
-            deregisterWatch()
-        )
-
-      )
-
+      # yuck, must ask StackOverflow!
+      # perhaps a directive?
+      map = Map($scope, "#map", "img/classical.svg")
   ])
 )
