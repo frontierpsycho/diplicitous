@@ -4,12 +4,14 @@ define([
   'wsService'
   'services'
   'controllers'
+  'directives'
 ], (ng) ->
   'use strict'
 
   angular.module('diplomacy', [
     'diplomacyServices'
     'diplomacyControllers'
+    'diplomacyDirectives'
     'ngRoute'
   ])
     .config(['$routeProvider', ($routeProvider) ->

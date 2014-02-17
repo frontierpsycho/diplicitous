@@ -27,9 +27,5 @@ define([
       GameService
     ) ->
       $scope.game = GameService.get($routeParams.gameId)
-
-      # yuck, must ask StackOverflow!
-      # perhaps a directive?
-      map = Map($scope, "#map", "img/classical.svg")
   ])
 )
