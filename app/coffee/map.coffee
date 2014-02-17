@@ -1,7 +1,9 @@
 define([
   'snap'
+  'mapData'
 ], (
   Snap
+  MapData
 ) ->
   'use strict'
 
@@ -10,24 +12,6 @@ define([
     that = {}
 
     that.provinces = {}
-
-    that.powerColours =
-      Austria:
-        colour: "#B22222"
-      England:
-        colour: "#4B0082"
-      France:
-        colour: "#ADD8E6"
-      Germany:
-        colour: "#414141"
-      Italy:
-        colour: "#3E954A"
-      Russia:
-        colour: "#E5E5E5"
-      Turkey:
-        colour: "#F0E68C"
-      default:
-        colour: "#FFFFF0"
 
     that.snap = Snap(selector)
     Snap.load(svgPath, (data) ->
@@ -52,7 +36,7 @@ define([
         for provinceName,unit of $scope.game.data.Phase.Units
           provinceName = provinceName.replace '/', '-'
 
-          that.colourProvince(provinceName, that.powerColours[unit.Nation].colour)
+          that.colourProvince(provinceName, MapData.powers[unit.Nation].colour)
 
           deregisterWatch()
       )
