@@ -69,6 +69,19 @@ define([
       else
         console.warning "Cannot colour province #{abbr}: it does not exist!"
 
+    that.hoverProvince = (abbr) ->
+      province = that.provinces[abbr]
+
+      if province?
+        province.hover (event) ->
+          this.attr
+            "fill-opacity": "0.5"
+        , (event) ->
+          this.attr
+            "fill-opacity": "0.8"
+      else
+        console.warning "Cannot add hover handlers to province #{abbr}: it does not exist!"
+
     return that
 
   return Map
