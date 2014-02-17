@@ -21,4 +21,26 @@ define ->
     default:
       colour: "#FFFFF0"
 
+  that.seas = [
+    'nrg'
+    'nat'
+    'nth'
+    'iri'
+    'mid'
+    'wes'
+    'eng'
+    'gol'
+    'tys'
+    'ion'
+    'adr'
+    'aeg'
+    'eas'
+    'bla'
+    'hel'
+    'ska'
+    'bal'
+    'bot'
+    'bar'
+  ]
+
   return that

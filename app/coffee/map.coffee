@@ -21,13 +21,15 @@ define([
         style: ""
       provinces = data.selectAll("#provinces path")
       for province in provinces
+        provinceName = province.attr("id")
 
-        that.provinces[province.attr("id")] = province
+        that.provinces[provinceName] = province
 
-        province.attr
-          style: ""
-          fill: "#FFFFFF"
-          "fill-opacity": "0"
+        if provinceName in MapData.seas
+          that.colourProvince(provinceName, "#FFFFFF", "0")
+        else
+          that.colourProvince(provinceName, MapData.powers.default.colour)
+
       that.snap.append(data)
 
       deregisterWatch = $scope.$watch('game', ->
@@ -42,14 +44,16 @@ define([
       )
     )
 
-    that.colourProvince = (abbr, colour) ->
+    that.colourProvince = (abbr, colour, opacity) ->
+      opacity = opacity || "0.8"
+
       province = that.provinces[abbr]
 
       if province?
         province.attr
           style: ""
           fill: colour
-          "fill-opacity": "0.8"
+          "fill-opacity": opacity
       else
         console.warning "Cannot colour province #{abbr}: it does not exist!"
 
