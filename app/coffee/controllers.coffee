@@ -9,7 +9,7 @@ define([
 ) ->
   'use strict'
 
-  diplomacyControllers = angular.module 'diplomacyControllers', []
+  diplomacyControllers = ng.module 'diplomacyControllers', []
 
   diplomacyControllers.controller('GameListCtrl', [
     '$scope'
