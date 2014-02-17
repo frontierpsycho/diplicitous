@@ -9,7 +9,7 @@ define([
 
   diplomacyDirectives = ng.module 'diplomacyDirectives', []
 
-  diplomacyDirectives.directive 'diplomacyMap', () ->
+  diplomacyDirectives.directive 'diplomacyMap', ->
 
     return {
       template: '<div id="map"></div>'
