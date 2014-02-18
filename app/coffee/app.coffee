@@ -5,7 +5,9 @@ define([
   'services'
   'controllers'
   'directives'
-], (ng) ->
+], (
+  angular
+) ->
   'use strict'
 
   angular.module('diplomacy', [

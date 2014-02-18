@@ -2,10 +2,13 @@ define([
   'require'
   'angular'
   'app'
-], (require, ng) ->
+], (
+  require
+  angular
+) ->
     'use strict'
 
     require(['domReady!'], (document) ->
-        ng.bootstrap(document, ['diplomacy'])
+        angular.bootstrap(document, ['diplomacy'])
     )
 )

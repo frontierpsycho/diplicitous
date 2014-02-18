@@ -2,12 +2,12 @@ define([
   'angular'
   'map'
 ], (
-  ng
+  angular
   Map
 ) ->
   'use strict'
 
-  diplomacyDirectives = ng.module 'diplomacyDirectives', []
+  diplomacyDirectives = angular.module 'diplomacyDirectives', []
 
   diplomacyDirectives.directive 'diplomacyMap', ->
 

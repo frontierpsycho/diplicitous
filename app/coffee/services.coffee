@@ -1,7 +1,9 @@
 define([
   'angular'
   'wsService'
-], (angular) ->
+], (
+  angular
+) ->
   'use strict'
 
   angular.module('diplomacyServices')

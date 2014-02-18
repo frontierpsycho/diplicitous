@@ -3,13 +3,13 @@ define([
   'snap'
   'map'
 ], (
-  ng
+  angular
   Snap
   Map
 ) ->
   'use strict'
 
-  diplomacyControllers = ng.module 'diplomacyControllers', []
+  diplomacyControllers = angular.module 'diplomacyControllers', []
 
   diplomacyControllers.controller('GameListCtrl', [
     '$scope'
