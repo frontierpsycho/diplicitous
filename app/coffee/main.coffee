@@ -5,6 +5,8 @@ require.config(
       'angular': '../lib/angular/angular'
       'angular-route': '../lib/angular/angular-route'
       'snap': '../lib/snap/snap.svg'
+      'underscore': '../lib/underscore/underscore'
+      'machina': '../lib/machina/machina'
 
     # angular does not support AMD out of the box, put it in a shim
     shim:
