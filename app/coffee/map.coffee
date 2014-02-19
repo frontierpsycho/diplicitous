@@ -40,7 +40,7 @@ define([
 
           that.colourProvince(provinceName, MapData.powers[unit.Nation].colour)
 
-          deregisterWatch()
+        deregisterWatch()
       )
     )
 
