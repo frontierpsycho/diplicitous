@@ -36,4 +36,17 @@ define([
 
         Service
     ])
+    .factory('UserService', ['wsService', (wsService) ->
+        Service =
+          user: {}
+
+        uri = '/user'
+
+        Service.get = ->
+          wsService.registerList(uri, Service.user)
+          wsService.subscribe(uri)
+          this.user
+
+        Service
+    ])
 )

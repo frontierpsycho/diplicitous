@@ -25,12 +25,15 @@ define([
     '$scope'
     '$routeParams'
     'GameService'
+    'UserService'
     (
       $scope
       $routeParams
       GameService
+      UserService
     ) ->
       $scope.game = GameService.get($routeParams.gameId)
+      $scope.user = UserService.get()
 
       initLieutenant = (newValue, oldValue) ->
         # on initialization, watcher is called with undefined values
