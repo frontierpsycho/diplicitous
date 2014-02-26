@@ -8,3 +8,7 @@ Notable planned features:
 - live updates
 
 More will be added as they get planned.
+
+## Attribution
+
+This project was based off of [angular-coffee-seed](https://github.com/PavelVanecek/angular-coffee-seed).
