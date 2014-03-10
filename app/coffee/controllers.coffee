@@ -38,7 +38,7 @@ define([
       initLieutenant = (newValue, oldValue) ->
         # on initialization, watcher is called with undefined values
         unless newValue == oldValue
-          switch newValue.Phase.Type 
+          switch newValue.Phase.Type
             when 'Movement'
               userDone = $scope.$watch('user.data', (newValue, oldValue) ->
                 unless newValue == oldValue
@@ -69,6 +69,11 @@ define([
               )
 
 
-      $scope.$watch('game.data', initLieutenant)
+      deregister = $scope.$watch('map.loaded', (newValue, oldValue) ->
+        if newValue
+          console.debug "Start watching game to init Lieutenant"
+          $scope.$watch('game.data', initLieutenant)
+          deregister()
+      )
   ])
 )

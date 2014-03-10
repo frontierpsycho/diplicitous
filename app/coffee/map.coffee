@@ -9,14 +9,13 @@ define([
 
   Map = ($scope, selector, svgPath) ->
 
-    that = {}
-
-    that.provinces = {}
+    that = {
+      provinces: {}
+      loaded: false
+    }
 
     that.snap = Snap(selector)
     Snap.load(svgPath, (data) ->
-      console.log "Loaded map in Map!"
-
       data.select("#provinces").attr
         style: ""
       provinces = data.selectAll("#provinces path")
@@ -31,6 +30,10 @@ define([
           that.colourProvince(provinceName, MapData.powers.default.colour)
 
       that.snap.append(data)
+
+      console.debug "Map loaded"
+      $scope.$apply ->
+        that.loaded = true
 
       deregisterWatch = $scope.$watch('game', ->
         console.debug "Game loaded!", $scope.game.data.Id
