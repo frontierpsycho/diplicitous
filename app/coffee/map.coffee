@@ -38,10 +38,32 @@ define([
       deregisterWatch = $scope.$watch('game', ->
         console.debug "Game loaded!", $scope.game.data.Id
 
-        for provinceName,unit of $scope.game.data.Phase.Units
+        for provinceName, unit of $scope.game.data.Phase.Units
           provinceName = provinceName.replace '/', '-'
 
           that.colourProvince(provinceName, MapData.powers[unit.Nation].colour)
+
+          insertUnit = (provinceName, unit, snap) ->
+            return (armyData) ->
+              unitSVG = armyData.select("#body")
+              if not unitSVG?
+                unitSVG = armyData.select("#hull")
+
+              unitBBox = unitSVG.getBBox()
+
+              centerBBox = snap.select("##{provinceName}Center").getBBox()
+              console.debug provinceName, unit
+
+              snap.select("svg").append(unitSVG)
+              t = new Snap.Matrix().translate(centerBBox.cx + 600 - (unitBBox.width/2), centerBBox.cy + 505 - (unitBBox.height/2))
+              unitSVG.attr({
+                "fill": MapData.powers[unit.Nation].colour
+                "stroke-width": "2px"
+              })
+
+              unitSVG.transform(t)
+
+          Snap.load("img/#{unit.Type}.svg", insertUnit(provinceName, unit, that.snap))
 
         deregisterWatch()
       )
