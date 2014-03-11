@@ -43,7 +43,10 @@ define([
 
           that.colourProvince(provinceName, MapData.powers[unit.Nation].colour)
 
+
           insertUnit = (provinceName, unit, snap) ->
+            unitLayer = that.snap.select("svg #units")
+
             return (armyData) ->
               unitSVG = armyData.select("#body")
               if not unitSVG?
@@ -54,8 +57,8 @@ define([
               centerBBox = snap.select("##{provinceName}Center").getBBox()
               console.debug provinceName, unit
 
-              snap.select("svg").append(unitSVG)
-              t = new Snap.Matrix().translate(centerBBox.cx + 600 - (unitBBox.width/2), centerBBox.cy + 505 - (unitBBox.height/2))
+              unitLayer.append(unitSVG)
+              t = new Snap.Matrix().translate(centerBBox.cx - (unitBBox.width/2), centerBBox.cy - (unitBBox.height/2))
               unitSVG.attr({
                 "fill": MapData.powers[unit.Nation].colour
                 "stroke-width": "2px"
