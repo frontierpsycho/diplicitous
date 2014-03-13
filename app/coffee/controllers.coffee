@@ -36,11 +36,11 @@ define([
     ) ->
       initLieutenant = (newValue, oldValue) ->
         # on initialization, watcher is called with undefined values
-        if newValue?
+        unless newValue == oldValue and oldValue == undefined
           Lieutenant($scope).init(newValue.Phase.Type)
 
       deregister = $scope.$watch('map.loaded', (newValue, oldValue) ->
-        if newValue?
+        if newValue
           $scope.game = GameService.get($routeParams.gameId)
           $scope.user = UserService.get()
 

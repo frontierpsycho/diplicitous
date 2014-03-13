@@ -17,7 +17,7 @@ define([
         switch type
           when 'Movement'
             userDone = $scope.$watch('user.data', (newValue, oldValue) ->
-              if newValue?
+              unless newValue == oldValue
                 console.debug "User: #{$scope.user.data.Email}"
 
                 member = _.find($scope.game.data.Members, (mem) -> mem.User.Email == $scope.user.data.Email)
