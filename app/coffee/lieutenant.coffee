@@ -32,6 +32,9 @@ define([
                         console.debug 'Entered start'
                         for provincePair in units
                           $scope.map.hoverProvince provincePair[0]
+                          $scope.map.clickProvince(provincePair[0], (->
+                            console.debug this.attr("id")
+                          ))
 
                       'choose.unit': (abbr) ->
                         console.debug "Chose unit in #{abbr}"

@@ -98,6 +98,15 @@ define([
       else
         console.warn "Cannot add hover handlers to province #{abbr}: it does not exist!"
 
+    that.clickProvince = (abbr, callback) ->
+      province = that.provinces[abbr]
+
+      if province?
+        province.click (event) ->
+          callback.bind(this)()
+      else
+        console.warn "Cannot add click handler to province #{abbr}: it does not exist!"
+
     return that
 
   return Map
