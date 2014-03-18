@@ -7,9 +7,16 @@
 // ---------------------------------------------------------------------------
 // Basic Grid
 
-$total-columns  : 20;
+$total-columns  : 22;
 $column-width   : 5em;
 $gutter-width   : 0.5em;
 $grid-padding   : $gutter-width;
 
 $show-grid-backgrounds  : false;
+
+$susy: (
+  // the basics
+  columns: $total-columns,
+  gutters: $gutter-width / $column-width,
+  column-width: $column-width,
+);

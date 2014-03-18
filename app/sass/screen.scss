@@ -7,24 +7,6 @@
 /* Layout */
 
 body {
-  background-attachment: scroll;
-  background-repeat: repeat;
-  background-image: url("/app/img/old_map.png");
-  background-position: 0% 0%;
-  background-size: auto;
-  background-origin: padding-box;
-  background-clip: border-box;
-  background-color: transparent;
-}
-
-.dimmer {
-  width: 100%;
-  height: 1200px;
-  background-color: rgba(0, 0, 0, 0.3);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
 }
 
 h2 {
@@ -36,27 +18,52 @@ h3 {
 
 .menu-wrapper {
   @include container;
-  @include susy-grid-background;
+  @include show-grid;
+
+  $menu-height: 60px;
+  height: $menu-height;
 
   background-color: darkred;
 
+  text-shadow: 1px 1px 2px black;
+
   .menu {
-    @include span-columns($total-columns, $padding: 1em);
+    @include squish(2, 2);
+    @include span($total-columns - 4);
+
+    text-align: middle;
 
     color: #FFF;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-  }
+    line-height: $menu-height;
 
+    span {
+      @include span(first 13 of $total-columns);
+      padding-left: 0.5em;
+      font-size: 2em;
+    }
+
+    .nav {
+      @include span(last 6 of $total-columns);
+      display: inline-block;
+
+      li {
+        a {
+          font-size: 1.5em;
+          color: #FFF;
+          text-decoration: none;
+          line-height: $menu-height;
+        }
+      }
+    }
+  }
 }
 
 .container {
   @include container;
-  @include susy-grid-background;
+  @include show-grid;
 
   position: relative;
   background-color: white;
-  height: 1200px;
 
   h2 {
     margin: 1em;
@@ -66,11 +73,12 @@ h3 {
   }
 
   .content {
-    @include span-columns($total-columns);
+    @include squish(2, 2);
+    @include span($total-columns - 4);
 
     div.game-row {
       @include squish(1, 1);
-      @include span-columns($total-columns - 2, $padding: 1em);
+      @include span($total-columns - 2);
       background-color: #FF7B00;
       padding-top: 1em;
       padding-bottom: 1em;
@@ -84,11 +92,11 @@ h3 {
 
     $sidebar-columns: 6;
     div#map {
-      @include span-columns($total-columns - $sidebar-columns);
+      @include span($total-columns - $sidebar-columns);
     }
 
     div#sidebar {
-      @include span-columns($sidebar-columns omega)
+      @include span($sidebar-columns omega)
     }
   }
 }
