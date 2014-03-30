@@ -11,7 +11,7 @@ define([
         Service =
           gameList: {}
 
-        uri = "/games/current"
+        uri = "/games/mine"
 
         wsService.registerList(uri, Service.gameList)
 
