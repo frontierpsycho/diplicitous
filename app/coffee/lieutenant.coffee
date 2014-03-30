@@ -51,9 +51,9 @@ define([
                       _onEnter: that.onEnterWrapper(->
                         console.debug 'Entered start'
 
-                        that.addActiveHandlers(units, (->
+                        that.addActiveHandlers(units, ->
                           that.fsm.handle("chose.unit", this.attr("id"))
-                        ))
+                        )
                       )
 
                       'chose.unit': (abbr) ->
