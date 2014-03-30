@@ -37,7 +37,7 @@ define([
       initLieutenant = (newValue, oldValue) ->
         # on initialization, watcher is called with undefined values
         unless newValue == oldValue and oldValue == undefined
-          Lieutenant($scope).init(newValue.Phase.Type)
+          $scope.lieutenant = Lieutenant($scope).init(newValue.Phase.Type)
 
       deregister = $scope.$watch('map.loaded', (newValue, oldValue) ->
         if newValue

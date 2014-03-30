@@ -7,6 +7,14 @@ define([
 ) ->
   'use strict'
 
+  hover_in = (event) ->
+    this.attr
+      "fill-opacity": "0.5"
+
+  hover_out = (event) ->
+    this.attr
+      "fill-opacity": "0.8"
+
   Map = ($scope, selector, svgPath) ->
 
     that = {
@@ -89,14 +97,17 @@ define([
       province = that.provinces[abbr]
 
       if province?
-        province.hover (event) ->
-          this.attr
-            "fill-opacity": "0.5"
-        , (event) ->
-          this.attr
-            "fill-opacity": "0.8"
+        province.hover hover_in, hover_out
       else
         console.warn "Cannot add hover handlers to province #{abbr}: it does not exist!"
+
+    that.unhoverProvince = (abbr) ->
+      province = that.provinces[abbr]
+
+      if province?
+        province.unhover hover_in, hover_out
+      else
+        console.warn "Cannot remove hover handlers to province #{abbr}: it does not exist!"
 
     that.clickProvince = (abbr, callback) ->
       province = that.provinces[abbr]

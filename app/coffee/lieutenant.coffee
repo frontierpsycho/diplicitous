@@ -11,6 +11,19 @@ define([
 
   Lieutenant = ($scope) ->
     that =
+      orders: []
+      currentOrder: {}
+      hover: []
+
+      addHover: (hoverlist) ->
+        for provincePair in hoverlist
+          $scope.map.hoverProvince provincePair[0]
+        that.hover = hoverlist
+      removeHover: ->
+        for provincePair in that.hover
+          $scope.map.unhoverProvince provincePair[0]
+        that.hover = []
+
       init: (type) ->
         console.debug 'Initializing Lieutenant!'
 
@@ -24,24 +37,37 @@ define([
 
                 units = _.filter(_.pairs($scope.game.data.Phase.Units), (pair) -> pair[1].Nation == member.Nation )
 
-                that.lieutenant = new Machina.Fsm({
+                that.fsm = new Machina.Fsm({
                   initialState: 'start'
                   states:
                     start:
                       _onEnter: ->
                         console.debug 'Entered start'
+
+                        that.addHover(units)
+
                         for provincePair in units
-                          $scope.map.hoverProvince provincePair[0]
                           $scope.map.clickProvince(provincePair[0], (->
-                            console.debug this.attr("id")
+                            that.fsm.handle("chose.unit", this.attr("id"))
                           ))
 
-                      'choose.unit': (abbr) ->
+                      'chose.unit': (abbr) ->
+                        that.removeHover()
+
                         console.debug "Chose unit in #{abbr}"
+                        $scope.$apply ->
+                          that.currentOrder.src = abbr
+                        that.fsm.transition("order_type")
+
+                    order_type:
+                      _onEnter: ->
+                        console.debug 'Entered order_type'
                 })
 
                 userDone()
             )
+
+        return that
 
     return that
 
