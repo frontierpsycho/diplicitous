@@ -13,16 +13,22 @@ define([
     that =
       orders: []
       currentOrder: {}
-      hover: []
 
-      addHover: (hoverlist) ->
+      active: []
+      addActiveHandlers: (hoverlist, handler) ->
         for provincePair in hoverlist
           $scope.map.hoverProvince provincePair[0]
-        that.hover = hoverlist
-      removeHover: ->
-        for provincePair in that.hover
+          $scope.map.clickProvince(provincePair[0], handler)
+        that.active = hoverlist
+      removeActiveHandlers: ->
+        for provincePair in that.active
           $scope.map.unhoverProvince provincePair[0]
-        that.hover = []
+        that.active = []
+
+      onEnterWrapper: (func) ->
+        return ->
+          that.removeActiveHandlers()
+          func()
 
       init: (type) ->
         console.debug 'Initializing Lieutenant!'
@@ -39,29 +45,28 @@ define([
 
                 that.fsm = new Machina.Fsm({
                   initialState: 'start'
+
                   states:
                     start:
-                      _onEnter: ->
+                      _onEnter: that.onEnterWrapper(->
                         console.debug 'Entered start'
 
-                        that.addHover(units)
-
-                        for provincePair in units
-                          $scope.map.clickProvince(provincePair[0], (->
-                            that.fsm.handle("chose.unit", this.attr("id"))
-                          ))
+                        that.addActiveHandlers(units, (->
+                          that.fsm.handle("chose.unit", this.attr("id"))
+                        ))
+                      )
 
                       'chose.unit': (abbr) ->
-                        that.removeHover()
-
                         console.debug "Chose unit in #{abbr}"
                         $scope.$apply ->
                           that.currentOrder.src = abbr
                         that.fsm.transition("order_type")
 
                     order_type:
-                      _onEnter: ->
+                      _onEnter: that.onEnterWrapper(->
+
                         console.debug 'Entered order_type'
+                      )
                 })
 
                 userDone()
