@@ -31,43 +31,42 @@ define([
           func()
 
       init: (type) ->
-        console.debug 'Initializing Lieutenant!'
+        console.debug 'Initializing Lieutenant'
+
+        unless $scope.user.Email?
+          console.warn "There is no user"
+          return that
 
         switch type
           when 'Movement'
-            userDone = $scope.$watch('user', (newValue, oldValue) ->
-              if newValue
-                console.debug "User: #{$scope.user.Email}"
+            console.debug "User: #{$scope.user.Email}"
 
-                that.fsm = new Machina.Fsm({
-                  initialState: 'start'
+            that.fsm = new Machina.Fsm({
+              initialState: 'start'
 
-                  states:
-                    start:
-                      _onEnter: that.onEnterWrapper(->
-                        console.debug 'Entered start'
+              states:
+                start:
+                  _onEnter: that.onEnterWrapper(->
+                    console.debug 'Entered start'
 
-                        units = $scope.game.units($scope.user)
+                    units = $scope.game.units($scope.user)
 
-                        that.addActiveHandlers(units, ->
-                          that.fsm.handle("chose.unit", this.attr("id"))
-                        )
-                      )
+                    that.addActiveHandlers(units, ->
+                      that.fsm.handle("chose.unit", this.attr("id"))
+                    )
+                  )
 
-                      'chose.unit': (abbr) ->
-                        console.debug "Chose unit in #{abbr}"
-                        $scope.$apply ->
-                          that.currentOrder.src = abbr
-                        that.fsm.transition("order_type")
+                  'chose.unit': (abbr) ->
+                    console.debug "Chose unit in #{abbr}"
+                    $scope.$apply ->
+                      that.currentOrder.src = abbr
+                    that.fsm.transition("order_type")
 
-                    order_type:
-                      _onEnter: that.onEnterWrapper(->
-                        console.debug 'Entered order_type'
-                      )
-                })
-
-                userDone()
-            )
+                order_type:
+                  _onEnter: that.onEnterWrapper(->
+                    console.debug 'Entered order_type'
+                  )
+            })
 
         return that
 

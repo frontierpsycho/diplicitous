@@ -1,7 +1,9 @@
 define([
   'angular'
+  'underscore'
 ], (
   angular
+  _
 ) ->
   'use strict'
 
@@ -11,76 +13,49 @@ define([
 
       Service =
         'connected': false
-        'managed_lists': {}
-        'callbacks': {}
+        'subscriptions': {}
 
       ws = new WebSocket "ws:localhost:8080/ws?email=unfortunate42%40gmail.com"
 
       ws.onopen = ->
-        console.debug "Socket has been opened!"
+        console.debug "Socket opened"
         Service.connected = true
 
       ws.onmessage = (message) ->
         handleData JSON.parse(message.data)
-        handleDataCallback JSON.parse(message.data)
 
-      handleDataCallback = (data) ->
+      handleData = (data) ->
         console.debug "Received data from websocket: ", data
 
         if Service.connected
           uri = data['Object']['URI']
-          if Service.callbacks[uri]?
-            # TODO check if data exists
-            Service.callbacks[uri](data['Object']['Data'])
-        else
-          console.warn 'Service not connected yet, message ignored'
+          subscription = Service.subscriptions[uri]
 
-
-      handleData = (data) ->
-        messageObj = data
-
-        console.debug "Received data from websocket: ", messageObj
-
-        if Service.connected
-          uri = data['Object']['URI']
-          list = Service.managed_lists[uri]
-
-          unless list?
+          unless subscription?
             return
 
-          console.log "Applying message to list #{uri}"
+          console.log "Applying data to subscription #{uri}"
 
-          if data['Type'] == 'Create' or data['Type'] == 'Fetch'
+          if data['Type'] == 'Create' or data['Type'] == 'Fetch' or data['Type'] == "Update"
             $rootScope.$apply ->
               containedData = data['Object']['Data']
-              if Array.isArray(containedData)
-                for item in containedData
-                  list[item['Id']] = item
-              else
-                list['data'] = containedData
 
-          if data['Type'] == 'Update'
-            $rootScope.$apply ->
-              containedData = data['Object']['Data']
-              if Array.isArray(containedData)
-                for item in containedData
-                  list[item['Id']] = item
-              else
-                list['data'] = containedData
+              # transform data with subscription callback
+              if subscription.callback?
+                containedData = subscription.callback(containedData)
+
+              subscription.target[subscription.name] = containedData
 
           if data['Type'] == 'Delete'
             $rootScope.$apply ->
               for deleted_object in data['Object']['Data']
-                delete list[deleted_object['Id']]
+                # FIXME
+                delete subscription.target[subscription.name][deleted_object['Id']]
 
         else
           console.warn 'Service not connected yet, message ignored'
 
       Service.ws = ws
-
-      Service.registerList = (name, list) ->
-        console.debug("Adding list for #{name} (#{list})")
-        this.managed_lists[name] = list
 
       Service.send = (message) ->
         counter = 0
@@ -91,7 +66,6 @@ define([
             console.debug "Sending message"
             this.ws.send(message)
 
-            console.debug "Sent message, stopping"
             clearTimeout(timeoutId)
           else
             timeoutId = setTimeout =>
@@ -106,14 +80,14 @@ define([
 
         sendInner.bind(this)()
 
-      Service.subscribe = (uri, callback) ->
-        console.log "Subscribing"
+      Service.subscribe = (uri, subscription) ->
+        console.log "Subscribing to #{uri}"
         message =
           "Type": "Subscribe"
           "Object":
             "URI": uri
 
-        this.callbacks[uri] = callback
+        this.subscriptions[uri] = subscription
         this.send(JSON.stringify(message))
 
       Service

@@ -23,35 +23,33 @@ define([
     '$scope'
     'GameListService'
     ($scope, GameListService) ->
-      $scope.games = GameListService.get()
+      GameListService.subscribe($scope)
   ])
   .controller('GameCtrl', [
     '$scope'
     '$routeParams'
+    'UserService'
+    'GameService'
     'wsService'
     (
       $scope
       $routeParams
+      UserService
+      GameService
       ws
     ) ->
-      initLieutenant = (newValue, oldValue) ->
+      initLieutenant = (newGame, oldGame) ->
         # on initialization, watcher is called with undefined values
-        if newValue
-          $scope.lieutenant = Lieutenant($scope).init(newValue.Phase.Type)
+        if newGame?
+          $scope.$watch('user', (newUser, oldUser) ->
+            if newUser? and not _.isEmpty(newUser)
+              $scope.lieutenant = Lieutenant($scope).init(newGame.Phase.Type)
+          )
 
       deregister = $scope.$watch('map.loaded', (newValue, oldValue) ->
         if newValue
-          $scope.game = undefined
-          $scope.user = undefined
-
-          ws.subscribe("/games/#{$routeParams.gameId}", (data) ->
-            $scope.$apply ->
-              $scope.game = Game(data)
-          )
-          ws.subscribe("/user", (data) ->
-            $scope.$apply ->
-              $scope.user = data
-          )
+          GameService.subscribe($scope, $routeParams.gameId)
+          UserService.subscribe($scope)
 
           console.debug "Start watching game to init Lieutenant"
           $scope.$watch('game', initLieutenant)

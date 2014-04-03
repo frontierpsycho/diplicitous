@@ -1,26 +1,31 @@
 define([
   'angular'
+  'objects/Game'
   'wsService'
 ], (
   angular
+  Game
 ) ->
   'use strict'
 
   angular.module('diplomacyServices')
     .factory('GameListService', ['wsService', (wsService) ->
-        Service =
-          gameList: {}
+      Service = {}
 
-        uri = "/games/mine"
+      uri = "/games/mine"
 
-        wsService.registerList(uri, Service.gameList)
+      Service.subscribe = (target) ->
+        wsService.subscribe(uri, {
+          target: target
+          name: 'games'
+          callback: (games) ->
+            return _.chain(games)
+              .map((elem) -> [ elem.Id, elem ] )
+              .object()
+              .value()
+        })
 
-        Service.get = ->
-          # TODO return a sorted list instead
-          wsService.subscribe(uri)
-          this.gameList
-
-        Service
+      Service
     ])
     .factory('GameService', [
       'wsService'
@@ -29,19 +34,17 @@ define([
         wsService
         $rootScope
       ) ->
-        Service =
-          games: {}
+        Service = {}
 
         uri = (id) -> "/games/#{id}"
 
-        Service.get = (id) ->
-          this.games[id] = {}
-          wsService.registerList(uri(id), Service.games[id])
-          wsService.subscribe(uri(id), (data) ->
-            $rootScope.$apply ->
-              Service.games[id] = data
-          )
-          this.games[id]
+        Service.subscribe = (target, id) ->
+          wsService.subscribe(uri(id), {
+            target: target
+            name: 'game'
+            callback: (data) ->
+              Game(data)
+          })
 
         Service
     ])
@@ -52,18 +55,15 @@ define([
         wsService
         $rootScope
       ) ->
-        Service =
-          user: {}
+        Service = {}
 
         uri = '/user'
 
-        Service.get = ->
-          #wsService.registerList(uri, Service.user)
-          wsService.subscribe(uri, (data) ->
-            $rootScope.$apply ->
-              Service.user = data
-          )
-          this.user
+        Service.subscribe = (target) ->
+          wsService.subscribe(uri, {
+            target: target
+            name: 'user'
+          })
 
         Service
     ])
