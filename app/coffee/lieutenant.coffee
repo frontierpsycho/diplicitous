@@ -35,10 +35,9 @@ define([
 
         switch type
           when 'Movement'
-            userDone = $scope.$watch('user.data', (newValue, oldValue) ->
-              unless newValue == oldValue
-                console.debug "User: #{$scope.user.data.Email}"
-
+            userDone = $scope.$watch('user', (newValue, oldValue) ->
+              if newValue
+                console.debug "User: #{$scope.user.Email}"
 
                 that.fsm = new Machina.Fsm({
                   initialState: 'start'
@@ -48,8 +47,7 @@ define([
                       _onEnter: that.onEnterWrapper(->
                         console.debug 'Entered start'
 
-                        member = _.find($scope.game.data.Members, (mem) -> mem.User.Email == $scope.user.data.Email)
-                        units = _.filter(_.pairs($scope.game.data.Phase.Units), (pair) -> pair[1].Nation == member.Nation )
+                        units = $scope.game.units($scope.user)
 
                         that.addActiveHandlers(units, ->
                           that.fsm.handle("chose.unit", this.attr("id"))

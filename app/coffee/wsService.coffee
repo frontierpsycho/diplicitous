@@ -12,6 +12,7 @@ define([
       Service =
         'connected': false
         'managed_lists': {}
+        'callbacks': {}
 
       ws = new WebSocket "ws:localhost:8080/ws?email=unfortunate42%40gmail.com"
 
@@ -21,6 +22,19 @@ define([
 
       ws.onmessage = (message) ->
         handleData JSON.parse(message.data)
+        handleDataCallback JSON.parse(message.data)
+
+      handleDataCallback = (data) ->
+        console.debug "Received data from websocket: ", data
+
+        if Service.connected
+          uri = data['Object']['URI']
+          if Service.callbacks[uri]?
+            # TODO check if data exists
+            Service.callbacks[uri](data['Object']['Data'])
+        else
+          console.warn 'Service not connected yet, message ignored'
+
 
       handleData = (data) ->
         messageObj = data
@@ -30,6 +44,9 @@ define([
         if Service.connected
           uri = data['Object']['URI']
           list = Service.managed_lists[uri]
+
+          unless list?
+            return
 
           console.log "Applying message to list #{uri}"
 
@@ -89,19 +106,15 @@ define([
 
         sendInner.bind(this)()
 
-      Service.subscribe = (uri) ->
-        defer = $q.defer()
-
+      Service.subscribe = (uri, callback) ->
         console.log "Subscribing"
         message =
           "Type": "Subscribe"
           "Object":
             "URI": uri
 
+        this.callbacks[uri] = callback
         this.send(JSON.stringify(message))
-        promise = defer
-
-        return defer.promise
 
       Service
     ])

@@ -44,9 +44,9 @@ define([
         that.loaded = true
 
       deregisterWatch = $scope.$watch('game', ->
-        console.debug "Game loaded!", $scope.game.data.Id
+        console.debug "Game loaded!", $scope.game.Id
 
-        for provinceName, unit of $scope.game.data.Phase.Units
+        for provinceName, unit of $scope.game.Phase.Units
           provinceName = provinceName.replace '/', '-'
 
           that.colourProvince(provinceName, MapData.powers[unit.Nation].colour)

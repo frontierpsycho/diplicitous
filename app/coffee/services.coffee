@@ -22,7 +22,13 @@ define([
 
         Service
     ])
-    .factory('GameService', ['wsService', (wsService) ->
+    .factory('GameService', [
+      'wsService'
+      '$rootScope'
+      (
+        wsService
+        $rootScope
+      ) ->
         Service =
           games: {}
 
@@ -31,20 +37,32 @@ define([
         Service.get = (id) ->
           this.games[id] = {}
           wsService.registerList(uri(id), Service.games[id])
-          wsService.subscribe(uri(id))
+          wsService.subscribe(uri(id), (data) ->
+            $rootScope.$apply ->
+              Service.games[id] = data
+          )
           this.games[id]
 
         Service
     ])
-    .factory('UserService', ['wsService', (wsService) ->
+    .factory('UserService', [
+      'wsService'
+      '$rootScope'
+      (
+        wsService
+        $rootScope
+      ) ->
         Service =
           user: {}
 
         uri = '/user'
 
         Service.get = ->
-          wsService.registerList(uri, Service.user)
-          wsService.subscribe(uri)
+          #wsService.registerList(uri, Service.user)
+          wsService.subscribe(uri, (data) ->
+            $rootScope.$apply ->
+              Service.user = data
+          )
           this.user
 
         Service

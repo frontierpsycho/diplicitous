@@ -3,6 +3,7 @@ define([
   'snap'
   'map'
   'lieutenant'
+  'objects/Game'
   'underscore'
   'machina'
 ], (
@@ -10,6 +11,7 @@ define([
   Snap
   Map
   Lieutenant
+  Game
   _
   Machina
 ) ->
@@ -26,26 +28,33 @@ define([
   .controller('GameCtrl', [
     '$scope'
     '$routeParams'
-    'GameService'
-    'UserService'
+    'wsService'
     (
       $scope
       $routeParams
-      GameService
-      UserService
+      ws
     ) ->
       initLieutenant = (newValue, oldValue) ->
         # on initialization, watcher is called with undefined values
-        unless newValue == oldValue and oldValue == undefined
+        if newValue
           $scope.lieutenant = Lieutenant($scope).init(newValue.Phase.Type)
 
       deregister = $scope.$watch('map.loaded', (newValue, oldValue) ->
         if newValue
-          $scope.game = GameService.get($routeParams.gameId)
-          $scope.user = UserService.get()
+          $scope.game = undefined
+          $scope.user = undefined
+
+          ws.subscribe("/games/#{$routeParams.gameId}", (data) ->
+            $scope.$apply ->
+              $scope.game = Game(data)
+          )
+          ws.subscribe("/user", (data) ->
+            $scope.$apply ->
+              $scope.user = data
+          )
 
           console.debug "Start watching game to init Lieutenant"
-          $scope.$watch('game.data', initLieutenant)
+          $scope.$watch('game', initLieutenant)
 
           deregister()
       )
