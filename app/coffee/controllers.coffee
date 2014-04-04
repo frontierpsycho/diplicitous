@@ -3,7 +3,6 @@ define([
   'snap'
   'map'
   'lieutenant'
-  'objects/Game'
   'underscore'
   'machina'
 ], (
@@ -11,7 +10,6 @@ define([
   Snap
   Map
   Lieutenant
-  Game
   _
   Machina
 ) ->
