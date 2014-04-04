@@ -1,11 +1,9 @@
 define([
   'angular'
   'machina'
-  'underscore'
 ], (
   angular
   Machina
-  _
 ) ->
   'use strict'
 

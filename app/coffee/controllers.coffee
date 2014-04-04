@@ -1,17 +1,11 @@
 define([
   'angular'
-  'snap'
-  'map'
   'lieutenant'
   'underscore'
-  'machina'
 ], (
   angular
-  Snap
-  Map
   Lieutenant
   _
-  Machina
 ) ->
   'use strict'
 
