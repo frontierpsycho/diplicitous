@@ -96,7 +96,14 @@ h3 {
     }
 
     div#sidebar {
-      @include span($sidebar-columns omega)
+      @include span($sidebar-columns omega);
+
+      .badge {
+        background-color: purple;
+        color: white;
+        padding: 0.3em;
+        border-radius: 3px;
+      }
     }
   }
 }
