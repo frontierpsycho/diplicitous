@@ -9,3 +9,5 @@ build.xml
 *.swp
 .sass-cache/
 app/css/*.css
+
+node_modules/
