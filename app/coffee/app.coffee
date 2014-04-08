@@ -1,6 +1,7 @@
 define([
   'angular'
   'angular-route'
+  'angular-sanitize'
   'wsService'
   'services'
   'controllers'
@@ -15,6 +16,7 @@ define([
     'diplomacyControllers'
     'diplomacyDirectives'
     'ngRoute'
+    'ngSanitize'
   ])
     .config(['$routeProvider', ($routeProvider) ->
 

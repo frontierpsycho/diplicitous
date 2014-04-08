@@ -26,6 +26,16 @@ define([
         link: {
           pre: (scope, iElement, tAttrs, transclude) ->
             console.log "Order widget linking"
+
+            scope.typeSymbols =
+              "Move": "&rarr;"
+              "Support": "S"
+              "Hold": "H"
+
+            scope.secondaryTypeSymbols =
+              "Move": ""
+              "Support": "&rarr;"
+              "Hold": ""
         }
       }
 )

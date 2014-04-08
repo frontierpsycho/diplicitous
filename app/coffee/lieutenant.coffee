@@ -57,7 +57,7 @@ define([
                   'chose.unit': (abbr) ->
                     console.debug "Chose unit in #{abbr}"
                     $scope.$apply ->
-                      that.currentOrder.src = abbr
+                      that.currentOrder.unit_area = abbr
                     that.fsm.transition("order_type")
 
                 order_type:
