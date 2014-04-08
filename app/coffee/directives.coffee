@@ -1,6 +1,6 @@
 define([
   'angular'
-  'map'
+  'objects/map'
 ], (
   angular
   Map

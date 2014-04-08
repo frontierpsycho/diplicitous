@@ -1,6 +1,6 @@
 define([
   'snap'
-  'mapData'
+  'objects/mapData'
 ], (
   Snap
   MapData
