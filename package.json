@@ -1,0 +1,17 @@
+{
+  "name": "Diplicitous",
+  "description": "A web interface for diplicity",
+  "version": "0.0.1",
+  "maintainers": [
+    {
+      "name": "FrontierPsycho",
+      "email": "unfortunate42@gmail.com",
+      "web": "https://github.com/frontierpsycho"
+    }
+  ],
+  "devDependencies": {
+    "karma": "^0.12.4",
+    "karma-chrome-launcher": "^0.1.3",
+    "karma-jasmine": "^0.1.5"
+  }
+}
