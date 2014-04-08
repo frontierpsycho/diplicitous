@@ -13,6 +13,10 @@ require.config(
     shim:
       'angular':
         exports: 'angular'
+      'angular-route':
+        'deps': ['angular']
+      'angular-sanitize':
+        'deps': ['angular']
 
     # kick start application
     deps: ['./bootstrap']
