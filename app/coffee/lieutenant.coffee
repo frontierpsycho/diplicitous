@@ -11,18 +11,25 @@ define([
 
   Lieutenant = ($scope) ->
     that =
-      orders: []
+      orders: {}
       currentOrder: {}
+
+      storeOrder: ->
+        console.debug "Storing order", that.currentOrder
+        that.orders[that.currentOrder.unit_area] = that.currentOrder
+        that.currentOrder = {}
+
+        console.debug "Orders:", that.orders
 
       active: []
       addActiveHandlers: (hoverlist, handler) ->
-        for provincePair in hoverlist
-          $scope.map.hoverProvince provincePair[0]
-          $scope.map.clickProvince(provincePair[0], handler)
+        for province in hoverlist
+          $scope.map.hoverProvince province
+          $scope.map.clickProvince(province, handler)
         that.active = hoverlist
       removeActiveHandlers: ->
-        for provincePair in that.active
-          $scope.map.unhoverProvince provincePair[0]
+        for province in that.active
+          $scope.map.unhoverProvince province
         that.active = []
 
       onEnterWrapper: (func) ->
@@ -38,6 +45,7 @@ define([
           return that
 
         that.player = Player($scope.game.player($scope.user))
+        console.debug "Player:", that.player
 
         switch type
           when 'Movement'
@@ -51,8 +59,7 @@ define([
                   _onEnter: that.onEnterWrapper(->
                     console.debug 'Entered start'
 
-                    console.debug that.player.Options
-                    units = $scope.game.units(_.keys(that.player.Options))
+                    units = _.keys(that.player.Options)
 
                     that.addActiveHandlers(units, ->
                       that.fsm.handle("chose.unit", this.attr("id"))
@@ -68,7 +75,55 @@ define([
                 order_type:
                   _onEnter: that.onEnterWrapper(->
                     console.debug 'Entered order_type'
+
+                    order_types = _.keys(
+                      that.player.Options[that.currentOrder.unit_area].Next)
+
+                    select = $("<select></select>")
+                    $("#orders").append(select)
+
+                    _.each(order_types, (type) ->
+                      select.append("<option>#{type}</option>")
+                    )
+
+                    select.change ->
+                      that.fsm.handle("chose.order", $(this).find("option:selected").val())
+                      select.remove()
+
                   )
+
+                  'chose.order': (type) ->
+                    console.debug "Chose order type #{type}"
+                    $scope.$apply ->
+                      that.currentOrder.type = type
+                    that.fsm.transition("dst")
+
+                dst:
+                  _onEnter: that.onEnterWrapper(->
+                    console.debug 'Entered dst'
+
+                    dsts = _.keys(
+                      that.player
+                        .Options[that.currentOrder.unit_area]
+                        .Next[that.currentOrder.type]
+                        .Next[that.currentOrder.unit_area]
+                        .Next
+                    )
+                    console.debug dsts
+
+                    that.addActiveHandlers(dsts, ->
+                      console.debug this.attr("id")
+                      that.fsm.handle("chose.dst", this.attr("id"))
+                    )
+                  )
+
+                  'chose.dst': (dst) ->
+                    console.debug "Chose destination #{dst}"
+                    $scope.$apply ->
+                      that.currentOrder.dst = dst
+                      that.storeOrder()
+                    that.fsm.transition("start")
+
             })
 
         return that
