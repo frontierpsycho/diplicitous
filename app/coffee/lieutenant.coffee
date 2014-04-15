@@ -1,9 +1,11 @@
 define([
   'angular'
   'machina'
+  'objects/Player'
 ], (
   angular
   Machina
+  Player
 ) ->
   'use strict'
 
@@ -35,6 +37,8 @@ define([
           console.warn "There is no user"
           return that
 
+        that.player = Player($scope.game.player($scope.user))
+
         switch type
           when 'Movement'
             console.debug "User: #{$scope.user.Email}"
@@ -47,7 +51,8 @@ define([
                   _onEnter: that.onEnterWrapper(->
                     console.debug 'Entered start'
 
-                    units = $scope.game.units($scope.user)
+                    console.debug that.player.Options
+                    units = $scope.game.units(_.keys(that.player.Options))
 
                     that.addActiveHandlers(units, ->
                       that.fsm.handle("chose.unit", this.attr("id"))
