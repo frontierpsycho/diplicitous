@@ -1,8 +1,8 @@
  <div id="orders">
    <h3>Current order</h3>
-   <span class="badge">{{ lieutenant.currentOrder.unit_area }}</span>
-   <span ng-bind-html='typeSymbols[lieutenant.currentOrder.type]'></span>
-   <span class="badge">{{ lieutenant.currentOrder.src }}</span>
-   <span ng-bind-html='secondaryTypeSymbols[lieutenant.currentOrder.type]'></span>
-   <span class="badge">{{ lieutenant.currentOrder.dst }}</span>
+   <span ng-show="lieutenant.currentOrder.unit_area" class="badge">{{ lieutenant.currentOrder.unit_area }}</span>
+   <span ng-show="lieutenant.currentOrder.type" ng-bind-html='typeSymbols[lieutenant.currentOrder.type]'></span>
+   <span ng-show="lieutenant.currentOrder.src" class="badge">{{ lieutenant.currentOrder.src }}</span>
+   <span ng-show="lieutenant.currentOrder.type"  ng-bind-html='secondaryTypeSymbols[lieutenant.currentOrder.type]'></span>
+   <span ng-show="lieutenant.currentOrder.dst" class="badge">{{ lieutenant.currentOrder.dst }}</span>
  </div>
