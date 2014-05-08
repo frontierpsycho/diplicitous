@@ -15,7 +15,7 @@ define([
 
   Lieutenant = ($scope) ->
     that =
-      orders: OrderCollection()
+      orders: null
 
       active: []
       addActiveHandlers: (hoverlist, handler) ->
@@ -43,6 +43,7 @@ define([
         that.player = Player($scope.game.player($scope.user))
         console.debug "Player:", that.player
 
+        that.orders = OrderCollection(that.player.Options)
         that.orders.convertOrders($scope.game.Phase.Orders[that.player.Nation])
 
         switch type
@@ -57,7 +58,7 @@ define([
                   _onEnter: that.onEnterWrapper(->
                     console.debug 'Entered start'
 
-                    units = _.keys(that.player.Options)
+                    units = that.orders.nextOptions()
 
                     that.addActiveHandlers(units, ->
                       that.fsm.handle("chose.unit", this.attr("id"))
@@ -75,8 +76,7 @@ define([
                   _onEnter: that.onEnterWrapper(->
                     console.debug 'Entered order_type'
 
-                    order_types = _.keys(
-                      that.player.Options[that.orders.currentOrder.unit_area].Next)
+                    order_types = that.orders.nextOptions()
 
                     select = $("<select></select>")
                     $("#current-order").append(select)
@@ -112,13 +112,8 @@ define([
                 src:
                   _onEnter: that.onEnterWrapper(->
                     console.debug 'Entered src'
-                    srcs = _.keys(
-                      that.player
-                        .Options[that.orders.currentOrder.unit_area]
-                        .Next[that.orders.currentOrder.type]
-                        .Next[that.orders.currentOrder.unit_area]
-                        .Next
-                    )
+
+                    srcs = that.orders.nextOptions()
 
                     that.addActiveHandlers(srcs, ->
                       console.debug this.attr("id")
@@ -136,14 +131,7 @@ define([
                   _onEnter: that.onEnterWrapper(->
                     console.debug 'Entered dst'
 
-                    dsts = _.keys(
-                      that.player
-                        .Options[that.orders.currentOrder.unit_area]
-                        .Next[that.orders.currentOrder.type]
-                        .Next[that.orders.currentOrder.unit_area]
-                        .Next
-                    )
-                    console.debug dsts
+                    dsts = that.orders.nextOptions()
 
                     that.addActiveHandlers(dsts, ->
                       console.debug this.attr("id")
