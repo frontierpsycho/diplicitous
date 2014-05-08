@@ -96,6 +96,34 @@ define([
                     console.debug "Chose order type #{type}"
                     $scope.$apply ->
                       that.currentOrder.type = type
+
+                    switch type
+                      when "Move"
+                        that.fsm.transition("dst")
+                      when "Support"
+                        that.fsm.transition("src")
+
+                src:
+                  _onEnter: that.onEnterWrapper(->
+                    console.debug 'Entered src'
+                    srcs = _.keys(
+                      that.player
+                        .Options[that.currentOrder.unit_area]
+                        .Next[that.currentOrder.type]
+                        .Next[that.currentOrder.unit_area]
+                        .Next
+                    )
+
+                    that.addActiveHandlers(srcs, ->
+                      console.debug this.attr("id")
+                      that.fsm.handle("chose.src", this.attr("id"))
+                    )
+                  )
+
+                  'chose.src': (src) ->
+                    console.debug "Chose source #{src}"
+                    $scope.$apply ->
+                      that.currentOrder.src = src
                     that.fsm.transition("dst")
 
                 dst:
