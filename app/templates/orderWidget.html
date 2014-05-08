@@ -11,7 +11,7 @@
   </div>
   <div id="existing-orders">
     <h3>Orders</h3>
-    <div ng-repeat="(unit_area, order) in lieutenant.orders" class="order">
+    <div ng-repeat="(unit_area, order) in lieutenant.orders.orders" class="order">
       <span ng-show="order.unit_area" class="badge">{{ order.unit_area }}</span>
       <span ng-show="order.type" ng-bind-html='typeSymbols[order.type]'></span>
       <span ng-show="order.src" class="badge">{{ order.src }}</span>
