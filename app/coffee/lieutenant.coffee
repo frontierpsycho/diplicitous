@@ -103,7 +103,7 @@ define([
                       that.player.Options[that.currentOrder.unit_area].Next)
 
                     select = $("<select></select>")
-                    $("#orders").append(select)
+                    $("#current-order").append(select)
 
                     _.each(order_types, (type) ->
                       select.append("<option>#{type}</option>")

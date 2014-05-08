@@ -98,11 +98,26 @@ h3 {
     div#sidebar {
       @include span($sidebar-columns omega);
 
+      h3 {
+        padding: 0.5em;
+        margin: 0;
+        background-color: teal;
+        color: #FFF;
+      }
+
       .badge {
         background-color: purple;
         color: white;
         padding: 0.3em;
         border-radius: 3px;
+        display: inline-block;
+      }
+
+      #orders {
+        background-color: beige;
+        .order {
+          padding: 0.25em 0.5em;
+        }
       }
     }
   }
