@@ -2,10 +2,12 @@ define([
   'angular'
   'machina'
   'objects/Player'
+  'underscore'
 ], (
   angular
   Machina
   Player
+  _
 ) ->
   'use strict'
 
@@ -20,6 +22,25 @@ define([
         that.currentOrder = {}
 
         console.debug "Orders:", that.orders
+
+      convert_orders: (dipity_orders) ->
+        converted_orders = {}
+        for own unit_area, dipity_order of dipity_orders
+          converted_order = {
+            unit_area: unit_area
+            type: dipity_order[0]
+          }
+
+          switch converted_order.type
+            when 'Move'
+              converted_order.dst = dipity_order[1]
+            when 'Support'
+              converted_order.src = dipity_order[1]
+              converted_order.dst = dipity_order[2]
+
+          converted_orders[unit_area] = converted_order
+
+        converted_orders
 
       active: []
       addActiveHandlers: (hoverlist, handler) ->
@@ -46,6 +67,8 @@ define([
 
         that.player = Player($scope.game.player($scope.user))
         console.debug "Player:", that.player
+
+        that.orders = that.convert_orders($scope.game.Phase.Orders[that.player.Nation])
 
         switch type
           when 'Movement'
