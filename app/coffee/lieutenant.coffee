@@ -16,14 +16,6 @@ define([
   Lieutenant = ($scope) ->
     that =
       orders: OrderCollection()
-      currentOrder: {}
-
-      storeOrder: ->
-        console.debug "Storing order", that.currentOrder
-        that.orders.storeOrder(that.currentOrder)
-        that.currentOrder = {}
-
-        console.debug "Orders:", that.orders.get()
 
       active: []
       addActiveHandlers: (hoverlist, handler) ->
@@ -75,7 +67,7 @@ define([
                   'chose.unit': (abbr) ->
                     console.debug "Chose unit in #{abbr}"
                     $scope.$apply ->
-                      that.currentOrder.unit_area = abbr
+                      that.orders.currentOrder.unit_area = abbr
 
                     that.fsm.transition("order_type")
 
@@ -84,7 +76,7 @@ define([
                     console.debug 'Entered order_type'
 
                     order_types = _.keys(
-                      that.player.Options[that.currentOrder.unit_area].Next)
+                      that.player.Options[that.orders.currentOrder.unit_area].Next)
 
                     select = $("<select></select>")
                     $("#current-order").append(select)
@@ -102,7 +94,7 @@ define([
                   'chose.order': (type) ->
                     console.debug "Chose order type #{type}"
                     $scope.$apply ->
-                      that.currentOrder.type = type
+                      that.orders.currentOrder.type = type
 
                     switch type
                       when "Move"
@@ -115,9 +107,9 @@ define([
                     console.debug 'Entered src'
                     srcs = _.keys(
                       that.player
-                        .Options[that.currentOrder.unit_area]
-                        .Next[that.currentOrder.type]
-                        .Next[that.currentOrder.unit_area]
+                        .Options[that.orders.currentOrder.unit_area]
+                        .Next[that.orders.currentOrder.type]
+                        .Next[that.orders.currentOrder.unit_area]
                         .Next
                     )
 
@@ -130,7 +122,7 @@ define([
                   'chose.src': (src) ->
                     console.debug "Chose source #{src}"
                     $scope.$apply ->
-                      that.currentOrder.src = src
+                      that.orders.currentOrder.src = src
                     that.fsm.transition("dst")
 
                 dst:
@@ -139,9 +131,9 @@ define([
 
                     dsts = _.keys(
                       that.player
-                        .Options[that.currentOrder.unit_area]
-                        .Next[that.currentOrder.type]
-                        .Next[that.currentOrder.unit_area]
+                        .Options[that.orders.currentOrder.unit_area]
+                        .Next[that.orders.currentOrder.type]
+                        .Next[that.orders.currentOrder.unit_area]
                         .Next
                     )
                     console.debug dsts
@@ -155,8 +147,8 @@ define([
                   'chose.dst': (dst) ->
                     console.debug "Chose destination #{dst}"
                     $scope.$apply ->
-                      that.currentOrder.dst = dst
-                      that.storeOrder()
+                      that.orders.currentOrder.dst = dst
+                      that.orders.storeOrder()
                     that.fsm.transition("start")
 
             })
