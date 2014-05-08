@@ -85,6 +85,8 @@ define([
                       select.append("<option>#{type}</option>")
                     )
 
+                    select.get(0).selectedIndex = -1
+
                     select.change ->
                       that.fsm.handle("chose.order", $(this).find("option:selected").val())
                       select.remove()
@@ -101,6 +103,11 @@ define([
                         that.fsm.transition("dst")
                       when "Support"
                         that.fsm.transition("src")
+                      when "Hold"
+                        $scope.$apply ->
+                          that.orders.storeOrder()
+                          that.fsm.transition("start")
+
 
                 src:
                   _onEnter: that.onEnterWrapper(->
