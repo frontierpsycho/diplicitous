@@ -3,7 +3,7 @@ define([
 ) ->
   'use strict'
 
-  Order = ->
+  Order = (unit_area, diplicity_order) ->
     that = {}
 
     that.fromDiplicity = (unit_area, diplicity_order) ->
@@ -17,6 +17,9 @@ define([
           that.dst = diplicity_order[2]
 
       that
+
+    if unit_area? and diplicity_order?
+      that.fromDiplicity(unit_area, diplicity_order)
 
     that
 )

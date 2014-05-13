@@ -18,7 +18,7 @@ define([
 
     that.convertOrders = (diplicity_orders) ->
       for own unit_area, diplicity_order of diplicity_orders
-        that.orders[unit_area] = Order().fromDiplicity(unit_area, diplicity_order)
+        that.orders[unit_area] = Order(unit_area, diplicity_order)
 
     that.storeOrder = ->
       console.debug "Storing order", that.currentOrder

@@ -16,6 +16,16 @@ require.config({
   // Karma serves files under /base, which is the basePath from your config file
   baseUrl: '/base',
 
+  paths: {
+    'underscore': 'lib/underscore/underscore'
+  },
+
+  shim: {
+    'underscore': {
+      exports: '_'
+    }
+  },
+
   // dynamically load all test files
   deps: allTestFiles,
 
