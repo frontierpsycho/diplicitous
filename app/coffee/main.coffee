@@ -8,6 +8,7 @@ require.config(
       'snap': '../lib/snap/snap.svg'
       'underscore': '../lib/underscore/underscore'
       'machina': '../lib/machina/machina'
+      'config': '../config/client'
 
     # angular does not support AMD out of the box, put it in a shim
     shim:

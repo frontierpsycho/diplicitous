@@ -1,9 +1,11 @@
 define([
   'angular'
   'underscore'
+  'config'
 ], (
   angular
   _
+  Config
 ) ->
   'use strict'
 
@@ -15,7 +17,7 @@ define([
         'connected': false
         'subscriptions': {}
 
-      ws = new WebSocket "ws:localhost:8080/ws?email=unfortunate42%40gmail.com"
+      ws = new WebSocket "ws:#{Config.wsHost}/ws?email=unfortunate42%40gmail.com"
 
       ws.onopen = ->
         console.debug "Socket opened"
