@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Tue Apr 08 2014 22:34:02 GMT+0200 (CEST)
+// Generated on Tue May 13 2014 20:10:57 GMT+0200 (CEST)
 
 module.exports = function(config) {
   config.set({
@@ -16,7 +16,9 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test-main.js',
-      {pattern: '**/*Spec.coffee', included: false}
+      {pattern: 'coffee/**/*.coffee', included: false},
+      {pattern: 'test/**/*Spec.coffee', included: false},
+      {pattern: 'lib/**/*.js', included: false}
     ],
 
 
@@ -49,7 +51,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes
@@ -58,7 +60,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode
