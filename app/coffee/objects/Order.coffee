@@ -1,5 +1,7 @@
 define([
+  'underscore'
 ], (
+  _
 ) ->
   'use strict'
 
@@ -7,6 +9,9 @@ define([
     that = {}
 
     that.fromDiplicity = (unit_area, diplicity_order) ->
+      if (not diplicity_order?) or _.isEmpty(diplicity_order) or (not diplicity_order[0]?)
+        return that
+
       that.unit_area = unit_area
       that.type = diplicity_order[0]
       switch that.type
