@@ -28,10 +28,13 @@ define([
           $scope.map.unhoverProvince province
         that.active = []
 
-      onEnterWrapper: (func) ->
+      onEnterWrapper: (onClickFunc) ->
         return ->
           that.removeActiveHandlers()
-          func()
+
+          nextOptions = that.orders.nextOptions()
+
+          that.addActiveHandlers nextOptions, onClickFunc
 
       init: (type) ->
         console.debug 'Initializing Lieutenant'
@@ -56,13 +59,7 @@ define([
               states:
                 start:
                   _onEnter: that.onEnterWrapper(->
-                    console.debug 'Entered start'
-
-                    units = that.orders.nextOptions()
-
-                    that.addActiveHandlers(units, ->
-                      that.fsm.handle("chose.unit", this.attr("id"))
-                    )
+                    that.fsm.handle("chose.unit", this.attr("id"))
                   )
 
                   'chose.unit': (abbr) ->
@@ -73,7 +70,9 @@ define([
                     that.fsm.transition("order_type")
 
                 order_type:
-                  _onEnter: that.onEnterWrapper(->
+                  _onEnter: ->
+                    that.removeActiveHandlers()
+
                     console.debug 'Entered order_type'
 
                     order_types = that.orders.nextOptions()
@@ -90,8 +89,6 @@ define([
                     select.change ->
                       that.fsm.handle("chose.order", $(this).find("option:selected").val())
                       select.remove()
-
-                  )
 
                   'chose.order': (type) ->
                     console.debug "Chose order type #{type}"
@@ -111,14 +108,8 @@ define([
 
                 src:
                   _onEnter: that.onEnterWrapper(->
-                    console.debug 'Entered src'
-
-                    srcs = that.orders.nextOptions()
-
-                    that.addActiveHandlers(srcs, ->
-                      console.debug this.attr("id")
-                      that.fsm.handle("chose.src", this.attr("id"))
-                    )
+                    console.debug this.attr("id")
+                    that.fsm.handle("chose.src", this.attr("id"))
                   )
 
                   'chose.src': (src) ->
@@ -129,14 +120,8 @@ define([
 
                 dst:
                   _onEnter: that.onEnterWrapper(->
-                    console.debug 'Entered dst'
-
-                    dsts = that.orders.nextOptions()
-
-                    that.addActiveHandlers(dsts, ->
-                      console.debug this.attr("id")
-                      that.fsm.handle("chose.dst", this.attr("id"))
-                    )
+                    console.debug this.attr("id")
+                    that.fsm.handle("chose.dst", this.attr("id"))
                   )
 
                   'chose.dst': (dst) ->
