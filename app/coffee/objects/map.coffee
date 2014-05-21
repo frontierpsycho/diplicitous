@@ -39,6 +39,10 @@ define([
 
       that.snap.append(data)
 
+      s = Snap("#{selector} svg")
+
+      that.createOrders(s)
+
       console.debug "Map loaded"
       $scope.$apply ->
         that.loaded = true
@@ -80,6 +84,14 @@ define([
       )
     )
 
+    that.activateOrders = (abbr) ->
+      provinceCenter = Snap.select("##{abbr}Center").getBBox()
+
+      Snap.select("#orderGroup").transform("t#{provinceCenter.x},#{provinceCenter.y}")
+
+    that.hideOrders = ->
+      Snap.select("#orderGroup").transform("t-5000,-5000")
+
     that.colourProvince = (abbr, colour, opacity) ->
       opacity = opacity || "0.8"
 
@@ -117,6 +129,45 @@ define([
           callback.bind(this)()
       else
         console.warn "Cannot add click handler to province #{abbr}: it does not exist!"
+
+    that.createOrders = (snap) ->
+      orders = {}
+
+      for orderName in ["Move", "Support", "Hold"]
+        c = snap.circle(0, 0, 35).attr
+          fill: "rgb(236, 240, 241)",
+          stroke: "#1f2c39",
+          strokeWidth: 3
+
+        text = snap.text(0, 0, orderName[0])
+        text.attr({
+            'font-size': 50
+        })
+
+        b = text.getBBox()
+
+        c.attr
+          cx: b.cx
+          cy: b.cy
+
+        orders[orderName] = snap.group(c, text).attr({
+          id: "order-#{orderName}"
+        })
+
+        orders[orderName].click ((name) ->
+          return ->
+            $scope.lieutenant.fsm.handle 'chose.order', name
+        )(orderName)
+
+      orders.Move.transform("t-70,-50")
+      orders.Support.transform("t70,-50")
+      orders.Hold.transform("t0,120")
+
+      g = snap.group(orders.Move, orders.Support, orders.Hold)
+
+      g.transform("t-1000,1000").attr({ id: "orderGroup" })
+
+      snap.select("#orders").append(g)
 
     return that
 

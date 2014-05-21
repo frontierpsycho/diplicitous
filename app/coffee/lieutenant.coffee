@@ -26,6 +26,7 @@ define([
       removeActiveHandlers: ->
         for province in that.active
           $scope.map.unhoverProvince province
+        $scope.map.hideOrders()
         that.active = []
 
       onEnterWrapper: (onClickFunc) ->
@@ -77,18 +78,7 @@ define([
 
                     order_types = that.orders.nextOptions()
 
-                    select = $("<select></select>")
-                    $("#current-order").append(select)
-
-                    _.each(order_types, (type) ->
-                      select.append("<option>#{type}</option>")
-                    )
-
-                    select.get(0).selectedIndex = -1
-
-                    select.change ->
-                      that.fsm.handle("chose.order", $(this).find("option:selected").val())
-                      select.remove()
+                    $scope.map.activateOrders(that.orders.currentOrder.unit_area)
 
                   'chose.order': (type) ->
                     console.debug "Chose order type #{type}"
