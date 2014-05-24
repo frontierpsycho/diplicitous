@@ -159,9 +159,12 @@ define([
             $scope.lieutenant.fsm.handle 'chose.order', name
         )(orderName)
 
-      orders.Move.transform("t-70,-50")
-      orders.Support.transform("t70,-50")
-      orders.Hold.transform("t0,120")
+      orderRadius = 100
+
+      # set orders on the edges of an equilateral triangle
+      orders.Move.transform("t-#{orderRadius*0.86},-#{orderRadius/2}")
+      orders.Support.transform("t#{orderRadius*0.86},-#{orderRadius/2}")
+      orders.Hold.transform("t0,#{orderRadius}")
 
       g = snap.group(orders.Move, orders.Support, orders.Hold)
 
