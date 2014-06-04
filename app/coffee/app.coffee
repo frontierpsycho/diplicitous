@@ -5,7 +5,8 @@ define([
   'wsService'
   'services'
   'controllers'
-  'directives'
+  'directives/orderWidget'
+  'directives/diplomacyMap'
 ], (
   angular
 ) ->
