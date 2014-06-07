@@ -1,41 +1,86 @@
 $sea-color: #C6EFED;
 
+$Austria-color: #C04D4D;
+$England-color: #6E329A;
+$France-color: #BCDEEA;
+$Germany-color: #666666;
+$Italy-color: #63A96D;
+$Russia-color: #E9E9E9;
+$Turkey-color: #F2EAA2;
+
+$Austria-hover: #D28181;
+$England-hover: #986EB7;
+$France-hover: #CFE7EF;
+$Germany-hover: #939393;
+$Italy-hover: #91C298;
+$Russia-hover: #EEEEEE;
+$Turkey-hover: #F5EFBD;
+$sea-hover: #D7FFFD;
+
 #provinces {
   path {
     fill: #FFFFF0;
     fill-opacity: 1;
     stroke: none;
 
+    &.active {
+      cursor: pointer;
+    }
+
     &.sea {
       fill: $sea-color;
+      &.active {
+        fill: $sea-hover;
+      }
     }
 
     &.Austria {
-      fill: #C04D4D;
+      fill: $Austria-color;
+      &.active {
+        fill: $Austria-hover;
+      }
     }
 
     &.England {
-      fill: #6E329A;
+      fill: $England-color;
+      &.active {
+        fill: $England-hover;
+      }
     }
 
     &.France {
-      fill: #BCDEEA;
+      fill: $France-color;
+      &.active {
+        fill: $France-hover;
+      }
     }
 
     &.Germany {
-      fill: #666666;
+      fill: $Germany-color;
+      &.active {
+        fill: $Germany-hover;
+      }
     }
 
     &.Italy {
-      fill: #63A96D;
+      fill: $Italy-color;
+      &.active {
+        fill: $Italy-hover;
+      }
     }
 
     &.Russia {
-      fill: #E9E9E9;
+      fill: $Russia-color;
+      &.active {
+        fill: $Russia-hover;
+      }
     }
 
     &.Turkey {
-      fill: #F2EAA2;
+      fill: $Turkey-color;
+      &.active {
+        fill: $Turkey-hover;
+      }
     }
   }
 }
@@ -63,6 +108,6 @@ $sea-color: #C6EFED;
   }
 }
 
-#names, #supply-centers, #province-centers {
+#names, #supply-centers, #province-centers, #units {
   pointer-events: none;
 }
