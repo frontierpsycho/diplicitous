@@ -5,38 +5,38 @@ $sea-color: #C6EFED;
     fill: #FFFFF0;
     fill-opacity: 1;
     stroke: none;
-  }
 
-  path.sea {
-    fill: $sea-color;
-  }
+    &.sea {
+      fill: $sea-color;
+    }
 
-  .Austria {
-    fill: #C04D4D;
-  }
+    &.Austria {
+      fill: #C04D4D;
+    }
 
-  .England {
-    fill: #6E329A;
-  }
+    &.England {
+      fill: #6E329A;
+    }
 
-  .France {
-    fill: #BCDEEA;
-  }
+    &.France {
+      fill: #BCDEEA;
+    }
 
-  .Germany {
-    fill: #666666;
-  }
+    &.Germany {
+      fill: #666666;
+    }
 
-  .Italy {
-    fill: #63A96D;
-  }
+    &.Italy {
+      fill: #63A96D;
+    }
 
-  .Russia {
-    fill: #E9E9E9;
-  }
+    &.Russia {
+      fill: #E9E9E9;
+    }
 
-  .Turkey {
-    fill: #F2EAA2;
+    &.Turkey {
+      fill: #F2EAA2;
+    }
   }
 }
 
