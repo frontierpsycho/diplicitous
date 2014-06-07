@@ -1,4 +1,8 @@
 $sea-color: #C6EFED;
+$empty-color: #FFFFF0;
+
+$sea-hover: #D7FFFD;
+$empty-hover: #FFFFC3;
 
 $Austria-color: #C04D4D;
 $England-color: #6E329A;
@@ -15,16 +19,16 @@ $Germany-hover: #939393;
 $Italy-hover: #91C298;
 $Russia-hover: #EEEEEE;
 $Turkey-hover: #F5EFBD;
-$sea-hover: #D7FFFD;
 
 #provinces {
   path {
-    fill: #FFFFF0;
+    fill: $empty-color;
     fill-opacity: 1;
     stroke: none;
 
     &.active {
       cursor: pointer;
+      fill: $empty-hover;
     }
 
     &.sea {

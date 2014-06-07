@@ -116,6 +116,7 @@ define([
 
       if province?
         province.unhover hover_in, hover_out
+        hover_out.call(province)
       else
         console.warn "Cannot remove hover handlers to province #{abbr}: it does not exist!"
 
