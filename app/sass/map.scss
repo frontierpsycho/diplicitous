@@ -1,0 +1,68 @@
+$sea-color: #C6EFED;
+
+#provinces {
+  path {
+    fill: #FFFFF0;
+    fill-opacity: 1;
+    stroke: none;
+  }
+
+  path.sea {
+    fill: $sea-color;
+  }
+
+  .Austria {
+    fill: #C04D4D;
+  }
+
+  .England {
+    fill: #6E329A;
+  }
+
+  .France {
+    fill: #BCDEEA;
+  }
+
+  .Germany {
+    fill: #666666;
+  }
+
+  .Italy {
+    fill: #63A96D;
+  }
+
+  .Russia {
+    fill: #E9E9E9;
+  }
+
+  .Turkey {
+    fill: #F2EAA2;
+  }
+}
+
+#supply-centers {
+  path {
+    fill: none;
+    stroke: #9f9f9f;
+    stroke-width: 2.22519755;
+    stroke-opacity: 1;
+  }
+}
+
+#province-centers {
+  path {
+    fill: none;
+    stroke: none;
+    display: inline;
+  }
+}
+
+#sea {
+  path {
+    fill: $sea-color;
+  }
+}
+
+#names, #supply-centers, #province-centers {
+  pointer-events: none;
+}

@@ -8,12 +8,10 @@ define([
   'use strict'
 
   hover_in = (event) ->
-    this.attr
-      "fill-opacity": "0.5"
+    this.node.classList.add("active")
 
   hover_out = (event) ->
-    this.attr
-      "fill-opacity": "0.8"
+    this.node.classList.remove("active")
 
   Map = ($scope, selector, svgPath) ->
 
@@ -33,9 +31,7 @@ define([
         that.provinces[provinceName] = province
 
         if provinceName in MapData.seas
-          that.colourProvince(provinceName, "#FFFFFF", "0")
-        else
-          that.colourProvince(provinceName, MapData.powers.default.colour)
+          province.node.classList.add("sea")
 
       that.snap.append(data)
 
@@ -55,6 +51,8 @@ define([
 
           that.colourProvince(provinceName, MapData.powers[unit.Nation].colour)
 
+          province = that.provinces[provinceName]
+          province.node.classList.add(unit.Nation)
 
           insertUnit = (provinceName, unit, snap) ->
             unitLayer = that.snap.select("svg #units")
@@ -100,8 +98,8 @@ define([
       if province?
         province.attr
           style: ""
-          fill: colour
-          "fill-opacity": opacity
+          #fill: colour
+          #"fill-opacity": opacity
       else
         console.warn "Cannot colour province #{abbr}: it does not exist!"
 
