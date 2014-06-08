@@ -20,6 +20,9 @@ $Italy-hover: #91C298;
 $Russia-hover: #EEEEEE;
 $Turkey-hover: #F5EFBD;
 
+$order-color: #ecf0f1;
+$order-hover: #FFFFFF;
+
 #provinces {
   path {
     fill: $empty-color;
@@ -114,4 +117,17 @@ $Turkey-hover: #F5EFBD;
 
 #names, #supply-centers, #province-centers, #units {
   pointer-events: none;
+}
+
+#orders > #orderGroup > g {
+  cursor: pointer;
+  circle {
+    fill: $order-color;
+  }
+  circle:hover {
+    fill: $order-hover;
+  }
+  text {
+    pointer-events: none;
+  }
 }
