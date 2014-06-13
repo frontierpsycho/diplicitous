@@ -17,7 +17,7 @@ $England-hover: #986EB7;
 $France-hover: #CFE7EF;
 $Germany-hover: #939393;
 $Italy-hover: #91C298;
-$Russia-hover: #EEEEEE;
+$Russia-hover: #F7F7F7;
 $Turkey-hover: #F5EFBD;
 
 $order-color: #ecf0f1;
@@ -39,6 +39,10 @@ $order-hover: #FFFFFF;
       &.active {
         fill: $sea-hover;
       }
+    }
+
+    &.coast {
+      fill-opacity: 0;
     }
 
     &.Austria {

@@ -1,17 +1,25 @@
 define([
   'snap'
+  'objects/Province'
   'objects/mapData'
 ], (
   Snap
+  Province
   MapData
 ) ->
   'use strict'
 
-  hover_in = (event) ->
+  hoverIn = (event) ->
     this.node.classList.add("active")
 
-  hover_out = (event) ->
+  hoverOut = (event) ->
     this.node.classList.remove("active")
+
+  abbrWithoutCoast = (abbr) ->
+    abbr.split("-")[0]
+
+  cleanCoast = (abbr) ->
+    abbr.replace("/", "-")
 
   Map = ($scope, selector, svgPath) ->
 
@@ -26,12 +34,9 @@ define([
         style: ""
       provinces = data.selectAll("#provinces path")
       for province in provinces
-        provinceName = province.attr("id")
+        provinceName = cleanCoast(province.attr("id"))
 
-        that.provinces[provinceName] = province
-
-        if provinceName in MapData.seas
-          province.node.classList.add("sea")
+        that.provinces[provinceName] = Province(provinceName, province)
 
       that.snap.append(data)
 
@@ -47,12 +52,12 @@ define([
         console.debug "Game loaded!", $scope.game.Id
 
         for provinceName, unit of $scope.game.Phase.Units
-          provinceName = provinceName.replace '/', '-'
-
-          that.colourProvince(provinceName, MapData.powers[unit.Nation].colour)
-
+          provinceName = cleanCoast(provinceName)
           province = that.provinces[provinceName]
-          province.node.classList.add(unit.Nation)
+          if province?
+            province.addClass(unit.Nation)
+          else
+            console.error "Province does not exist: ", provinceName
 
           insertUnit = (provinceName, unit, snap) ->
             unitLayer = that.snap.select("svg #units")
@@ -90,24 +95,11 @@ define([
     that.hideOrders = ->
       Snap.select("#orderGroup").transform("t-5000,-5000")
 
-    that.colourProvince = (abbr, colour, opacity) ->
-      opacity = opacity || "0.8"
-
-      province = that.provinces[abbr]
-
-      if province?
-        province.attr
-          style: ""
-          #fill: colour
-          #"fill-opacity": opacity
-      else
-        console.warn "Cannot colour province #{abbr}: it does not exist!"
-
     that.hoverProvince = (abbr) ->
       province = that.provinces[abbr]
 
       if province?
-        province.hover hover_in, hover_out
+        province.path.hover hoverIn, hoverOut
       else
         console.warn "Cannot add hover handlers to province #{abbr}: it does not exist!"
 
@@ -115,8 +107,8 @@ define([
       province = that.provinces[abbr]
 
       if province?
-        province.unhover hover_in, hover_out
-        hover_out.call(province)
+        province.path.unhover hoverIn, hoverOut
+        hoverOut.call(province.path)
       else
         console.warn "Cannot remove hover handlers to province #{abbr}: it does not exist!"
 
@@ -124,7 +116,7 @@ define([
       province = that.provinces[abbr]
 
       if province?
-        province.click (event) ->
+        province.path.click (event) ->
           callback.bind(this)()
       else
         console.warn "Cannot add click handler to province #{abbr}: it does not exist!"
