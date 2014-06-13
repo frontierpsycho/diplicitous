@@ -52,10 +52,16 @@ define([
         console.debug "Game loaded!", $scope.game.Id
 
         for provinceName, unit of $scope.game.Phase.Units
-          provinceName = cleanCoast(provinceName)
+          coast = false
+          if provinceName.indexOf("/") > -1
+            coast = true
+            provinceName = cleanCoast(provinceName)
           province = that.provinces[provinceName]
           if province?
-            province.addClass(unit.Nation)
+            if coast
+              that.provinces[abbrWithoutCoast(provinceName)].addClass(unit.Nation)
+            else
+              province.addClass(unit.Nation)
           else
             console.error "Province does not exist: ", provinceName
 
