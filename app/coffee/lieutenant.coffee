@@ -47,6 +47,9 @@ define([
         that.player = Player($scope.game.player($scope.user))
         console.debug "Player:", that.player
 
+        that.units = $scope.game.Phase.Units
+        console.debug(that.units)
+
         that.orders = OrderCollection(that.player.Options)
         that.orders.convertOrders($scope.game.Phase.Orders[that.player.Nation])
 
@@ -61,13 +64,16 @@ define([
                 start:
                   _onEnter: that.onEnterWrapper(->
                     $scope.$apply =>
-                      $scope.map.deactivateCoasts()
+                      $scope.map.activateCoasts()
                       that.fsm.handle("chose.unit", this.attr("id"))
                   )
 
                   'chose.unit': (abbr) ->
                     console.debug "Chose unit in #{abbr}"
                     that.orders.currentOrder.unit_area = abbr
+
+                    if that.units[abbr].Type == "Army"
+                      $scope.map.deactivateCoasts()
 
                     that.fsm.transition("order_type")
 
