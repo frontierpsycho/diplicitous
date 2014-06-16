@@ -17,7 +17,7 @@ define([
         'connected': false
         'subscriptions': {}
 
-      ws = new WebSocket "ws:#{Config.wsHost}/ws?email=unfortunate42%40gmail.com"
+      ws = new WebSocket "ws:#{Config.wsHost}/ws?email=#{Config.email}"
 
       ws.onopen = ->
         console.debug "Socket opened"
