@@ -19,7 +19,7 @@ define([
           target: target
           name: 'games'
           callback: (games) ->
-            return _.chain(games)
+            _.chain(games)
               .map((elem) -> [ elem.Id, elem ] )
               .object()
               .value()
