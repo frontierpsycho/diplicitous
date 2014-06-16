@@ -60,13 +60,14 @@ define([
               states:
                 start:
                   _onEnter: that.onEnterWrapper(->
-                    that.fsm.handle("chose.unit", this.attr("id"))
+                    $scope.$apply =>
+                      $scope.map.deactivateCoasts()
+                      that.fsm.handle("chose.unit", this.attr("id"))
                   )
 
                   'chose.unit': (abbr) ->
                     console.debug "Chose unit in #{abbr}"
-                    $scope.$apply ->
-                      that.orders.currentOrder.unit_area = abbr
+                    that.orders.currentOrder.unit_area = abbr
 
                     that.fsm.transition("order_type")
 

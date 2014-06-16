@@ -169,6 +169,18 @@ define([
 
       snap.select("#orders").append(g)
 
+    that.deactivateCoasts = ->
+      _.each(that.provinces, (province, provinceName) ->
+        if (provinceName.indexOf("-") > -1)
+          province.addClass("armySelected")
+      )
+
+    that.activateCoasts = ->
+      _.each(that.provinces, (province, provinceName) ->
+        if (provinceName.indexOf("-") > -1)
+          province.removeClass("armySelected")
+      )
+
     return that
 
   return Map
