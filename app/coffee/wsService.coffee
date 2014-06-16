@@ -38,22 +38,25 @@ define([
 
           console.log "Applying data to subscription #{uri}"
 
-          if data['Type'] == 'Create' or data['Type'] == 'Fetch' or data['Type'] == "Update"
-            $rootScope.$apply ->
-              containedData = data['Object']['Data']
+          type = data['Type']
 
-              # transform data with subscription callback
-              if subscription.callback?
-                containedData = subscription.callback(containedData)
+          switch type
+            when 'Create', 'Fetch', 'Update'
+              $rootScope.$apply ->
+                containedData = data['Object']['Data']
 
-              subscription.target[subscription.name] = containedData
+                # transform data with subscription callback
+                if subscription.callback?
+                  containedData = subscription.callback(containedData)
 
-          if data['Type'] == 'Delete'
-            $rootScope.$apply ->
-              for deleted_object in data['Object']['Data']
-                # FIXME
-                delete subscription.target[subscription.name][deleted_object['Id']]
-
+                subscription.target[subscription.name] = containedData
+            when 'Delete'
+              $rootScope.$apply ->
+                for deleted_object in data['Object']['Data']
+                  # FIXME
+                  delete subscription.target[subscription.name][deleted_object['Id']]
+            when 'RPC'
+              console.debug 'RPC!'
         else
           console.warn 'Service not connected yet, message ignored'
 
@@ -91,6 +94,15 @@ define([
 
         this.subscriptions[uri] = subscription
         this.send(JSON.stringify(message))
+
+      Service.sendRPC = (method, data) ->
+        this.send(JSON.stringify({
+          Type: "RPC"
+          Method:
+            Name: method
+            Id: Math.random().toString(36).substring(2)
+            Data: data
+        }))
 
       Service
     ])
