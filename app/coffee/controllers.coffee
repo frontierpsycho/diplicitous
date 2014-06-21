@@ -22,13 +22,11 @@ define([
     '$routeParams'
     'UserService'
     'GameService'
-    'wsService'
     (
       $scope
       $routeParams
       UserService
       GameService
-      ws
     ) ->
       initLieutenant = (newGame, oldGame) ->
         # on initialization, watcher is called with undefined values

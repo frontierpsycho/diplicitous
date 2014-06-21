@@ -23,6 +23,14 @@ define([
 
       that
 
+    that.toDiplicity = ->
+      _.without([
+        that.unit_area
+        that.type
+        that.src
+        that.dst
+      ], undefined)
+
     if unit_area? and diplicity_order?
       that.fromDiplicity(unit_area, diplicity_order)
 

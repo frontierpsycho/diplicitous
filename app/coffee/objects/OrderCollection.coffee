@@ -10,7 +10,7 @@ define([
   OrderCollection = (options) ->
     that =
       orders: {}
-      currentOrder: {}
+      currentOrder: Order()
       options: options
 
     that.get = ->
@@ -23,7 +23,7 @@ define([
     that.storeOrder = ->
       console.debug "Storing order", that.currentOrder
       that.orders[that.currentOrder.unit_area] = that.currentOrder
-      that.currentOrder = {}
+      that.currentOrder = Order()
 
       console.debug "Orders:", that.orders
 

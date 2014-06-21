@@ -24,7 +24,13 @@ define([
         Service.connected = true
 
       ws.onmessage = (message) ->
-        handleData JSON.parse(message.data)
+        data = JSON.parse(message.data)
+
+        if data.Type?
+          if data.Type == "RPC"
+            handleRPC data
+          else
+            handleData data
 
       handleData = (data) ->
         console.debug "Received data from websocket: ", data
@@ -55,10 +61,11 @@ define([
                 for deleted_object in data['Object']['Data']
                   # FIXME
                   delete subscription.target[subscription.name][deleted_object['Id']]
-            when 'RPC'
-              console.debug 'RPC!'
         else
           console.warn 'Service not connected yet, message ignored'
+
+      handleRPC = (data) ->
+        console.debug "RPC!"
 
       Service.ws = ws
 
