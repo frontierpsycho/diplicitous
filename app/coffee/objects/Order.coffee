@@ -6,7 +6,9 @@ define([
   'use strict'
 
   Order = (unit_area, diplicity_order) ->
-    that = {}
+    that = {
+      committed: false
+    }
 
     that.fromDiplicity = (unit_area, diplicity_order) ->
       if (not diplicity_order?) or _.isEmpty(diplicity_order) or (not diplicity_order[0]?)

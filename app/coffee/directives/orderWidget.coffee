@@ -11,19 +11,27 @@ define([
 ) ->
   'use strict'
 
+  typeSymbols =
+    "Move": "&rarr;"
+    "Support": "S"
+    "Hold": "H"
+
+  secondaryTypeSymbols =
+    "Move": ""
+    "Support": "&rarr;"
+    "Hold": ""
+
   angular.module('diplomacyDirectives')
-    .directive 'orderWidget', ['wsService', (ws) ->
-      return {
+    .directive('orderWidget', ['wsService', (ws) ->
+      {
         templateUrl: 'templates/orderWidget.html'
         replace: true
         restrict: 'E'
         link: {
           pre: (scope, iElement, tAttrs, transclude) ->
-            console.log "Order widget linking"
+            console.debug "Order widget linking"
 
             iElement.find("button").click(->
-              console.debug("RPC?", scope.lieutenant.orders.orders)
-
               for abbr, order of scope.lieutenant.orders.orders
                 ws.sendRPC(
                   "SetOrder"
@@ -31,20 +39,36 @@ define([
                     'GameId': scope.game.Id
                     'Order': order.toDiplicity()
                   }
+                  ((iOrder) ->
+                    ->
+                      scope.$apply ->
+                        iOrder.committed = true
+                  )(order)
                 )
-                console.debug order.toDiplicity()
+                console.debug "Sent", order.toDiplicity()
             )
 
-            scope.typeSymbols =
-              "Move": "&rarr;"
-              "Support": "S"
-              "Hold": "H"
+            scope.typeSymbols = typeSymbols
 
-            scope.secondaryTypeSymbols =
-              "Move": ""
-              "Support": "&rarr;"
-              "Hold": ""
+            scope.secondaryTypeSymbols = secondaryTypeSymbols
         }
       }
-    ]
+    ])
+    .directive('existingOrder', ->
+      {
+        templateUrl: 'templates/existingOrder.html'
+        replace: true
+        restrict: 'E'
+        scope:
+          order: "=order"
+        link: {
+          pre: (scope, iElement, tAttrs, transclude) ->
+            console.debug "Existing order widget linking"
+
+            scope.typeSymbols = typeSymbols
+
+            scope.secondaryTypeSymbols = secondaryTypeSymbols
+        }
+      }
+    )
 )

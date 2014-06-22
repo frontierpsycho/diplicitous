@@ -65,7 +65,18 @@ define([
           console.warn 'Service not connected yet, message ignored'
 
       handleRPC = (data) ->
-        console.debug "RPC!"
+        console.debug "Received RPC result from websocket: ", data
+
+        if Service.connected
+          method = data.Method
+
+          callback = Service.subscriptions[method.Id]
+
+          if callback?
+            console.debug "Running callback"
+            callback()
+        else
+          console.warn 'Service not connected yet, message ignored'
 
       Service.ws = ws
 
@@ -102,14 +113,18 @@ define([
         this.subscriptions[uri] = subscription
         this.send(JSON.stringify(message))
 
-      Service.sendRPC = (method, data) ->
+      Service.sendRPC = (method, data, callback) ->
+        randomId = Math.random().toString(36).substring(2)
+
+        this.subscriptions[randomId] = callback
         this.send(JSON.stringify({
           Type: "RPC"
           Method:
             Name: method
-            Id: Math.random().toString(36).substring(2)
+            Id: randomId
             Data: data
         }))
+
 
       Service
     ])
