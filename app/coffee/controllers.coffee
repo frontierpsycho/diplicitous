@@ -31,12 +31,14 @@ define([
       initLieutenant = (newGame, oldGame) ->
         # on initialization, watcher is called with undefined values
         if newGame?
-          $scope.$watch('user', (newUser, oldUser) ->
-            if newUser? and not _.isEmpty(newUser)
-              $scope.lieutenant = Lieutenant($scope).init(newGame.Phase.Type)
-          )
+          # the new game is the same as the old one, don't reinit lieutenant
+          unless oldGame? and newGame.Phase.Ordinal == oldGame.Phase.Ordinal
+            $scope.$watch('user', (newUser, oldUser) ->
+              if newUser? and not _.isEmpty(newUser)
+                $scope.lieutenant = Lieutenant($scope).init(newGame.Phase.Type)
+            )
 
-      deregister = $scope.$watch('map.loaded', (newValue, oldValue) ->
+      deregisterMap = $scope.$watch('map.loaded', (newValue, oldValue) ->
         if newValue
           GameService.subscribe($scope, $routeParams.gameId)
           UserService.subscribe($scope)
@@ -44,7 +46,7 @@ define([
           console.debug "Start watching game to init Lieutenant"
           $scope.$watch('game', initLieutenant)
 
-          deregister()
+          deregisterMap()
       )
   ])
 )
