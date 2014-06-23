@@ -75,6 +75,7 @@ define([
           if callback?
             console.debug "Running callback"
             callback()
+            delete Service.subscriptions[method.Id]
         else
           console.warn 'Service not connected yet, message ignored'
 
