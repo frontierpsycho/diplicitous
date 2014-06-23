@@ -32,20 +32,23 @@ define([
             console.debug "Order widget linking"
 
             iElement.find("button").click(->
-              for abbr, order of scope.lieutenant.orders.orders
-                ws.sendRPC(
-                  "SetOrder"
-                  {
-                    'GameId': scope.game.Id
-                    'Order': order.toDiplicity()
-                  }
-                  ((iOrder) ->
-                    ->
-                      scope.$apply ->
-                        iOrder.committed = true
-                  )(order)
+              _.chain(scope.lieutenant.orders.orders)
+                .filter((order) -> (not order.committed))
+                .each((order) ->
+                  ws.sendRPC(
+                    "SetOrder"
+                    {
+                      'GameId': scope.game.Id
+                      'Order': order.toDiplicity()
+                    }
+                    ((iOrder) ->
+                      ->
+                        scope.$apply ->
+                          iOrder.committed = true
+                    )(order)
+                  )
+                  console.debug "Sent", order.toDiplicity()
                 )
-                console.debug "Sent", order.toDiplicity()
             )
 
             scope.typeSymbols = typeSymbols
