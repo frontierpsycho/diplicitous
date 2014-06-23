@@ -52,6 +52,7 @@ define([
 
         that.orders = OrderCollection(that.player.Options)
         that.orders.convertOrders($scope.game.Phase.Orders[that.player.Nation])
+        _.each(that.orders.orders, (order) -> order.committed = true)
 
         switch type
           when 'Movement'
