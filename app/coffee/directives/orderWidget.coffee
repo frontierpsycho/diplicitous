@@ -27,34 +27,43 @@ define([
         templateUrl: 'templates/orderWidget.html'
         replace: true
         restrict: 'E'
-        link: {
-          pre: (scope, iElement, tAttrs, transclude) ->
-            console.debug "Order widget linking"
+        link: ($scope) ->
+          console.debug "Order widget linking"
 
-            iElement.find("button").click(->
-              _.chain(scope.lieutenant.orders.orders)
-                .filter((order) -> (not order.committed))
-                .each((order) ->
-                  ws.sendRPC(
-                    "SetOrder"
-                    {
-                      'GameId': scope.game.Id
-                      'Order': order.toDiplicity()
-                    }
-                    ((iOrder) ->
-                      ->
-                        scope.$apply ->
-                          iOrder.committed = true
-                    )(order)
-                  )
-                  console.debug "Sent", order.toDiplicity()
-                )
+          $scope.commitOrders = ->
+            ws.sendRPC("Commit", { "PhaseId": $scope.game.Phase.Id }, ->
+              $scope.$apply ->
+                $scope.lieutenant.player.Committed = true
             )
 
-            scope.typeSymbols = typeSymbols
+          $scope.uncommitOrders = ->
+            ws.sendRPC("Uncommit", { "PhaseId": $scope.game.Phase.Id }, ->
+              $scope.$apply ->
+                $scope.lieutenant.player.Committed = false
+            )
 
-            scope.secondaryTypeSymbols = secondaryTypeSymbols
-        }
+          $scope.sendOrders = ->
+            _.chain($scope.lieutenant.orders.orders)
+              .filter((order) -> (not order.committed))
+              .each((order) ->
+                ws.sendRPC(
+                  "SetOrder"
+                  {
+                    "GameId": $scope.game.Id
+                    "Order": order.toDiplicity()
+                  }
+                  ((iOrder) ->
+                    ->
+                      $scope.$apply ->
+                        iOrder.committed = true
+                  )(order)
+                )
+                console.debug "Sent", order.toDiplicity()
+              )
+
+          $scope.typeSymbols = typeSymbols
+
+          $scope.secondaryTypeSymbols = secondaryTypeSymbols
       }
     ])
     .directive('existingOrder', ->
@@ -64,14 +73,12 @@ define([
         restrict: 'E'
         scope:
           order: "=order"
-        link: {
-          pre: (scope, iElement, tAttrs, transclude) ->
-            console.debug "Existing order widget linking"
+        link: ($scope) ->
+          console.debug "Existing order widget linking"
 
-            scope.typeSymbols = typeSymbols
+          $scope.typeSymbols = typeSymbols
 
-            scope.secondaryTypeSymbols = secondaryTypeSymbols
-        }
+          $scope.secondaryTypeSymbols = secondaryTypeSymbols
       }
     )
 )

@@ -14,6 +14,11 @@
     <existing-order order="order" ng-repeat="(unit_area, order) in lieutenant.orders.orders"></existing-order>
   </div>
   <div>
-    <button>Save</button>
+    <button id="send-button" ng-click="sendOrders()">Send</button>
+    <span ng-switch="lieutenant.player.Committed">
+      <button id="commit-button" ng-switch-when="false" ng-click="commitOrders()">Commit</button>
+      <button id="uncommit-button" ng-switch-when="true" ng-click="uncommitOrders()">Uncommit</button>
+      <span ng-switch-default>{{ lieutenant.player.Committed }}</span>
+    </span>
   </div>
 </div>
