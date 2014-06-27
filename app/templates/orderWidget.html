@@ -7,6 +7,9 @@
       <span ng-show="lieutenant.orders.currentOrder.src" class="badge">{{ lieutenant.orders.currentOrder.src }}</span>
       <span ng-show="lieutenant.orders.currentOrder.type"  ng-bind-html='secondaryTypeSymbols[lieutenant.orders.currentOrder.type]'></span>
       <span ng-show="lieutenant.orders.currentOrder.dst" class="badge">{{ lieutenant.orders.currentOrder.dst }}</span>
+      <span ng-show="lieutenant.orders.currentOrder.unit_area">
+        <button ng-click="cancelOrder()">Cancel</button>
+      </span>
   </div>
   </div>
   <div id="existing-orders">

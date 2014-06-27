@@ -30,6 +30,9 @@ define([
         link: ($scope) ->
           console.debug "Order widget linking"
 
+          $scope.cancelOrder = ->
+            $scope.lieutenant.cancelOrder()
+
           $scope.commitOrders = ->
             ws.sendRPC("Commit", { "PhaseId": $scope.game.Phase.Id }, ->
               $scope.$apply ->

@@ -27,6 +27,9 @@ define([
 
       console.debug "Orders:", that.orders
 
+    that.cancelOrder = ->
+      that.currentOrder = Order()
+
     that.nextOptions = ->
       options = that.options
 

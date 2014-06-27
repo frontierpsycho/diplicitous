@@ -37,6 +37,16 @@ define([
 
           that.addActiveHandlers nextOptions, onClickFunc
 
+      cancelOrder: ->
+        if that.orders?
+          that.orders.cancelOrder()
+        else
+          console.warn("Tried to cancel when no orders object present")
+        if that.fsm?
+          that.fsm.transition("start")
+        else
+          console.warn("Tried to cancel when no fsm object present")
+
       init: (type) ->
         console.debug 'Initializing Lieutenant'
 
