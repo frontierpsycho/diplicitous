@@ -26,6 +26,7 @@ define([
     that = {
       provinces: {}
       loaded: false
+      clickHandlers: {}
     }
 
     that.snap = Snap(selector)
@@ -122,10 +123,19 @@ define([
       province = that.provinces[abbr]
 
       if province?
-        province.path.click (event) ->
+        that.clickHandlers[abbr] = (event) ->
           callback.bind(this)()
+
+        province.path.click that.clickHandlers[abbr]
       else
         console.warn "Cannot add click handler to province #{abbr}: it does not exist!"
+
+    that.unclickProvince = (abbr) ->
+      province = that.provinces[abbr]
+
+      if province?
+        province.path.unclick that.clickHandlers[abbr]
+        delete that.clickHandlers[abbr]
 
     that.createOrders = (snap) ->
       orders = {}

@@ -19,13 +19,18 @@ define([
 
       active: []
       addActiveHandlers: (hoverlist, handler) ->
+        console.debug "Adding active handlers"
         for province in hoverlist
+          console.debug "Adding:", province
           $scope.map.hoverProvince province
           $scope.map.clickProvince(province, handler)
         that.active = hoverlist
       removeActiveHandlers: ->
+        console.debug "Removing active handlers"
         for province in that.active
+          console.debug "Removing:", province
           $scope.map.unhoverProvince province
+          $scope.map.unclickProvince province
         $scope.map.hideOrders()
         that.active = []
 
@@ -128,7 +133,6 @@ define([
 
                 dst:
                   _onEnter: that.onEnterWrapper(->
-                    console.debug this.attr("id")
                     that.fsm.handle("chose.dst", this.attr("id"))
                   )
 
