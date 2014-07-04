@@ -2,12 +2,16 @@ define([
   'snap'
   'objects/Province'
   'objects/mapData'
+  'util'
 ], (
   Snap
   Province
   MapData
+  Util
 ) ->
   'use strict'
+
+  orderRadius = 100
 
   hoverIn = (event) ->
     this.node.classList.add("active")
@@ -94,15 +98,6 @@ define([
         deregisterWatch()
       )
     )
-
-    that.activateOrders = (abbr) ->
-      provinceCenter = Snap.select("##{abbr}Center").getBBox()
-
-      Snap.select("#orderGroup").transform("t#{provinceCenter.x},#{provinceCenter.y}")
-
-    that.hideOrders = ->
-      Snap.select("#orderGroup").transform("t-5000,-5000")
-
     that.hoverProvince = (abbr) ->
       province = that.provinces[cleanCoast(abbr)]
 
@@ -138,10 +133,35 @@ define([
         province.path.unclick that.clickHandlers[abbr]
         delete that.clickHandlers[abbr]
 
+    that.activateOrders = (abbr, orderTypes) ->
+      console.debug "Activating orders"
+
+      provinceCenter = Snap.select("##{abbr}Center").getBBox()
+
+      [validOrderTypes, invalidOrderTypes] = _.partition(orderTypes, (item) -> _.contains(_.keys(that.orders), item))
+
+      console.debug orderTypes, validOrderTypes, invalidOrderTypes
+      points = Util.placeOrdersCircular(validOrderTypes.length)
+
+      for orderType in validOrderTypes
+        point = points.pop()
+        that.orders[orderType]
+          .transform("t#{orderRadius * Math.cos(point)}, #{orderRadius * Math.sin(point)}")
+          .node.classList.add("show")
+
+      Snap.select("#orderGroup").transform("t#{provinceCenter.x},#{provinceCenter.y}")
+
+    that.hideOrders = ->
+      console.debug "Hiding orders"
+
+      Snap.select("#orderGroup").transform("t-5000,-5000")
+      for name, order of that.orders
+        order.node.classList.remove("show")
+
     that.createOrders = (snap) ->
       orders = {}
 
-      for orderName in ["Move", "Support", "Hold"]
+      for orderName in ["Move", "Support", "Hold", "Convoy"]
         c = snap.circle(0, 0, 35).attr
           fill: "rgb(236, 240, 241)",
           stroke: "#1f2c39",
@@ -167,18 +187,13 @@ define([
             $scope.lieutenant.fsm.handle 'chose.order', name
         )(orderName)
 
-      orderRadius = 100
-
-      # set orders on the edges of an equilateral triangle
-      orders.Move.transform("t-#{orderRadius*0.86},-#{orderRadius/2}")
-      orders.Support.transform("t#{orderRadius*0.86},-#{orderRadius/2}")
-      orders.Hold.transform("t0,#{orderRadius}")
-
-      g = snap.group(orders.Move, orders.Support, orders.Hold)
+      g = snap.group(orders.Move, orders.Support, orders.Hold, orders.Convoy)
 
       g.transform("t-1000,1000").attr({ id: "orderGroup" })
 
       snap.select("#orders").append(g)
+
+      that.orders = orders
 
     that.deactivateCoasts = ->
       _.each(that.provinces, (province, provinceName) ->

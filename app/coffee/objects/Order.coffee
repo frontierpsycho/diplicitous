@@ -31,7 +31,7 @@ define([
       switch that.type
         when 'Move'
           that.dst = cleanCoast(diplicity_order[1])
-        when 'Support'
+        when 'Support', 'Convoy'
           that.src = cleanCoast(diplicity_order[1])
           that.dst = cleanCoast(diplicity_order[2])
 

@@ -129,6 +129,10 @@ $order-hover: #FFFFFF;
 
 #orders > #orderGroup > g {
   cursor: pointer;
+  display: none;
+  &.show {
+    display: block;
+  }
   circle {
     fill: $order-color;
   }

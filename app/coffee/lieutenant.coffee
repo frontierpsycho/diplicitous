@@ -97,9 +97,9 @@ define([
 
                     console.debug 'Entered order_type'
 
-                    order_types = that.orders.nextOptions()
+                    orderTypes = that.orders.nextOptions()
 
-                    $scope.map.activateOrders(that.orders.currentOrder.unit_area)
+                    $scope.map.activateOrders(that.orders.currentOrder.unit_area, orderTypes)
 
                   'chose.order': (type) ->
                     console.debug "Chose order type #{type}"
@@ -109,13 +109,12 @@ define([
                     switch type
                       when "Move"
                         that.fsm.transition("dst")
-                      when "Support"
+                      when "Support", "Convoy"
                         that.fsm.transition("src")
                       when "Hold"
                         $scope.$apply ->
                           that.orders.storeOrder()
                           that.fsm.transition("start")
-
 
                 src:
                   _onEnter: that.onEnterWrapper(->
