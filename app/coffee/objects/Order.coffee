@@ -5,6 +5,12 @@ define([
 ) ->
   'use strict'
 
+  soilCoast = (abbr) ->
+    if abbr?
+      abbr.replace("-", "/")
+    else
+      abbr
+
   Order = (unit_area, diplicity_order) ->
     that = {
       committed: false
@@ -27,10 +33,10 @@ define([
 
     that.toDiplicity = ->
       _.without([
-        that.unit_area
+        soilCoast(that.unit_area)
         that.type
-        that.src
-        that.dst
+        soilCoast(that.src)
+        soilCoast(that.dst)
       ], undefined)
 
     if unit_area? and diplicity_order?
