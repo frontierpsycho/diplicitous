@@ -27,10 +27,13 @@ define([
         data = JSON.parse(message.data)
 
         if data.Type?
-          if data.Type == "RPC"
-            handleRPC data
-          else
-            handleData data
+          switch data.Type
+            when 'RPC'
+              handleRPC data
+            when 'Error'
+              handleError data
+            else
+              handleData data
 
       handleData = (data) ->
         console.debug "Received data from websocket: ", data
@@ -64,8 +67,22 @@ define([
         else
           console.warn 'Service not connected yet, message ignored'
 
+      handleError = (data) ->
+        error = data.Error
+
+        console.error "Received error from websocket:", error.Error
+
+        switch error.Cause.Type
+          when 'RPC'
+            id = error.Cause.Method.Id
+          else
+            id = error.Cause.Object.URI
+
+        if id? and Service.subscriptions.hasOwnProperty(id)
+          delete Service.subscriptions[id]
+
       handleRPC = (data) ->
-        console.debug "Received RPC result from websocket: ", data
+        console.debug "Received RPC result from websocket:", data
 
         if Service.connected
           method = data.Method
