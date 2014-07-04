@@ -29,7 +29,15 @@ $order-hover: #FFFFFF;
     fill-opacity: 1;
     stroke: none;
 
+    &.coast {
+      fill-opacity: 0;
+      &.armySelected {
+        pointer-events: none;
+      }
+    }
+
     &.active {
+      fill-opacity: 1;
       cursor: pointer;
       fill: $empty-hover;
     }
@@ -38,13 +46,6 @@ $order-hover: #FFFFFF;
       fill: $sea-color;
       &.active {
         fill: $sea-hover;
-      }
-    }
-
-    &.coast {
-      &.armySelected {
-        fill-opacity: 0;
-        pointer-events: none;
       }
     }
 
