@@ -5,6 +5,12 @@ define([
 ) ->
   'use strict'
 
+  cleanCoast = (abbr) ->
+    if abbr?
+      abbr.replace("/", "-")
+    else
+      abbr
+
   soilCoast = (abbr) ->
     if abbr?
       abbr.replace("-", "/")
@@ -20,14 +26,14 @@ define([
       if (not diplicity_order?) or _.isEmpty(diplicity_order) or (not diplicity_order[0]?)
         return that
 
-      that.unit_area = unit_area
+      that.unit_area = cleanCoast(unit_area)
       that.type = diplicity_order[0]
       switch that.type
         when 'Move'
-          that.dst = diplicity_order[1]
+          that.dst = cleanCoast(diplicity_order[1])
         when 'Support'
-          that.src = diplicity_order[1]
-          that.dst = diplicity_order[2]
+          that.src = cleanCoast(diplicity_order[1])
+          that.dst = cleanCoast(diplicity_order[2])
 
       that
 
