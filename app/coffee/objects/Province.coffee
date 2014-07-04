@@ -7,9 +7,11 @@ define([
 ) ->
   'use strict'
 
-  Province = (abbr, path) ->
+  Province = (abbr, path, nation) ->
     that = {
+      abbr: abbr
       path: path
+      nation: nation
     }
 
     that.addClass = (klass) ->
@@ -17,6 +19,11 @@ define([
 
     that.removeClass = (klass) ->
       that.path.node.classList.remove(klass)
+
+    that.setNation = (nation) ->
+      that.nation = nation
+      unless that.abbr in MapData.seas
+        that.addClass(nation)
 
     abbrTuple = abbr.split("-")
 

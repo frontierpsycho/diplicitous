@@ -50,6 +50,7 @@ define([
         that.loaded = true
 
       deregisterWatch = $scope.$watch('game', ->
+        return unless $scope.game
         console.debug "Game loaded!", $scope.game.Id
 
         for provinceName, unit of $scope.game.Phase.Units
@@ -62,7 +63,7 @@ define([
             if coast
               that.provinces[abbrWithoutCoast(provinceName)].addClass(unit.Nation)
             else
-              province.addClass(unit.Nation)
+              province.setNation(unit.Nation)
           else
             console.error "Province does not exist: ", provinceName
 
@@ -103,7 +104,7 @@ define([
       Snap.select("#orderGroup").transform("t-5000,-5000")
 
     that.hoverProvince = (abbr) ->
-      province = that.provinces[abbr]
+      province = that.provinces[cleanCoast(abbr)]
 
       if province?
         province.path.hover hoverIn, hoverOut
@@ -111,7 +112,7 @@ define([
         console.warn "Cannot add hover handlers to province #{abbr}: it does not exist!"
 
     that.unhoverProvince = (abbr) ->
-      province = that.provinces[abbr]
+      province = that.provinces[cleanCoast(abbr)]
 
       if province?
         province.path.unhover hoverIn, hoverOut
@@ -120,7 +121,7 @@ define([
         console.warn "Cannot remove hover handlers to province #{abbr}: it does not exist!"
 
     that.clickProvince = (abbr, callback) ->
-      province = that.provinces[abbr]
+      province = that.provinces[cleanCoast(abbr)]
 
       if province?
         that.clickHandlers[abbr] = (event) ->
@@ -131,7 +132,7 @@ define([
         console.warn "Cannot add click handler to province #{abbr}: it does not exist!"
 
     that.unclickProvince = (abbr) ->
-      province = that.provinces[abbr]
+      province = that.provinces[cleanCoast(abbr)]
 
       if province?
         province.path.unclick that.clickHandlers[abbr]
