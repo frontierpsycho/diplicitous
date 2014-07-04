@@ -57,19 +57,16 @@ define([
         return unless $scope.game
         console.debug "Game loaded!", $scope.game.Id
 
+        for provinceName, nation of $scope.game.Phase.SupplyCenters
+          province = that.provinces[provinceName]
+          if province?
+            province.setNation(nation)
+
         for provinceName, unit of $scope.game.Phase.Units
           coast = false
           if provinceName.indexOf("/") > -1
             coast = true
             provinceName = cleanCoast(provinceName)
-          province = that.provinces[provinceName]
-          if province?
-            if coast
-              that.provinces[abbrWithoutCoast(provinceName)].addClass(unit.Nation)
-            else
-              province.setNation(unit.Nation)
-          else
-            console.error "Province does not exist: ", provinceName
 
           insertUnit = (provinceName, unit, snap) ->
             unitLayer = that.snap.select("svg #units")
