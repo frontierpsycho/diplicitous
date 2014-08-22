@@ -14,7 +14,7 @@ define([
   'use strict'
 
   Lieutenant = ($scope) ->
-    that =
+    newLieutenant =
       orders: null
 
       active: []
@@ -23,30 +23,30 @@ define([
         for province in hoverlist
           $scope.map.hoverProvince province
           $scope.map.clickProvince(province, handler)
-        that.active = hoverlist
+        this.active = hoverlist
       removeActiveHandlers: ->
         console.debug "Removing active handlers"
-        for province in that.active
+        for province in this.active
           $scope.map.unhoverProvince province
           $scope.map.unclickProvince province
         $scope.map.hideOrders()
-        that.active = []
+        this.active = []
 
       onEnterWrapper: (onClickFunc) ->
         return ->
-          that.removeActiveHandlers()
+          newLieutenant.removeActiveHandlers()
 
-          nextOptions = that.orders.nextOptions()
+          nextOptions = newLieutenant.orders.nextOptions()
 
-          that.addActiveHandlers nextOptions, onClickFunc
+          newLieutenant.addActiveHandlers nextOptions, onClickFunc
 
       cancelOrder: ->
-        if that.orders?
-          that.orders.cancelOrder()
+        if this.orders?
+          this.orders.cancelOrder()
         else
           console.warn("Tried to cancel when no orders object present")
-        if that.fsm?
-          that.fsm.transition("start")
+        if this.fsm?
+          this.fsm.transition("start")
         else
           console.warn("Tried to cancel when no fsm object present")
 
@@ -55,96 +55,97 @@ define([
 
         unless $scope.user.Email?
           console.warn "There is no user"
-          return that
+          return this
 
-        that.player = Player($scope.game.player($scope.user))
-        console.debug "Player:", that.player
+        this.player = Player($scope.game.player($scope.user))
+        console.debug "Player:", this.player
 
-        that.units = $scope.game.Phase.Units
-        console.debug(that.units)
+        this.units = $scope.game.Phase.Units
+        console.debug(this.units)
 
-        that.orders = OrderCollection(that.player.Options)
-        that.orders.convertOrders($scope.game.Phase.Orders[that.player.Nation])
-        _.each(that.orders.orders, (order) -> order.committed = true)
+        this.orders = OrderCollection(this.player.Options)
+        this.orders.convertOrders($scope.game.Phase.Orders[this.player.Nation])
+        _.each(this.orders.orders, (order) -> order.committed = true)
 
         switch type
           when 'Movement'
             console.debug "User: #{$scope.user.Email}"
 
-            that.fsm = new Machina.Fsm({
+            this.fsm = new Machina.Fsm({
               initialState: 'start'
 
               states:
                 start:
-                  _onEnter: that.onEnterWrapper(->
+                  _onEnter: this.onEnterWrapper(-> # this is newLieutenant
                     $scope.$apply =>
                       $scope.map.activateCoasts()
-                      that.fsm.handle("chose.unit", this.attr("id"))
+                      newLieutenant.fsm.handle("chose.unit", this.attr("id"))
                   )
 
                   'chose.unit': (abbr) ->
                     console.debug "Chose unit in #{abbr}"
-                    that.orders.currentOrder.unit_area = abbr
+                    newLieutenant.orders.currentOrder.unit_area = abbr
 
-                    if that.units[abbr].Type == "Army"
+                    if newLieutenant.units[abbr].Type == "Army"
                       $scope.map.deactivateCoasts()
 
-                    that.fsm.transition("order_type")
+                    newLieutenant.fsm.transition("order_type")
 
                 order_type:
                   _onEnter: ->
-                    that.removeActiveHandlers()
+                    newLieutenant.removeActiveHandlers()
 
                     console.debug 'Entered order_type'
 
-                    orderTypes = that.orders.nextOptions()
+                    orderTypes = newLieutenant.orders.nextOptions()
 
-                    $scope.map.activateOrders(that.orders.currentOrder.unit_area, orderTypes)
+                    $scope.map.activateOrders(newLieutenant.orders.currentOrder.unit_area, orderTypes)
 
                   'chose.order': (type) ->
                     console.debug "Chose order type #{type}"
                     $scope.$apply ->
-                      that.orders.currentOrder.type = type
+                      newLieutenant.orders.currentOrder.type = type
 
                     switch type
                       when "Move"
-                        that.fsm.transition("dst")
+                        this.transition("dst")
                       when "Support", "Convoy"
-                        that.fsm.transition("src")
+                        this.transition("src")
                       when "Hold"
+                        that = this
                         $scope.$apply ->
-                          that.orders.storeOrder()
-                          that.fsm.transition("start")
+                          newLieutenant.orders.storeOrder()
+                          that.transition("start")
 
                 src:
-                  _onEnter: that.onEnterWrapper(->
+                  _onEnter: this.onEnterWrapper(->
                     console.debug this.attr("id")
-                    that.fsm.handle("chose.src", this.attr("id"))
+                    newLieutenant.fsm.handle("chose.src", this.attr("id"))
                   )
 
                   'chose.src': (src) ->
                     console.debug "Chose source #{src}"
                     $scope.$apply ->
-                      that.orders.currentOrder.src = src
-                    that.fsm.transition("dst")
+                      newLieutenant.orders.currentOrder.src = src
+                    this.transition("dst")
 
                 dst:
-                  _onEnter: that.onEnterWrapper(->
-                    that.fsm.handle("chose.dst", this.attr("id"))
+                  _onEnter: this.onEnterWrapper(->
+                    newLieutenant.fsm.handle("chose.dst", this.attr("id"))
                   )
 
                   'chose.dst': (dst) ->
                     console.debug "Chose destination #{dst}"
                     $scope.$apply ->
-                      that.orders.currentOrder.dst = dst
-                      that.orders.storeOrder()
-                    that.fsm.transition("start")
+                      newLieutenant.orders.currentOrder.dst = dst
+                      newLieutenant.orders.storeOrder()
+                    this.transition("start")
 
             })
 
-        return that
+        return newLieutenant
 
-    return that
+    return newLieutenant
 
   return Lieutenant
 )
