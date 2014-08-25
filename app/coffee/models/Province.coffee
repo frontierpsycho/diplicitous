@@ -12,6 +12,8 @@ define([
       abbr: abbr
       path: path
       nation: nation
+      coasts: null
+      parent: null
     }
 
     that.addClass = (klass) ->
@@ -24,6 +26,20 @@ define([
       that.nation = nation
       unless that.abbr in MapData.seas
         that.addClass(nation)
+
+      if that.coasts
+        for name, province of that.coasts
+          province.setNation(nation)
+
+    that.setCoasts = (coasts) ->
+      if not _.isEmpty(coasts)
+        this.coasts = {}
+      for name, province of coasts
+        this.coasts[name] = province
+        province.setParent(this)
+
+    that.setParent = (parent) ->
+      that.parent = parent
 
     abbrTuple = abbr.split("-")
 

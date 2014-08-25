@@ -19,8 +19,9 @@ define([
   hoverOut = (event) ->
     this.node.classList.remove("active")
 
-  abbrWithoutCoast = (abbr) ->
-    abbr.split("-")[0]
+  # separates coast from main province in an abbreviation
+  tokenizeAbbr = (abbr) ->
+    abbr.split("-")
 
   cleanCoast = (abbr) ->
     abbr.replace("/", "-")
@@ -35,13 +36,26 @@ define([
 
     that.snap = Snap(selector)
     Snap.load(svgPath, (data) ->
+      coasts = {}
+
       data.select("#provinces").attr
         style: ""
       provinces = data.selectAll("#provinces path")
       for province in provinces
         provinceName = cleanCoast(province.attr("id"))
 
+        [landName, coastName] = tokenizeAbbr(provinceName)
+
         that.provinces[provinceName] = Province(provinceName, province)
+
+        if coastName
+          coasts[landName] ?= {}
+          coasts[landName][coastName] = that.provinces[provinceName]
+
+      for landName, coastSet of coasts
+        that.provinces[landName].setCoasts(coastSet)
+
+      console.debug("Coasts", coasts)
 
       that.snap.append(data)
 
