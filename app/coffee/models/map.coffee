@@ -1,7 +1,7 @@
 define([
   'snap'
-  'objects/Province'
-  'objects/mapData'
+  'models/Province'
+  'models/mapData'
   'util'
 ], (
   Snap

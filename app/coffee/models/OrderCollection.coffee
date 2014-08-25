@@ -1,5 +1,5 @@
 define([
-  'objects/Order'
+  'models/Order'
   'underscore'
 ], (
   Order

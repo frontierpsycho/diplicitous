@@ -1,6 +1,6 @@
 define([
   'angular'
-  'objects/Game'
+  'models/Game'
   'wsService'
 ], (
   angular

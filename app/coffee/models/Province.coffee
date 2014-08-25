@@ -1,5 +1,5 @@
 define([
-  'objects/mapData'
+  'models/mapData'
   'underscore'
 ], (
   MapData

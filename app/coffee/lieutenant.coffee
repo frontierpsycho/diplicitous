@@ -1,8 +1,8 @@
 define([
   'angular'
   'machina'
-  'objects/Player'
-  'objects/OrderCollection'
+  'models/Player'
+  'models/OrderCollection'
   'underscore'
 ], (
   angular

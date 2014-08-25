@@ -1,5 +1,5 @@
 define([
-  'coffee/objects/Order'
+  'coffee/models/Order'
   'underscore'
 ], (
   Order
