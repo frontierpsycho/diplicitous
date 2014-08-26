@@ -38,6 +38,17 @@ define([
 
           nextOptions = newLieutenant.orders.nextOptions()
 
+          # make a list of options that are coastal
+          coastOptions = _.chain(nextOptions)
+            .filter((item) -> item.indexOf("/") != -1)
+            .map((item) -> item.replace("/", "-"))
+            .value()
+
+          console.debug("Activate coasts:", coastOptions)
+
+          # only activate those coasts (and deactivate the rest)
+          $scope.map.activateCoasts(coastOptions)
+
           newLieutenant.addActiveHandlers nextOptions, onClickFunc
 
       cancelOrder: ->
@@ -78,16 +89,12 @@ define([
                 start:
                   _onEnter: this.onEnterWrapper(-> # this is newLieutenant
                     $scope.$apply =>
-                      $scope.map.activateCoasts()
                       newLieutenant.fsm.handle("chose.unit", this.attr("id"))
                   )
 
                   'chose.unit': (abbr) ->
                     console.debug "Chose unit in #{abbr}"
                     newLieutenant.orders.currentOrder.unit_area = abbr
-
-                    if newLieutenant.units[abbr].Type == "Army"
-                      $scope.map.deactivateCoasts()
 
                     newLieutenant.fsm.transition("order_type")
 

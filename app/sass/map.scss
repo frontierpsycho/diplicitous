@@ -31,8 +31,9 @@ $order-hover: #FFFFFF;
 
     &.coast {
       fill-opacity: 0;
-      &.armySelected {
-        pointer-events: none;
+      pointer-events: none;
+      &.activated {
+        pointer-events: auto;
       }
     }
 

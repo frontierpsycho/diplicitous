@@ -208,14 +208,17 @@ define([
 
     that.deactivateCoasts = ->
       _.each(that.provinces, (province, provinceName) ->
-        if (provinceName.indexOf("-") > -1)
-          province.addClass("armySelected")
+        province.removeClass("activated")
       )
 
-    that.activateCoasts = ->
+    that.activateCoasts = (coasts) ->
+      coasts = coasts || []
       _.each(that.provinces, (province, provinceName) ->
-        if (provinceName.indexOf("-") > -1)
-          province.removeClass("armySelected")
+        if (province.isCoast())
+          if (provinceName in coasts)
+            province.addClass("activated")
+          else
+            province.removeClass("activated")
       )
 
     return that

@@ -41,6 +41,9 @@ define([
     that.setParent = (parent) ->
       that.parent = parent
 
+    that.isCoast = ->
+      that.parent?
+
     abbrTuple = abbr.split("-")
 
     if abbrTuple.length > 1
