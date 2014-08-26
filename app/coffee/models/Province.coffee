@@ -44,6 +44,12 @@ define([
     that.isCoast = ->
       that.parent?
 
+    that.activateCoast = ->
+      that.addClass("activated")
+
+    that.deactivateCoast = ->
+      that.removeClass("activated")
+
     abbrTuple = abbr.split("-")
 
     if abbrTuple.length > 1

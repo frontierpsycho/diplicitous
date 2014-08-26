@@ -208,7 +208,7 @@ define([
 
     that.deactivateCoasts = ->
       _.each(that.provinces, (province, provinceName) ->
-        province.removeClass("activated")
+        province.deactivateCoast()
       )
 
     that.activateCoasts = (coasts) ->
@@ -216,9 +216,9 @@ define([
       _.each(that.provinces, (province, provinceName) ->
         if (province.isCoast())
           if (provinceName in coasts)
-            province.addClass("activated")
+            province.activateCoast()
           else
-            province.removeClass("activated")
+            province.deactivateCoast()
       )
 
     return that
