@@ -11,8 +11,10 @@ define([
 ) ->
   'use strict'
 
+  # radius of the circle orders form around the selected unit
   orderRadius = 100
 
+  # standard handlers for hovering in and out of provinces
   hoverIn = (event) ->
     this.node.classList.add("active")
 
@@ -20,26 +22,52 @@ define([
     this.node.classList.remove("active")
 
   # separates coast from main province in an abbreviation
+  # example: spa-sc -> [spa, sc]
   tokenizeAbbr = (abbr) ->
     abbr.split("-")
 
+  # diplicity coasts have slashes, which is invalid
+  # this cleans them up (turns them into dashes)
   cleanCoast = (abbr) ->
     abbr.replace("/", "-")
 
+  # returns a function that inserts unit into province called provinceName
+  insertUnit = (provinceName, unit, snap) ->
+    unitLayer = snap.select("svg #units")
+
+    return (armyData) ->
+      unitSVG = armyData.select("#body")
+      if not unitSVG?
+        unitSVG = armyData.select("#hull")
+
+      unitBBox = unitSVG.getBBox()
+
+      centerBBox = snap.select("##{provinceName}Center").getBBox()
+      console.debug provinceName, unit
+
+      unitLayer.append(unitSVG)
+      t = new Snap.Matrix().translate(centerBBox.cx - (unitBBox.width/2), centerBBox.cy - (unitBBox.height/2))
+      unitSVG.attr({
+        "fill": MapData.powers[unit.Nation].colour
+        "stroke-width": "2px"
+      })
+
+      unitSVG.transform(t)
+
+  # Object that loads and populates the map
+  # selector is a jQuery selector for the div where the map should be under
   Map = ($scope, selector, svgPath) ->
 
     that = {
-      provinces: {}
+      provinces: {} # map of province abbreviation to Province object
       loaded: false
-      clickHandlers: {}
+      clickHandlers: {} # map of province abbreviation to current click handler (to be able to remove them)
     }
 
     that.snap = Snap(selector)
     Snap.load(svgPath, (data) ->
       coasts = {}
 
-      data.select("#provinces").attr
-        style: ""
       provinces = data.selectAll("#provinces path")
       for province in provinces
         provinceName = cleanCoast(province.attr("id"))
@@ -77,38 +105,16 @@ define([
             province.setNation(nation)
 
         for provinceName, unit of $scope.game.Phase.Units
-          coast = false
           if provinceName.indexOf("/") > -1
-            coast = true
             provinceName = cleanCoast(provinceName)
 
-          insertUnit = (provinceName, unit, snap) ->
-            unitLayer = that.snap.select("svg #units")
-
-            return (armyData) ->
-              unitSVG = armyData.select("#body")
-              if not unitSVG?
-                unitSVG = armyData.select("#hull")
-
-              unitBBox = unitSVG.getBBox()
-
-              centerBBox = snap.select("##{provinceName}Center").getBBox()
-              console.debug provinceName, unit
-
-              unitLayer.append(unitSVG)
-              t = new Snap.Matrix().translate(centerBBox.cx - (unitBBox.width/2), centerBBox.cy - (unitBBox.height/2))
-              unitSVG.attr({
-                "fill": MapData.powers[unit.Nation].colour
-                "stroke-width": "2px"
-              })
-
-              unitSVG.transform(t)
-
+          # TODO don't make a new request for each unit
           Snap.load("img/#{unit.Type}.svg", insertUnit(provinceName, unit, that.snap))
 
         deregisterWatch()
       )
     )
+
     that.hoverProvince = (abbr) ->
       province = that.provinces[cleanCoast(abbr)]
 
@@ -207,10 +213,9 @@ define([
       that.orders = orders
 
     that.deactivateCoasts = ->
-      _.each(that.provinces, (province, provinceName) ->
-        province.deactivateCoast()
-      )
+      this.activateCoasts()
 
+    # activate the given coasts, deactivate all the rest
     that.activateCoasts = (coasts) ->
       coasts = coasts || []
       _.each(that.provinces, (province, provinceName) ->

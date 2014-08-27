@@ -7,6 +7,12 @@ define([
 ) ->
   'use strict'
 
+  ###*
+  * A diplomacy province.
+  * @param {abbr} String Three letter abbreviation of the province.
+  * @param {path} Element The Snap.svg path object representing the province on the map.
+  * @param {nation} String The nation this province possibly belongs to.
+  *###
   Province = (abbr, path, nation) ->
     that = {
       abbr: abbr

@@ -30,6 +30,7 @@ define([
     that.cancelOrder = ->
       that.currentOrder = Order()
 
+    # calculate the next set of options the player has, based on what's already selected
     that.nextOptions = ->
       options = that.options
 

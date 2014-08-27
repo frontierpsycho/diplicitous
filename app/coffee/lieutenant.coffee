@@ -13,11 +13,14 @@ define([
 ) ->
   'use strict'
 
+  ###*
+  * The Lieutenant awaits your orders, and relays them to your armies and fleets.
+  *###
   Lieutenant = ($scope) ->
     newLieutenant =
-      orders: null
+      orders: null # OrderCollection
+      active: []   # provinces that have event handlers
 
-      active: []
       addActiveHandlers: (hoverlist, handler) ->
         console.debug "Adding active handlers"
         for province in hoverlist
@@ -32,10 +35,15 @@ define([
         $scope.map.hideOrders()
         this.active = []
 
+      # Common onEnter functionality for FSM states
+      # onClickFunc is ran when one of the active provinces is clicked
+      # (with this set to the Snap.svg object)
       onEnterWrapper: (onClickFunc) ->
         return ->
+          # remove all province event handlers (hovers, clicks)
           newLieutenant.removeActiveHandlers()
 
+          # determine the provinces/objects that should be active on this state
           nextOptions = newLieutenant.orders.nextOptions()
 
           # make a list of options that are coastal
@@ -46,9 +54,9 @@ define([
 
           console.debug("Activate coasts:", coastOptions)
 
-          # only activate those coasts (and deactivate the rest)
           $scope.map.activateCoasts(coastOptions)
 
+          # add handlers to the current options
           newLieutenant.addActiveHandlers nextOptions, onClickFunc
 
       cancelOrder: ->
@@ -74,8 +82,12 @@ define([
         this.units = $scope.game.Phase.Units
         console.debug(this.units)
 
+        # read the orders we get from the backend
         this.orders = OrderCollection(this.player.Options)
+        # and turn them into Order objects
         this.orders.convertOrders($scope.game.Phase.Orders[this.player.Nation])
+
+        # all orders coming from the backen on load are committed
         _.each(this.orders.orders, (order) -> order.committed = true)
 
         switch type
@@ -98,6 +110,8 @@ define([
 
                     newLieutenant.fsm.transition("order_type")
 
+                # this state is special, since we need to add handlers to the order markers
+                # instead of provinces, like the rest
                 order_type:
                   _onEnter: ->
                     newLieutenant.removeActiveHandlers()
