@@ -41,6 +41,7 @@ define([
       _.without([
         soilCoast(that.unit_area)
         that.type
+        that.unitType
         soilCoast(that.src)
         soilCoast(that.dst)
       ], undefined)

@@ -16,12 +16,14 @@ define([
     "Support": "S"
     "Hold": "H"
     "Convoy": "C"
+    "Build": "B"
 
   secondaryTypeSymbols =
     "Move": ""
     "Support": "&rarr;"
     "Hold": ""
     "Convoy": "&rarr;"
+    "Build": ""
 
   angular.module('diplomacyDirectives')
     .directive('orderWidget', ['wsService', (ws) ->

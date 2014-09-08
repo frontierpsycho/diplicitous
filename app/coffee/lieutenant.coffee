@@ -4,6 +4,7 @@ define([
   'models/Player'
   'models/OrderCollection'
   'fsm/movement'
+  'fsm/adjustment'
   'underscore'
 ], (
   angular
@@ -11,6 +12,7 @@ define([
   Player
   OrderCollection
   MovementFSM
+  AdjustmentFSM
   _
 ) ->
   'use strict'
@@ -97,6 +99,8 @@ define([
             console.debug "User: #{$scope.user.Email}"
 
             newLieutenant.fsm = MovementFSM($scope, newLieutenant)
+          when 'Adjustment'
+            newLieutenant.fsm = AdjustmentFSM($scope, newLieutenant)
 
         return newLieutenant
 

@@ -128,7 +128,8 @@ $order-hover: #FFFFFF;
   pointer-events: none;
 }
 
-#orders > #orderGroup > g {
+#orders > #orderGroup > g,
+#orders > #buildOptionGroup > g {
   cursor: pointer;
   display: none;
   &.show {

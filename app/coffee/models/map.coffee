@@ -90,6 +90,7 @@ define([
       s = Snap("#{selector} svg")
 
       that.createOrders(s)
+      that.createBuildOptions(s)
 
       console.debug "Map loaded"
       $scope.$apply ->
@@ -168,6 +169,21 @@ define([
 
       Snap.select("#orderGroup").transform("t#{provinceCenter.x},#{provinceCenter.y}")
 
+    that.activateBuildOptions = (abbr) ->
+      console.debug "Activating build orders"
+
+      provinceCenter = Snap.select("##{abbr}Center").getBBox()
+
+      points = Util.placeOrdersCircular(2) # Army and Fleet
+
+      for buildOption in ["Army", "Fleet"]
+        point = points.pop()
+        that.buildOptions[buildOption]
+          .transform("t#{orderRadius * Math.cos(point)}, #{orderRadius * Math.sin(point)}")
+          .node.classList.add("show")
+
+      Snap.select("#buildOptionGroup").transform("t#{provinceCenter.x},#{provinceCenter.y}")
+
     that.hideOrders = ->
       console.debug "Hiding orders"
 
@@ -211,6 +227,43 @@ define([
       snap.select("#orders").append(g)
 
       that.orders = orders
+
+    that.createBuildOptions = (snap) ->
+      buildOptions = {}
+
+      for buildOptionName in ["Army", "Fleet"]
+        c = snap.circle(0, 0, 35).attr
+          fill: "rgb(236, 240, 241)",
+          stroke: "#1f2c39",
+          strokeWidth: 3
+
+        text = snap.text(0, 0, buildOptionName[0])
+        text.attr({
+            'font-size': 50
+        })
+
+        b = text.getBBox()
+
+        c.attr
+          cx: b.cx
+          cy: b.cy
+
+        buildOptions[buildOptionName] = snap.group(c, text).attr({
+          id: "build-option-#{buildOptionName}"
+        })
+
+        buildOptions[buildOptionName].click ((name) ->
+          return ->
+            $scope.lieutenant.fsm.handle 'chose.unit', name
+        )(buildOptionName)
+
+      g = snap.group(buildOptions.Army, buildOptions.Fleet)
+
+      g.transform("t-1000,1000").attr({ id: "buildOptionGroup" })
+
+      snap.select("#orders").append(g)
+
+      that.buildOptions = buildOptions
 
     that.deactivateCoasts = ->
       this.activateCoasts()
