@@ -1,9 +1,7 @@
 define([
   'angular'
-  'models/map'
 ], (
   angular
-  Map
 ) ->
   'use strict'
 

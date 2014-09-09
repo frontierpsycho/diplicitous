@@ -1,6 +1,6 @@
 define([
   'angular'
-  'models/map'
+  'models/Map'
   'wsService'
   'directives/directives'
 ], (
