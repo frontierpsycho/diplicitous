@@ -191,6 +191,13 @@ define([
       for name, order of that.orders
         order.node.classList.remove("show")
 
+    that.hideBuildOptions = ->
+      console.debug "Hiding build orders"
+
+      Snap.select("#buildOptionGroup").transform("t-5000,-5000")
+      for name, order of that.orders
+        order.node.classList.remove("show")
+
     that.createOrders = (snap) ->
       orders = {}
 

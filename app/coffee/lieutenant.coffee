@@ -37,6 +37,7 @@ define([
           $scope.map.unhoverProvince province
           $scope.map.unclickProvince province
         $scope.map.hideOrders()
+        $scope.map.hideBuildOptions()
         this.active = []
 
       # Common onEnter functionality for FSM states
