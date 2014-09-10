@@ -95,26 +95,20 @@ define([
       console.debug "Map loaded"
       $scope.$apply ->
         that.loaded = true
-
-      deregisterWatch = $scope.$watch('game', ->
-        return unless $scope.game
-        console.debug "Game loaded!", $scope.game.Id
-
-        for provinceName, nation of $scope.game.Phase.SupplyCenters
-          province = that.provinces[provinceName]
-          if province?
-            province.setNation(nation)
-
-        for provinceName, unit of $scope.game.Phase.Units
-          if provinceName.indexOf("/") > -1
-            provinceName = cleanCoast(provinceName)
-
-          # TODO don't make a new request for each unit
-          Snap.load("img/#{unit.Type}.svg", insertUnit(provinceName, unit, that.snap))
-
-        deregisterWatch()
-      )
     )
+
+    that.refresh = (game) ->
+      for provinceName, nation of game.Phase.SupplyCenters
+        province = that.provinces[provinceName]
+        if province?
+          province.setNation(nation)
+
+      for provinceName, unit of game.Phase.Units
+        if provinceName.indexOf("/") > -1
+          provinceName = cleanCoast(provinceName)
+
+        # TODO don't make a new request for each unit
+        Snap.load("img/#{unit.Type}.svg", insertUnit(provinceName, unit, that.snap))
 
     that.hoverProvince = (abbr) ->
       province = that.provinces[cleanCoast(abbr)]
