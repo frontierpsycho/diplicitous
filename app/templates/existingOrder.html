@@ -1,4 +1,5 @@
 <div class="order" ng-class="{ committed: order.committed }">
+  <span ng-show="order.unit_type">{{ order.unit_type[0] }}</span>
   <span ng-show="order.unit_area" class="badge">{{ order.unit_area }}</span>
   <span ng-show="order.type" ng-bind-html='typeSymbols[order.type]'></span>
   <span ng-show="order.src" class="badge">{{ order.src }}</span>

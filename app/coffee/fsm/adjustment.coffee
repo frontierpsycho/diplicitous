@@ -27,12 +27,7 @@ define([
             else
               currentOrder.type = 'Build'
 
-            currentOrder.unitType = 'Army'
-
             newLieutenant.fsm.transition("unit_type")
-
-            #newLieutenant.orders.storeOrder()
-            #this.transition("start")
 
         unit_type:
           _onEnter: ->
@@ -40,14 +35,14 @@ define([
 
             console.debug 'Entered order_type'
 
-            unitTypes = ["Army", "Fleet"]
+            unit_types = ["Army", "Fleet"]
 
             $scope.map.activateBuildOptions(newLieutenant.orders.currentOrder.unit_area)
 
           'chose.unit': (type) ->
             console.debug "Chose unit type #{type}"
             $scope.$apply ->
-              newLieutenant.orders.currentOrder.type = type
+              newLieutenant.orders.currentOrder.unit_type = type
               newLieutenant.orders.storeOrder()
               newLieutenant.fsm.transition("start")
 

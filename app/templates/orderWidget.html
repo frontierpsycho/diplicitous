@@ -2,6 +2,7 @@
   <div id="current-order">
     <h3>Current order</h3>
     <div class="order">
+      <span ng-show="lieutenant.orders.currentOrder.unit_type">{{ lieutenant.orders.currentOrder.unit_type[0] }}</span>
       <span ng-show="lieutenant.orders.currentOrder.unit_area" class="badge">{{ lieutenant.orders.currentOrder.unit_area }}</span>
       <span ng-show="lieutenant.orders.currentOrder.type" ng-bind-html='typeSymbols[lieutenant.orders.currentOrder.type]'></span>
       <span ng-show="lieutenant.orders.currentOrder.src" class="badge">{{ lieutenant.orders.currentOrder.src }}</span>

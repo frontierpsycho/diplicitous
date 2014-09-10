@@ -34,6 +34,8 @@ define([
         when 'Support', 'Convoy'
           that.src = cleanCoast(diplicity_order[1])
           that.dst = cleanCoast(diplicity_order[2])
+        when 'Build'
+          that.unit_type = diplicity_order[1]
 
       that
 
@@ -41,7 +43,7 @@ define([
       _.without([
         soilCoast(that.unit_area)
         that.type
-        that.unitType
+        that.unit_type
         soilCoast(that.src)
         soilCoast(that.dst)
       ], undefined)
