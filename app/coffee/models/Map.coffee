@@ -43,7 +43,6 @@ define([
       unitBBox = unitSVG.getBBox()
 
       centerBBox = snap.select("##{provinceName}Center").getBBox()
-      console.debug provinceName, unit
 
       unitLayer.append(unitSVG)
       t = new Snap.Matrix().translate(centerBBox.cx - (unitBBox.width/2), centerBBox.cy - (unitBBox.height/2))
@@ -98,11 +97,15 @@ define([
     )
 
     that.refresh = (game) ->
+      console.debug "Refreshing game", game.Phase.Ordinal
       for provinceName, nation of game.Phase.SupplyCenters
         province = that.provinces[provinceName]
         if province?
           province.setNation(nation)
 
+      units = that.snap.selectAll("#units > path")
+      if units?
+        units.remove()
       for provinceName, unit of game.Phase.Units
         if provinceName.indexOf("/") > -1
           provinceName = cleanCoast(provinceName)

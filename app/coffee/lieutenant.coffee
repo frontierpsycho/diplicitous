@@ -82,10 +82,8 @@ define([
           return this
 
         this.player = Player($scope.game.player($scope.user))
-        console.debug "Player:", this.player
 
         this.units = $scope.game.Phase.Units
-        console.debug(this.units)
 
         # read the orders we get from the backend
         this.orders = OrderCollection(this.player.Options)
@@ -97,8 +95,6 @@ define([
 
         switch type
           when 'Movement'
-            console.debug "User: #{$scope.user.Email}"
-
             newLieutenant.fsm = MovementFSM($scope, newLieutenant)
           when 'Adjustment'
             newLieutenant.fsm = AdjustmentFSM($scope, newLieutenant)

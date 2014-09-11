@@ -28,10 +28,15 @@ define([
     that.removeClass = (klass) ->
       that.path.node.classList.remove(klass)
 
+    that.setClass = (klass) ->
+      for power, data of MapData.powers
+        that.removeClass(power)
+      that.addClass(klass)
+
     that.setNation = (nation) ->
       that.nation = nation
       unless that.abbr in MapData.seas
-        that.addClass(nation)
+        that.setClass(nation)
 
       if that.coasts
         for name, province of that.coasts
