@@ -61,6 +61,7 @@ define([
       provinces: {} # map of province abbreviation to Province object
       loaded: false
       clickHandlers: {} # map of province abbreviation to current click handler (to be able to remove them)
+      units: {} # map of unit names to promises for snap fragments
     }
 
     that.snap = Snap(selector)
@@ -110,8 +111,18 @@ define([
         if provinceName.indexOf("/") > -1
           provinceName = cleanCoast(provinceName)
 
-        # TODO don't make a new request for each unit
-        Snap.load("img/#{unit.Type}.svg", insertUnit(provinceName, unit, that.snap))
+        unitPromise = that.unitSVGs[unit.Type]
+        unless unitPromise?
+          console.warn "No unit promise for #{unit.Type}! Fetching."
+          that.unitSVGs = new Promise()
+          Snap.load("img/#{unit.Type}.svg", (fragment) ->
+            that.unitSVGs.resolve(fragment)
+          )
+
+        unitPromise.then((unitSVG) ->
+          # insert unit
+          console.log unitSVG
+        )
 
     that.hoverProvince = (abbr) ->
       province = that.provinces[cleanCoast(abbr)]
