@@ -1,9 +1,11 @@
 define([
+  'angular'
   'snap'
   'models/Province'
   'models/mapData'
   'util'
 ], (
+  angular
   Snap
   Province
   MapData
@@ -31,28 +33,6 @@ define([
   cleanCoast = (abbr) ->
     abbr.replace("/", "-")
 
-  # returns a function that inserts unit into province called provinceName
-  insertUnit = (provinceName, unit, snap) ->
-    unitLayer = snap.select("svg #units")
-
-    return (armyData) ->
-      unitSVG = armyData.select("#body")
-      if not unitSVG?
-        unitSVG = armyData.select("#hull")
-
-      unitBBox = unitSVG.getBBox()
-
-      centerBBox = snap.select("##{provinceName}Center").getBBox()
-
-      unitLayer.append(unitSVG)
-      t = new Snap.Matrix().translate(centerBBox.cx - (unitBBox.width/2), centerBBox.cy - (unitBBox.height/2))
-      unitSVG.attr({
-        "fill": MapData.powers[unit.Nation].colour
-        "stroke-width": "2px"
-      })
-
-      unitSVG.transform(t)
-
   # Object that loads and populates the map
   # selector is a jQuery selector for the div where the map should be under
   Map = ($scope, selector, svgPath) ->
@@ -61,8 +41,22 @@ define([
       provinces: {} # map of province abbreviation to Province object
       loaded: false
       clickHandlers: {} # map of province abbreviation to current click handler (to be able to remove them)
-      units: {} # map of unit names to promises for snap fragments
+      unitSVGs: {} # map of unit names to promises for snap fragments
     }
+
+    for unitType in ["Army", "Fleet"]
+      # the injector is hopefully not async, we really want the promises to be there after this block
+      angular.injector(['ng']).invoke(['$q', ($q) ->
+        deferred = $q.defer()
+        that.unitSVGs[unitType] = deferred.promise
+
+        makeResolver = (unitType) ->
+          (fragment) ->
+            console.debug("resolve for #{unitType}")
+            deferred.resolve(fragment)
+
+        Snap.load("img/#{unitType}.svg", makeResolver(unitType))
+      ])
 
     that.snap = Snap(selector)
     Snap.load(svgPath, (data) ->
@@ -112,17 +106,46 @@ define([
           provinceName = cleanCoast(provinceName)
 
         unitPromise = that.unitSVGs[unit.Type]
-        unless unitPromise?
-          console.warn "No unit promise for #{unit.Type}! Fetching."
-          that.unitSVGs = new Promise()
-          Snap.load("img/#{unit.Type}.svg", (fragment) ->
-            that.unitSVGs.resolve(fragment)
-          )
+        if unitPromise?
+          console.debug "Unit promise found for #{provinceName}"
 
-        unitPromise.then((unitSVG) ->
-          # insert unit
-          console.log unitSVG
-        )
+          # closure containing provinceName and unit
+          makeInserter = (provinceName, unit) ->
+            (unitSVG) ->
+              that.insertUnit(provinceName, unit, unitSVG)
+
+          unitPromise.then(makeInserter(provinceName, unit))
+        else
+          console.error "No unit promise for #{unit.Type}(#{provinceName})."
+
+    that.insertUnit = (provinceName, unit, unitSVG) ->
+      console.debug "Inserting #{unit.Type} into #{provinceName}"
+
+      unitLayer = that.snap.select("svg #units")
+
+      if unit.Type == "Army"
+        unitFragmentOriginal = unitSVG.select("#body")
+      else if unit.Type == "Fleet"
+        unitFragmentOriginal = unitSVG.select("#hull")
+
+      unitFragment = unitFragmentOriginal.clone()
+
+      if not unitFragment?
+        console.warn "#{unit.Type} not found in fragment", provinceName
+        return
+
+      unitBBox = unitFragment.getBBox()
+
+      centerBBox = that.snap.select("##{provinceName}Center").getBBox()
+
+      unitLayer.append(unitFragment)
+      t = new Snap.Matrix().translate(centerBBox.cx - (unitBBox.width/2), centerBBox.cy - (unitBBox.height/2))
+      unitFragment.attr({
+        "fill": MapData.powers[unit.Nation].colour
+        "stroke-width": "2px"
+      })
+
+      unitFragment.transform(t)
 
     that.hoverProvince = (abbr) ->
       province = that.provinces[cleanCoast(abbr)]
