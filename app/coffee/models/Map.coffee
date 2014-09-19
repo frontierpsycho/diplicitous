@@ -91,6 +91,7 @@ define([
         that.loaded = true
     )
 
+    # refresh nationalities and units on map
     that.refresh = (game) ->
       console.debug "Refreshing game", game.Phase.Ordinal
       for provinceName, nation of game.Phase.SupplyCenters
@@ -98,9 +99,12 @@ define([
         if province?
           province.setNation(nation)
 
+      # remove previous units
       units = that.snap.selectAll("#units > path")
       if units?
         units.remove()
+
+      # insert new units
       for provinceName, unit of game.Phase.Units
         if provinceName.indexOf("/") > -1
           provinceName = cleanCoast(provinceName)
@@ -127,15 +131,18 @@ define([
         unitFragmentOriginal = unitSVG.select("#body")
       else if unit.Type == "Fleet"
         unitFragmentOriginal = unitSVG.select("#hull")
+      else
+        console.warn "Unit type #{unit.Type} not recognized"
 
+      # clone because appending removed the original
       unitFragment = unitFragmentOriginal.clone()
 
       if not unitFragment?
         console.warn "#{unit.Type} not found in fragment", provinceName
         return
 
+      # put unit approximately on the province center
       unitBBox = unitFragment.getBBox()
-
       centerBBox = that.snap.select("##{provinceName}Center").getBBox()
 
       unitLayer.append(unitFragment)
