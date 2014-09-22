@@ -30,6 +30,12 @@ define([
     that.cancelOrder = ->
       that.currentOrder = Order()
 
+    that.deleteOrder = (order) ->
+      if order.unit_area of that.orders
+        delete that.orders[order.unit_area]
+      else
+        console.warn "Tried to delete order which wasn't there: #{order}"
+
     # calculate the next set of options the player has, based on what's already selected
     that.nextOptions = ->
       options = that.options

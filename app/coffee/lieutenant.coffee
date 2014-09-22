@@ -74,6 +74,12 @@ define([
         else
           console.warn("Tried to cancel when no fsm object present")
 
+      deleteOrder: (order) ->
+        if this.orders?
+          this.orders.deleteOrder(order)
+        else
+          console.warn("Tried to delete when no orders object present")
+
       init: (type) ->
         console.debug 'Initializing Lieutenant'
 

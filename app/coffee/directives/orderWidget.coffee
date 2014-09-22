@@ -75,19 +75,35 @@ define([
           $scope.secondaryTypeSymbols = secondaryTypeSymbols
       }
     ])
-    .directive('existingOrder', ->
+    .directive('existingOrder', ['wsService', (ws) ->
       {
         templateUrl: 'templates/existingOrder.html'
         replace: true
         restrict: 'E'
         scope:
-          order: "=order"
+          order: "="
+          game: "="
+          lieutenant: "="
         link: ($scope) ->
           console.debug "Existing order widget linking"
 
           $scope.typeSymbols = typeSymbols
 
           $scope.secondaryTypeSymbols = secondaryTypeSymbols
+
+          $scope.deleteOrder = (order) ->
+            ws.sendRPC(
+              "SetOrder"
+              {
+                "GameId": $scope.game.Id
+                "Order": [ order.unit_area ]
+              }
+              ((iOrder) ->
+                ->
+                  $scope.lieutenant.deleteOrder(iOrder)
+              )(order)
+            )
+            console.debug "Sent order deletion (#{order.unit_area})"
       }
-    )
+    ])
 )
