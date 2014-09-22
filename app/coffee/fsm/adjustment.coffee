@@ -21,21 +21,20 @@ define([
             currentOrder = newLieutenant.orders.currentOrder
             currentOrder.unit_area = abbr
 
-
-            if abbr in $scope.game.Phase.Units
+            if abbr of $scope.game.Phase.Units
               currentOrder.type = 'Disband'
+              newLieutenant.fsm.transition("chose_disband")
+              newLieutenant.orders.storeOrder()
+              newLieutenant.fsm.transition("start")
             else
               currentOrder.type = 'Build'
-
-            newLieutenant.fsm.transition("unit_type")
+              newLieutenant.fsm.transition("unit_type")
 
         unit_type:
           _onEnter: ->
             newLieutenant.removeActiveHandlers()
 
-            console.debug 'Entered order_type'
-
-            unit_types = ["Army", "Fleet"]
+            console.debug 'Entered unit_type'
 
             $scope.map.activateBuildOptions(newLieutenant.orders.currentOrder.unit_area)
 
