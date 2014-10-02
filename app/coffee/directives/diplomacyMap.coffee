@@ -9,14 +9,14 @@ define([
   'use strict'
 
   angular.module('diplomacyDirectives')
-    .directive 'diplomacyMap', ->
+    .directive 'diplomacyMap', ["$q", ($q) ->
       return {
         template: '<div id="map"></div>'
         replace: true
         restrict: 'E'
         link: {
           pre: (scope, iElement, tAttrs, transclude) ->
-            scope.map = Map(scope, "#map", "img/classical.svg")
+            scope.map = Map(scope, $q, "#map", "img/classical.svg")
         }
-      }
+      }]
 )

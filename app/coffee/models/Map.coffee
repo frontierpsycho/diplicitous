@@ -35,7 +35,7 @@ define([
 
   # Object that loads and populates the map
   # selector is a jQuery selector for the div where the map should be under
-  Map = ($scope, selector, svgPath) ->
+  Map = ($scope, $q, selector, svgPath) ->
 
     that = {
       provinces: {} # map of province abbreviation to Province object
@@ -45,18 +45,15 @@ define([
     }
 
     for unitType in ["Army", "Fleet"]
-      # the injector is hopefully not async, we really want the promises to be there after this block
-      angular.injector(['ng']).invoke(['$q', ($q) ->
-        deferred = $q.defer()
-        that.unitSVGs[unitType] = deferred.promise
+      deferred = $q.defer()
+      that.unitSVGs[unitType] = deferred.promise
 
-        makeResolver = (unitType) ->
-          (fragment) ->
-            console.debug("resolve for #{unitType}")
-            deferred.resolve(fragment)
+      makeResolver = (unitType, deferred) ->
+        (fragment) ->
+          console.debug("resolve for #{unitType}")
+          deferred.resolve(fragment)
 
-        Snap.load("img/#{unitType}.svg", makeResolver(unitType))
-      ])
+      Snap.load("img/#{unitType}.svg", makeResolver(unitType, deferred))
 
     that.snap = Snap(selector)
     Snap.load(svgPath, (data) ->
