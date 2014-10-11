@@ -48,7 +48,7 @@ define([
         expect(_.pick(converted, "type", "unit_area", "dst"))
           .toEqual {}
 
-      it "should return an empy object when fed nothing", ->
+      it "should return an empty object when fed nothing", ->
         converted = Order "mos"
 
         expect(_.pick(converted, "type", "unit_area", "dst"))
