@@ -81,7 +81,6 @@ define([
       s = Snap("#{selector} svg")
 
       that.createOrders(s)
-      that.createBuildOptions(s)
 
       console.debug "Map loaded"
       $scope.$apply ->
@@ -204,21 +203,6 @@ define([
 
       Snap.select("#orderGroup").transform("t#{provinceCenter.x},#{provinceCenter.y}")
 
-    that.activateBuildOptions = (abbr) ->
-      console.debug "Activating build orders"
-
-      provinceCenter = Snap.select("##{abbr}Center").getBBox()
-
-      points = Util.placeOrdersCircular(2) # Army and Fleet
-
-      for buildOption in ["Army", "Fleet"]
-        point = points.pop()
-        that.buildOptions[buildOption]
-          .transform("t#{orderRadius * Math.cos(point)}, #{orderRadius * Math.sin(point)}")
-          .node.classList.add("show")
-
-      Snap.select("#buildOptionGroup").transform("t#{provinceCenter.x},#{provinceCenter.y}")
-
     that.hideOrders = ->
       console.debug "Hiding orders"
 
@@ -226,17 +210,12 @@ define([
       for name, order of that.orders
         order.node.classList.remove("show")
 
-    that.hideBuildOptions = ->
-      console.debug "Hiding build orders"
-
-      Snap.select("#buildOptionGroup").transform("t-5000,-5000")
-      for name, order of that.orders
-        order.node.classList.remove("show")
-
     that.createOrders = (snap) ->
       orders = {}
 
-      for orderName in ["Move", "Support", "Hold", "Convoy"]
+      orderTypes = ["Move", "Support", "Hold", "Convoy", "Army", "Fleet", "Disband"]
+
+      for orderName in orderTypes
         c = snap.circle(0, 0, 35).attr
           fill: "rgb(236, 240, 241)",
           stroke: "#1f2c39",
@@ -262,7 +241,9 @@ define([
             $scope.lieutenant.fsm.handle 'chose.order', name
         )(orderName)
 
-      g = snap.group(orders.Move, orders.Support, orders.Hold, orders.Convoy)
+      g = snap.group()
+      for orderType in orderTypes
+        g.add(orders[orderType])
 
       g.transform("t-1000,1000").attr({ id: "orderGroup" })
 

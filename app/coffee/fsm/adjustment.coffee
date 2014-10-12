@@ -36,9 +36,9 @@ define([
 
             console.debug 'Entered unit_type'
 
-            $scope.map.activateBuildOptions(newLieutenant.orders.currentOrder.unit_area)
+            $scope.map.activateOrders(newLieutenant.orders.currentOrder.unit_area, ["Army", "Fleet"])
 
-          'chose.unit': (type) ->
+          'chose.order': (type) ->
             console.debug "Chose unit type #{type}"
             $scope.$apply ->
               newLieutenant.orders.currentOrder.unit_type = type
