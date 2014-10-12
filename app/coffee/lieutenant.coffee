@@ -5,6 +5,7 @@ define([
   'models/OrderCollection'
   'fsm/movement'
   'fsm/adjustment'
+  'fsm/retreat'
   'underscore'
 ], (
   angular
@@ -13,6 +14,7 @@ define([
   OrderCollection
   MovementFSM
   AdjustmentFSM
+  RetreatFSM
   _
 ) ->
   'use strict'
@@ -104,6 +106,8 @@ define([
             newLieutenant.fsm = MovementFSM($scope, newLieutenant)
           when 'Adjustment'
             newLieutenant.fsm = AdjustmentFSM($scope, newLieutenant)
+          when 'Retreat'
+            newLieutenant.fsm = RetreatFSM($scope, newLieutenant)
 
         return newLieutenant
 
