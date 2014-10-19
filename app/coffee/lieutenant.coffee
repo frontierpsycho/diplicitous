@@ -98,7 +98,8 @@ define([
         this.orders.convertOrders($scope.game.Phase.Orders[this.player.Nation])
 
         # all orders coming from the backen on load are committed
-        _.each(this.orders.orders, (order) -> order.committed = true)
+        that = this
+        _.each(this.orders.orders, (order) -> order.committed = that.player.Committed)
 
         switch type
           when 'Movement'

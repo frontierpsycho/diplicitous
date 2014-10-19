@@ -1,7 +1,9 @@
 define([
   'machina'
+  'underscore'
 ], (
   Machina
+  _
 ) ->
   'use strict'
 
@@ -43,7 +45,22 @@ define([
             $scope.$apply ->
               newLieutenant.orders.currentOrder.unit_type = type
               newLieutenant.orders.storeOrder()
-              newLieutenant.fsm.transition("start")
+              nation = newLieutenant.player.Nation
+              availableUnits = $scope.game.supplyCenters(nation).length - $scope.game.units(nation).length
+              console.debug 'availableUnits', availableUnits, $scope.game.supplyCenters(nation), $scope.game.units(nation)
+              if _.size(newLieutenant.orders.orders) >= availableUnits
+                newLieutenant.fsm.transition("blocked")
+              else
+                newLieutenant.fsm.transition("start")
+
+        blocked:
+          _onEnter: ->
+            newLieutenant.removeActiveHandlers()
+
+            console.debug 'Entered blocked (no more units can be ordered)'
+
+          'order.deleted': (abbr) ->
+            newLieutenant.fsm.transition("start")
 
     })
 

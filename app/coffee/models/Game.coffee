@@ -11,9 +11,13 @@ define([
     game.player = (user) ->
       _.find(this.Members, (mem) -> mem.User.Email == user.Email)
 
-    # returns the units of the given provinces
-    game.units = (abbrList) ->
-      _.filter(_.pairs(this.Phase.Units), (pair) -> pair[0] in abbrList )
+    # returns the units of the given power
+    game.units = (power) ->
+      _.filter(this.Phase.Units, (unit) -> unit.Nation == power)
+
+    # returns a power's supply centers
+    game.supplyCenters = (power) ->
+      _.filter(_.pairs(this.Phase.SupplyCenters), (pair) -> pair[1] == power)
 
     return game
 
