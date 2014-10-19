@@ -45,8 +45,11 @@ define([
 
       if that.currentOrder.type?
         options = options[that.currentOrder.type]
-          .Next[that.currentOrder.unit_area]
-          .Next
+
+        if that.currentOrder.type != "Build"
+          options = options.Next[that.currentOrder.unit_area]
+
+        options = options.Next
 
       if that.currentOrder.src?
         options = options[that.currentOrder.src]
