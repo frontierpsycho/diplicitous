@@ -80,6 +80,10 @@ define([
           this.orders.deleteOrder(order)
         else
           console.warn("Tried to delete when no orders object present")
+        if this.fsm?
+          this.fsm.handle("order.deleted")
+        else
+          console.warn("Tried to delete order with no fsm present")
 
       init: (type) ->
         console.debug 'Initializing Lieutenant'

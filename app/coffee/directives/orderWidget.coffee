@@ -101,7 +101,6 @@ define([
               ((iOrder) ->
                 ->
                   $scope.lieutenant.deleteOrder(iOrder)
-                  $scope.lieutenant.fsm.handle("order.deleted")
               )(order)
             )
             console.debug "Sent order deletion (#{order.unit_area})"
