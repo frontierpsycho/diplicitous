@@ -1,4 +1,6 @@
 require.config(
+    baseUrl: 'coffee/',
+
     # alias libraries paths
     paths:
       'domReady': '../lib/requirejs/domReady',

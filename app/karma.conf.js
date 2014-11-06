@@ -1,11 +1,11 @@
 // Karma configuration
-// Generated on Tue May 13 2014 20:10:57 GMT+0200 (CEST)
+// Generated on Thu Nov 06 2014 20:47:03 GMT+0100 (CET)
 
 module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: './',
 
 
     // frameworks to use
@@ -15,16 +15,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test-main.js',
+      'test/test-main.js',
+      {pattern: 'lib/**/*.js', included: false},
       {pattern: 'coffee/**/*.coffee', included: false},
-      {pattern: 'test/**/*Spec.coffee', included: false},
-      {pattern: 'lib/**/*.js', included: false}
+      {pattern: 'test/**/*Spec.coffee', included: false}
     ],
 
 
     // list of files to exclude
     exclude: [
-      
+      'coffee/main.coffee'
     ],
 
 
@@ -34,6 +34,17 @@ module.exports = function(config) {
       '**/*.coffee': ['coffee']
     },
 
+    coffeePreprocessor: {
+      // options passed to the coffee compiler
+      options: {
+        bare: true,
+        sourceMap: false
+      },
+      // transforming the filenames
+      transformPath: function(path) {
+        return path.replace(/\.coffee$/, '.js');
+      }
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
