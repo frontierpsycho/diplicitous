@@ -22,7 +22,7 @@ define([
   ###*
   * The Lieutenant awaits your orders, and relays them to your armies and fleets.
   *###
-  Lieutenant = ($scope) ->
+  Lieutenant = ($scope, ws) ->
     newLieutenant =
       orders: null # OrderCollection
       active: []   # provinces that have event handlers
@@ -65,6 +65,50 @@ define([
           # add handlers to the current options
           newLieutenant.addActiveHandlers nextOptions, onClickFunc
 
+      sendOrders: ->
+        _.chain(this.orders.orders)
+          .filter((order) -> (not order.committed))
+          .each((order) ->
+            ws.sendRPC(
+              "SetOrder"
+              {
+                "GameId": $scope.game.Id
+                "Order": order.toDiplicity()
+              }
+              ((iOrder) ->
+                ->
+                  $scope.$apply ->
+                    iOrder.committed = true
+              )(order)
+            )
+            console.debug "Sent", order.toDiplicity()
+          )
+
+      commitOrders: ->
+        ws.sendRPC("Commit", { "PhaseId": $scope.game.Phase.Id }, ->
+          $scope.$apply ->
+            newLieutenant.player.Committed = true
+        )
+
+      uncommitOrders: ->
+        ws.sendRPC("Uncommit", { "PhaseId": $scope.game.Phase.Id }, ->
+          $scope.$apply ->
+            newLieutenant.player.Committed = false
+        )
+
+      deleteRemoteOrder: (order) ->
+        ws.sendRPC(
+          "SetOrder"
+          {
+            "GameId": $scope.game.Id
+            "Order": [ order.unit_area ]
+          }
+          ((iOrder) ->
+            ->
+              $scope.lieutenant.deleteOrder(iOrder)
+          )(order)
+        )
+
       cancelOrder: ->
         if this.orders?
           this.orders.cancelOrder()
@@ -101,7 +145,7 @@ define([
         # and turn them into Order objects
         this.orders.convertOrders($scope.game.Phase.Orders[this.player.Nation])
 
-        # all orders coming from the backen on load are committed
+        # all orders coming from the backend on load are committed
         that = this
         _.each(this.orders.orders, (order) -> order.committed = that.player.Committed)
 

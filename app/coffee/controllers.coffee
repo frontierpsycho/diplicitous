@@ -22,11 +22,13 @@ define([
     '$routeParams'
     'UserService'
     'GameService'
+    'wsService'
     (
       $scope
       $routeParams
       UserService
       GameService
+      wsService
     ) ->
       initPhase = (newGame, oldGame) ->
         # on initialization, watcher is called with undefined values
@@ -37,7 +39,7 @@ define([
 
             $scope.$watch('user', (newUser, oldUser) ->
               if newUser? and not _.isEmpty(newUser)
-                $scope.lieutenant = Lieutenant($scope).init(newGame.Phase.Type)
+                $scope.lieutenant = Lieutenant($scope, wsService).init(newGame.Phase.Type)
             )
 
       deregisterMap = $scope.$watch('map.loaded', (newValue, oldValue) ->

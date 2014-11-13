@@ -40,35 +40,13 @@ define([
             $scope.lieutenant.cancelOrder()
 
           $scope.commitOrders = ->
-            ws.sendRPC("Commit", { "PhaseId": $scope.game.Phase.Id }, ->
-              $scope.$apply ->
-                $scope.lieutenant.player.Committed = true
-            )
+            $scope.lieutenant.commitOrders()
 
           $scope.uncommitOrders = ->
-            ws.sendRPC("Uncommit", { "PhaseId": $scope.game.Phase.Id }, ->
-              $scope.$apply ->
-                $scope.lieutenant.player.Committed = false
-            )
+            $scope.lieutenant.uncommitOrders()
 
           $scope.sendOrders = ->
-            _.chain($scope.lieutenant.orders.orders)
-              .filter((order) -> (not order.committed))
-              .each((order) ->
-                ws.sendRPC(
-                  "SetOrder"
-                  {
-                    "GameId": $scope.game.Id
-                    "Order": order.toDiplicity()
-                  }
-                  ((iOrder) ->
-                    ->
-                      $scope.$apply ->
-                        iOrder.committed = true
-                  )(order)
-                )
-                console.debug "Sent", order.toDiplicity()
-              )
+            $scope.lieutenant.sendOrders()
 
           $scope.typeSymbols = typeSymbols
 
@@ -92,17 +70,7 @@ define([
           $scope.secondaryTypeSymbols = secondaryTypeSymbols
 
           $scope.deleteOrder = (order) ->
-            ws.sendRPC(
-              "SetOrder"
-              {
-                "GameId": $scope.game.Id
-                "Order": [ order.unit_area ]
-              }
-              ((iOrder) ->
-                ->
-                  $scope.lieutenant.deleteOrder(iOrder)
-              )(order)
-            )
+            $scope.lieutenant.deleteRemoteOrder(order)
             console.debug "Sent order deletion (#{order.unit_area})"
       }
     ])
