@@ -20,12 +20,14 @@ define([
   .controller('GameCtrl', [
     '$scope'
     '$routeParams'
+    '$interval'
     'UserService'
     'GameService'
     'wsService'
     (
       $scope
       $routeParams
+      $interval
       UserService
       GameService
       wsService
@@ -36,6 +38,15 @@ define([
           # the new game is the same as the old one, don't reinit lieutenant
           unless oldGame? and newGame.Phase.Ordinal == oldGame.Phase.Ordinal
             $scope.map.refresh(newGame)
+
+            # get initial time left
+            $scope.timeLeft = newGame.timeLeft()
+
+            # decrement per second
+            $interval((-> $scope.timeLeft -= 1), 1000)
+
+            $scope.timeLeftHumanReadable = ->
+              moment.duration($scope.timeLeft, "seconds").humanize()
 
             $scope.$watch('user', (newUser, oldUser) ->
               if newUser? and not _.isEmpty(newUser)

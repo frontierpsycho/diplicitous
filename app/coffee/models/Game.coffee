@@ -1,7 +1,9 @@
 define([
   'underscore'
+  'moment'
 ], (
   _
+  moment
 ) ->
   'use strict'
 
@@ -18,6 +20,9 @@ define([
     # returns a power's supply centers
     game.supplyCenters = (power) ->
       _.filter(_.pairs(this.Phase.SupplyCenters), (pair) -> pair[1] == power)
+
+    # time left until next phase, in seconds
+    game.timeLeft = -> Math.floor(game.TimeLeft / 1000000000)
 
     return game
 

@@ -11,6 +11,7 @@ require.config(
       'underscore': '../lib/underscore/underscore'
       'machina': '../lib/machina/machina'
       'config': '../config/client'
+      'moment': '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min'
 
     # angular does not support AMD out of the box, put it in a shim
     shim:

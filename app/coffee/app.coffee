@@ -7,6 +7,7 @@ define([
   'controllers'
   'directives/orderWidget'
   'directives/diplomacyMap'
+  'directives/gameState'
 ], (
   angular
 ) ->
