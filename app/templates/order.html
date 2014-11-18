@@ -5,5 +5,9 @@
   <span ng-show="order.src" class="badge">{{ order.src }}</span>
   <span ng-show="order.type"  ng-bind-html='secondaryTypeSymbols[order.type]'></span>
   <span ng-show="order.dst" class="badge">{{ order.dst }}</span>
-  <span ng-click="deleteOrder(order)">Delete</span>
+  <span ng-if="newOrder" ng-show="order.unit_area">
+    <button ng-click="cancelOrder()">Cancel</button>
+  </span>
+  <span ng-if="!newOrder" ng-click="deleteOrder(order)">Delete</span>
+  </span>
 </div>

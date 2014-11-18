@@ -36,9 +36,6 @@ define([
         link: ($scope) ->
           console.debug "Order widget linking"
 
-          $scope.cancelOrder = ->
-            $scope.lieutenant.cancelOrder()
-
           $scope.commitOrders = ->
             $scope.lieutenant.commitOrders()
 
@@ -53,15 +50,15 @@ define([
           $scope.secondaryTypeSymbols = secondaryTypeSymbols
       }
     ])
-    .directive('existingOrder', ['wsService', (ws) ->
+    .directive('order', ['wsService', (ws) ->
       {
-        templateUrl: 'templates/existingOrder.html'
+        templateUrl: 'templates/order.html'
         replace: true
         restrict: 'E'
         scope:
           order: "="
-          game: "="
           lieutenant: "="
+          newOrder: "@"
         link: ($scope) ->
           console.debug "Existing order widget linking"
 
@@ -72,6 +69,9 @@ define([
           $scope.deleteOrder = (order) ->
             $scope.lieutenant.deleteRemoteOrder(order)
             console.debug "Sent order deletion (#{order.unit_area})"
+
+          $scope.cancelOrder = ->
+            $scope.lieutenant.cancelOrder()
       }
     ])
 )
