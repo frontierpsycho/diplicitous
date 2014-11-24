@@ -1,4 +1,4 @@
-<div id="orders">
+<div id="order-widget">
   <div id="current-order">
     <h3>Current order</h3>
     <order order="lieutenant.orders.currentOrder" lieutenant="lieutenant" new-order="true"></order>
@@ -7,7 +7,7 @@
     <h3>Orders</h3>
     <order order="order" lieutenant="lieutenant" ng-repeat="(unit_area, order) in lieutenant.orders.orders"></order>
   </div>
-  <div>
+  <div id="controls">
     <button id="send-button" ng-click="sendOrders()">Send</button>
     <span ng-switch="lieutenant.player.Committed">
       <button id="commit-button" ng-switch-when="false" ng-click="commitOrders()">Commit</button>

@@ -3,6 +3,11 @@
 
 @import "base";
 
+$sent-green: #009900;
+$sent-green-hover: #006B00;
+$uncommitted-yellow: #D6D633;
+$uncommit-red: #A30000;
+
 /* -------------------------------------------------------------------------*/
 /* Layout */
 
@@ -113,13 +118,41 @@ h3 {
         display: inline-block;
       }
 
-      #orders {
+      #order-widget {
         background-color: beige;
         .order {
           padding: 0.25em 0.5em;
         }
         .sent {
-          background-color: green;
+          background-color: $sent-green;
+        }
+        #controls {
+          padding: 0.2em 0.2em 0.2em 0;
+          button {
+            text-shadow: 1px 1px 2px black;
+            font-size: 1.0em;
+            padding: 0.5em 1em;
+            color: white;
+            border-style: none;
+            &#send-button {
+              background-color: $sent-green;
+              &:hover {
+                background-color: $sent-green-hover;
+              }
+            }
+            &#commit-button {
+              background-color: $uncommitted-yellow;
+              &:hover {
+                background-color: $sent-green;
+              }
+            }
+            &#uncommit-button {
+              background-color: $sent-green;
+              &:hover {
+                background-color: $uncommit-red;
+              }
+            }
+          }
         }
       }
     }
