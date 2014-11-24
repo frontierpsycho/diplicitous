@@ -19,7 +19,7 @@ define([
 
   Order = (unit_area, diplicity_order) ->
     that = {
-      committed: false
+      sent: false
     }
 
     that.fromDiplicity = (unit_area, diplicity_order) ->

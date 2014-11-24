@@ -67,7 +67,7 @@ define([
 
       sendOrders: ->
         _.chain(this.orders.orders)
-          .filter((order) -> (not order.committed))
+          .filter((order) -> (not order.sent))
           .each((order) ->
             ws.sendRPC(
               "SetOrder"
@@ -78,7 +78,7 @@ define([
               ((iOrder) ->
                 ->
                   $scope.$apply ->
-                    iOrder.committed = true
+                    iOrder.sent = true
               )(order)
             )
             console.debug "Sent", order.toDiplicity()
@@ -145,9 +145,9 @@ define([
         # and turn them into Order objects
         this.orders.convertOrders($scope.game.Phase.Orders[this.player.Nation])
 
-        # all orders coming from the backend on load are committed
+        # all orders coming from the backend on load are sent
         that = this
-        _.each(this.orders.orders, (order) -> order.committed = that.player.Committed)
+        _.each(this.orders.orders, (order) -> order.sent = true)
 
         switch type
           when 'Movement'
