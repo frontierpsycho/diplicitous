@@ -101,6 +101,51 @@ $order-hover: #FFFFFF;
   }
 }
 
+.order {
+  &.Austria {
+    .badge {
+      background-color: $Austria-color;
+      color: black;
+    }
+  }
+  &.England {
+    .badge {
+      background-color: $England-color;
+      color: black;
+    }
+  }
+  &.France {
+    .badge {
+      background-color: $France-color;
+      color: black;
+    }
+  }
+  &.Germany {
+    .badge {
+      background-color: $Germany-color;
+      color: black;
+    }
+  }
+  &.Italy {
+    .badge {
+      background-color: $Italy-color;
+      color: black;
+    }
+  }
+  &.Russia {
+    .badge {
+      background-color: $Russia-color;
+      color: black;
+    }
+  }
+  &.Turkey {
+    .badge {
+      background-color: $Turkey-color;
+      color: black;
+    }
+  }
+}
+
 #supply-centers {
   path {
     fill: none;
