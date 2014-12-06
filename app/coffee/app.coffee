@@ -8,6 +8,7 @@ define([
   'directives/orderWidget'
   'directives/diplomacyMap'
   'directives/gameState'
+  'directives/powersWidget'
 ], (
   angular
 ) ->

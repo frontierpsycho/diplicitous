@@ -3,6 +3,7 @@
 
 @import "base";
 
+$red: darkred;
 $sent-green: #009900;
 $sent-green-hover: #006B00;
 $uncommitted-yellow: #D6D633;
@@ -151,6 +152,68 @@ h3 {
               }
             }
           }
+        }
+      }
+
+      #powers-widget {
+        background-color: beige;
+        box-sizing: border-box;
+        padding: 0.5em;
+        color: black;
+      }
+
+      .tabs {
+        width: 100%;
+        float: none;
+        list-style: none;
+        position: relative;
+        //margin: 80px 0 0 10px;
+        text-align: left;
+        li {
+          float: left;
+          display: block;
+        }
+        input[type="radio"] {
+          position: absolute;
+          top: -9999px;
+          left: -9999px;
+        }
+        label {
+          display: block;
+          padding: 14px 21px;
+          border-radius: 2px 2px 0 0;
+          font-size: 20px;
+          font-weight: normal;
+          font-variant: small-caps;
+          background: white;
+          cursor: pointer;
+          position: relative;
+          //top: 4px; 
+          &:hover {
+            background: $red;
+            color: white;
+          }
+        }
+        .tab-content{
+          z-index: 2;
+          display: none; 
+          overflow: hidden;
+          width: 100%;
+          font-size: 1.4em;
+          line-height: 25px;
+          position: absolute;
+          left: 0; 
+          background: $red;
+          color: white;
+        }
+        //The Magic
+        [id^="tab"]:checked + label { 
+          top: 0;
+          background: $red;
+          color: white;
+        }
+        [id^="tab"]:checked ~ [id^="tab-content"] {
+          display: block;
         }
       }
     }

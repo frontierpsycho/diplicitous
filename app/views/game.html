@@ -3,7 +3,22 @@
 	<h3>{{ user.Email }}</h3>
 	<diplomacy-map></diplomacy-map>
 	<div id="sidebar">
-		<order-widget></order-widget>
-	</div>
+		<ul class="tabs">
+			<li>
+				<input type="radio" name="tabs" id="tab1" checked />
+				<label for="tab1">Powers</label>
+				<div id="tab-content1" class="tab-content">
+					<powers-widget></powers-widget>
+				</div>
+			</li>
+			<li>
+				<input type="radio" name="tabs" id="tab2" />
+				<label for="tab2">Orders</label>
+				<div id="tab-content2" class="tab-content">
+					<order-widget></order-widget>
+				</div>
+			</li>
+		</ul>
+		<br style="clear: both;" />
 	</div>
 </div>
