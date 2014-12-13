@@ -14,8 +14,8 @@ More will be added as they get planned.
 To install and run:
 
 1. Install [diplicity][diplicity]. Run with `go run diplicity/diplicity.go --appcache=false --port=8080` (appcache=false is optional, but recommended for development)
-1. Install dependencies: [compass][compass] (to compile the project's SASS), [node][node] (to run the web server  - consider also [nodemon][nodemon], which watches your files and restarts automatically)
-1. Clone this repo and run `npm install`.
+1. Install dependencies: [compass][compass] and [susy][susy] (to compile the project's SASS), [node][node] (to run the web server  - consider also [nodemon][nodemon], which watches your files and restarts automatically)
+1. Clone this repo and run `npm install`.G
 1. Run `compass compile` (or `compass watch` if you're going to make changes to the SASS files) under the `app/` directory.
 1. Run the web server with: `node scripts/web-server.js <port>` (or `nodemon scripts/web-server.js <port> -w app/coffee/ -e coffee`)
 1. Visit `http://localhost:<port>/app`.
@@ -28,5 +28,6 @@ This project was based off of [angular-coffee-seed](https://github.com/PavelVane
 
 [diplicity]: https://github.com/zond/diplicity "Diplicity repo"
 [compass]: http://compass-style.org/install/ "Compass"
+[susy]: http://susydocs.oddbird.net/en/latest/install/ "Susy docs"
 [node]: http://nodejs.org/ "Node.js"
 [nodemon]: https://github.com/remy/nodemon "Nodemon"
