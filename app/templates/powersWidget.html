@@ -1,8 +1,14 @@
 <div id="powers-widget">
 <table>
-	<tr ng-repeat="power in powers" class="{{ power.power }} power">
+	<tr ng-repeat="power in powers" class="{{ power.power.Nation }} power">
 		<td>
-			<div class="name">{{ power.power }}</div><div class="units">{{ power.units }} units</div>
+			<div class="name">{{ power.power.Nation }}
+				<span ng-switch="power.power.Committed">
+					<span ng-switch-when="false"><img src="img/open-iconic/svg/x.svg" alt="Not committed" title="Not committed"></span>
+					<span ng-switch-when="true"><img src="img/open-iconic/svg/check.svg" alt="Committed" title="Committed"></span>
+				</span>
+			</div>
+			<div class="units">{{ power.units }} units</div>
 		</td>
 		<td class="SCCount">{{ power.scs }} SCs</td>
 	</tr>

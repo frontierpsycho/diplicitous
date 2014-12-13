@@ -22,7 +22,7 @@ define([
               console.debug("Powers: #{powers}")
               powers = _.chain(powers)
                 .map((member) -> {
-                  power: member.Nation,
+                  power: member,
                   scs: game.supplyCenters(member.Nation).length 
                   units: game.units(member.Nation).length
                 })
