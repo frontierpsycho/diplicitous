@@ -1,3 +1,5 @@
+$power-bar-color: #008B8B;
+
 .container {
   div#sidebar {
     #powers-widget {
@@ -11,13 +13,23 @@
       div.units {
         font-size: 0.7em;
       }
+      div.power-bar {
+        width: 0%;
+        height: 0.2em;
+        background-color: $power-bar-color;
+        position: absolute;
+        bottom: 0.3em;
+        right: 0;
+      }
       table {
         width: 100%;
         td {
           padding: 0.2em;
+          width: 50%;
         }
         td.SCCount {
           text-align: right;
+          position: relative;
         }
       }
       background-color: white;

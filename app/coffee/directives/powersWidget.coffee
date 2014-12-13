@@ -23,12 +23,15 @@ define([
               powers = _.chain(powers)
                 .map((member) -> {
                   power: member,
-                  scs: game.supplyCenters(member.Nation).length 
+                  scs: game.supplyCenters(member.Nation).length
                   units: game.units(member.Nation).length
                 })
                 .sortBy((pair) -> pair.scs)
                 .reverse()
                 .value()
+
+              maxSCs = powers[0].scs
+              powers.map((data) -> data.percent = Math.round(((data.scs / maxSCs) * 100)).toFixed(0))
               $scope.powers = powers
           )
       }
