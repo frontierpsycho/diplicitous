@@ -18,7 +18,7 @@ To install and run:
 1. Clone this repo and run `npm install`.
 1. Run `compass compile` (or `compass watch` if you're going to make changes to the SASS files) under the `app/` directory.
 1. Run the web server with: `node scripts/web-server.js <port>` (or `nodemon scripts/web-server.js <port> -w app/coffee/ -e coffee`)
-1. Visit `http://localhost:<port>`.
+1. Visit `http://localhost:<port>/app`.
 
 At this point, you will probably see nothing besides a navigation bar. You need to create a game using diplicity. To do that, visit `http://localhost:8080` (or whatever port you set above) and create a game. It should appear on the diplicitous page, too.
 
