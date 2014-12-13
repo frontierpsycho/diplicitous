@@ -190,3 +190,28 @@ $order-hover: #FFFFFF;
     pointer-events: none;
   }
 }
+
+#powers-widget {
+  tr.France {
+    background-color: $France-color;
+  }
+  tr.Austria {
+    background-color: $Austria-color;
+  }
+  tr.Germany {
+    background-color: $Germany-color;
+  }
+  tr.Russia {
+    background-color: $Russia-color;
+  }
+  tr.England {
+    background-color: $England-color;
+  }
+  tr.Turkey {
+    background-color: $Turkey-color;
+  }
+  tr.Italy {
+    background-color: $Italy-color;
+  }
+
+}

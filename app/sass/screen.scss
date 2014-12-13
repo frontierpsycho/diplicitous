@@ -2,12 +2,8 @@
 // Imports
 
 @import "base";
-
-$red: darkred;
-$sent-green: #009900;
-$sent-green-hover: #006B00;
-$uncommitted-yellow: #D6D633;
-$uncommit-red: #A30000;
+@import "powersWidget";
+@import "orderWidget";
 
 /* -------------------------------------------------------------------------*/
 /* Layout */
@@ -15,11 +11,13 @@ $uncommit-red: #A30000;
 body {
 }
 
+/*
 h2 {
   font-size: 2em;
 }
+*/
 h3 {
-  font-size: 1.8em;
+  margin: 0;
 }
 
 .menu-wrapper {
@@ -74,9 +72,6 @@ h3 {
   h2 {
     margin: 1em;
   }
-  h3 {
-    margin: 0.8em 1em;
-  }
 
   .content {
     @include squish(2, 2);
@@ -104,62 +99,19 @@ h3 {
     div#sidebar {
       @include span($sidebar-columns omega);
 
+      /*
       h3 {
         padding: 0.5em;
         margin: 0;
         background-color: teal;
         color: #FFF;
       }
+      */
 
       .badge {
         padding: 0.3em;
         border-radius: 3px;
         display: inline-block;
-      }
-
-      #order-widget {
-        background-color: beige;
-        .order {
-          padding: 0.25em 0.5em;
-        }
-        .sent {
-          background-color: $sent-green;
-        }
-        #controls {
-          padding: 0.2em 0.2em 0.2em 0;
-          button {
-            text-shadow: 1px 1px 2px black;
-            font-size: 1.0em;
-            padding: 0.5em 1em;
-            color: white;
-            border-style: none;
-            &#send-button {
-              background-color: $sent-green;
-              &:hover {
-                background-color: $sent-green-hover;
-              }
-            }
-            &#commit-button {
-              background-color: $uncommitted-yellow;
-              &:hover {
-                background-color: $sent-green;
-              }
-            }
-            &#uncommit-button {
-              background-color: $sent-green;
-              &:hover {
-                background-color: $uncommit-red;
-              }
-            }
-          }
-        }
-      }
-
-      #powers-widget {
-        background-color: beige;
-        box-sizing: border-box;
-        padding: 0.5em;
-        color: black;
       }
 
       .tabs {
@@ -211,6 +163,7 @@ h3 {
           top: 0;
           background: $red;
           color: white;
+          text-shadow: 1px 1px 2px black;
         }
         [id^="tab"]:checked ~ [id^="tab-content"] {
           display: block;

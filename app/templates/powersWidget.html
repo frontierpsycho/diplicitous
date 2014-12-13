@@ -1,7 +1,10 @@
 <div id="powers-widget">
-	<table>
-	<tr ng-repeat="power in powers" class="{{ power.Nation }} power">
-		<td>{{ power.Nation }}</td><td>SCs</td>
+<table>
+	<tr ng-repeat="power in powers" class="{{ power.power }} power">
+		<td>
+			<div class="name">{{ power.power }}</div><div class="units">{{ power.units }} units</div>
+		</td>
+		<td class="SCCount">{{ power.scs }} SCs</td>
 	</tr>
-	</table>
+</table>
 </div>

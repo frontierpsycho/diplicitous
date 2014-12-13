@@ -1,0 +1,54 @@
+@import "base";
+
+.container {
+  div#sidebar {
+    #order-widget {
+      background-color: white;
+      .order {
+        padding: 0.25em 0.5em;
+      }
+      .sent {
+        background-color: $sent-green;
+      }
+      h3 {
+        background-color: black;
+        color: white;
+        font-size: 1em;
+        font-variant: small-caps;
+        padding: 0.2em 0.5em;
+      }
+
+      #current-order {
+        color: black;
+      }
+      #controls {
+        padding: 0.2em 0.2em 0.2em 0;
+        button {
+          text-shadow: 1px 1px 2px black;
+          font-size: 1.0em;
+          padding: 0.5em 1em;
+          color: white;
+          border-style: none;
+          &#send-button {
+            background-color: $sent-green;
+            &:hover {
+              background-color: $sent-green-hover;
+            }
+          }
+          &#commit-button {
+            background-color: $uncommitted-yellow;
+            &:hover {
+              background-color: $sent-green;
+            }
+          }
+          &#uncommit-button {
+            background-color: $sent-green;
+            &:hover {
+              background-color: $uncommit-red;
+            }
+          }
+        }
+      }
+    }
+  }
+}
