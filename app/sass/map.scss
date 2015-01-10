@@ -1,8 +1,13 @@
+/* OBS! Order in this file matters! */
+
 $sea-color: #C6EFED;
 $empty-color: #FFFFF0;
 
 $sea-hover: #D7FFFD;
 $empty-hover: #FFFFC3;
+
+$sea-highlight: #AAD0D0;
+$empty-highlight: #D2D2C4;
 
 $Austria-color: #C04D4D;
 $England-color: #6E329A;
@@ -19,6 +24,14 @@ $Germany-hover: #939393;
 $Italy-hover: #91C298;
 $Russia-hover: #F7F7F7;
 $Turkey-hover: #F5EFBD;
+
+$Austria-highlight: #8B3A3A;
+$England-highlight: #562777;
+$France-highlight: #9DBBC5;
+$Germany-highlight: #494949;
+$Italy-highlight: #4A8052;
+$Turkey-highlight: #CBC587;
+$Russia-highlight: #BEBEBE;
 
 $order-color: #ecf0f1;
 $order-hover: #FFFFFF;
@@ -37,6 +50,10 @@ $order-hover: #FFFFFF;
       }
     }
 
+    &.highlight {
+      fill: $empty-highlight;
+    }
+
     &.active {
       fill-opacity: 1;
       cursor: pointer;
@@ -45,6 +62,9 @@ $order-hover: #FFFFFF;
 
     &.sea {
       fill: $sea-color;
+      &.highlight {
+        fill: $sea-highlight;
+      }
       &.active {
         fill: $sea-hover;
       }
@@ -52,6 +72,9 @@ $order-hover: #FFFFFF;
 
     &.Austria {
       fill: $Austria-color;
+      &.highlight {
+        fill: $Austria-highlight;
+      }
       &.active {
         fill: $Austria-hover;
       }
@@ -59,6 +82,9 @@ $order-hover: #FFFFFF;
 
     &.England {
       fill: $England-color;
+      &.highlight {
+        fill: $England-highlight;
+      }
       &.active {
         fill: $England-hover;
       }
@@ -66,6 +92,9 @@ $order-hover: #FFFFFF;
 
     &.France {
       fill: $France-color;
+      &.highlight {
+        fill: $France-highlight;
+      }
       &.active {
         fill: $France-hover;
       }
@@ -73,6 +102,9 @@ $order-hover: #FFFFFF;
 
     &.Germany {
       fill: $Germany-color;
+      &.highlight {
+        fill: $Germany-highlight;
+      }
       &.active {
         fill: $Germany-hover;
       }
@@ -80,6 +112,9 @@ $order-hover: #FFFFFF;
 
     &.Italy {
       fill: $Italy-color;
+      &.highlight {
+        fill: $Italy-highlight;
+      }
       &.active {
         fill: $Italy-hover;
       }
@@ -87,6 +122,9 @@ $order-hover: #FFFFFF;
 
     &.Russia {
       fill: $Russia-color;
+      &.highlight {
+        fill: $Russia-highlight;
+      }
       &.active {
         fill: $Russia-hover;
       }
@@ -94,6 +132,9 @@ $order-hover: #FFFFFF;
 
     &.Turkey {
       fill: $Turkey-color;
+      &.highlight {
+        fill: $Turkey-highlight;
+      }
       &.active {
         fill: $Turkey-hover;
       }
@@ -214,4 +255,12 @@ $order-hover: #FFFFFF;
     background-color: $Italy-color;
   }
 
+}
+
+#stripe line {
+  fill: white;
+  stroke: white;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 10px;
 }

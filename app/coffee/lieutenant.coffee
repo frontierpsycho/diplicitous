@@ -30,14 +30,12 @@ define([
       addActiveHandlers: (hoverlist, handler) ->
         console.debug "Adding active handlers"
         for province in hoverlist
-          $scope.map.hoverProvince province
-          $scope.map.clickProvince(province, handler)
+          $scope.map.activateProvince(province, handler)
         this.active = hoverlist
       removeActiveHandlers: ->
         console.debug "Removing active handlers"
         for province in this.active
-          $scope.map.unhoverProvince province
-          $scope.map.unclickProvince province
+          $scope.map.deactivateProvince province
         $scope.map.hideOrders()
         this.active = []
 

@@ -150,40 +150,54 @@ define([
 
       unitFragment.transform(t)
 
-    that.hoverProvince = (abbr) ->
+    that.activateProvince = (abbr, callback) ->
+      that.hoverProvince(abbr)
+      that.clickProvince(abbr, callback)
+      that.highlightProvince(abbr)
+
+    that.deactivateProvince = (abbr) ->
+      that.unhoverProvince(abbr)
+      that.unclickProvince(abbr)
+      that.dehighlightProvince(abbr)
+
+    that.findProvinceByAbbr = (abbr, callback) ->
       province = that.provinces[cleanCoast(abbr)]
 
       if province?
-        province.path.hover hoverIn, hoverOut
+        callback(province)
       else
-        console.warn "Cannot add hover handlers to province #{abbr}: it does not exist!"
+        console.warn "Cannot find province #{abbr}: it does not exist!"
+
+    that.hoverProvince = (abbr) ->
+      that.findProvinceByAbbr(abbr, (province) ->
+        province.path.hover hoverIn, hoverOut
+      )
 
     that.unhoverProvince = (abbr) ->
-      province = that.provinces[cleanCoast(abbr)]
-
-      if province?
+      that.findProvinceByAbbr(abbr, (province) ->
         province.path.unhover hoverIn, hoverOut
         hoverOut.call(province.path)
-      else
-        console.warn "Cannot remove hover handlers to province #{abbr}: it does not exist!"
+      )
 
     that.clickProvince = (abbr, callback) ->
-      province = that.provinces[cleanCoast(abbr)]
-
-      if province?
+      that.findProvinceByAbbr(abbr, (province) ->
         that.clickHandlers[abbr] = (event) ->
           callback.bind(this)()
 
         province.path.click that.clickHandlers[abbr]
-      else
-        console.warn "Cannot add click handler to province #{abbr}: it does not exist!"
+      )
 
     that.unclickProvince = (abbr) ->
-      province = that.provinces[cleanCoast(abbr)]
-
-      if province?
+      that.findProvinceByAbbr(abbr, (province) ->
         province.path.unclick that.clickHandlers[abbr]
         delete that.clickHandlers[abbr]
+      )
+
+    that.highlightProvince = (abbr) ->
+      that.findProvinceByAbbr(abbr, (province) -> province.addClass("highlight"))
+
+    that.dehighlightProvince = (abbr) ->
+      that.findProvinceByAbbr(abbr, (province) -> province.removeClass("highlight"))
 
     that.activateOrders = (abbr, orderTypes) ->
       console.debug "Activating orders"
@@ -250,43 +264,6 @@ define([
       snap.select("#orders").append(g)
 
       that.orders = orders
-
-    that.createBuildOptions = (snap) ->
-      buildOptions = {}
-
-      for buildOptionName in ["Army", "Fleet"]
-        c = snap.circle(0, 0, 35).attr
-          fill: "rgb(236, 240, 241)",
-          stroke: "#1f2c39",
-          strokeWidth: 3
-
-        text = snap.text(0, 0, buildOptionName[0])
-        text.attr({
-            'font-size': 50
-        })
-
-        b = text.getBBox()
-
-        c.attr
-          cx: b.cx
-          cy: b.cy
-
-        buildOptions[buildOptionName] = snap.group(c, text).attr({
-          id: "build-option-#{buildOptionName}"
-        })
-
-        buildOptions[buildOptionName].click ((name) ->
-          return ->
-            $scope.lieutenant.fsm.handle 'chose.unit', name
-        )(buildOptionName)
-
-      g = snap.group(buildOptions.Army, buildOptions.Fleet)
-
-      g.transform("t-1000,1000").attr({ id: "buildOptionGroup" })
-
-      snap.select("#orders").append(g)
-
-      that.buildOptions = buildOptions
 
     that.deactivateCoasts = ->
       this.activateCoasts()
