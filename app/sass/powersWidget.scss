@@ -1,3 +1,5 @@
+@import "common-classes";
+
 $power-bar-color: #008B8B;
 
 .container {
@@ -34,6 +36,13 @@ $power-bar-color: #008B8B;
       }
       background-color: white;
       color: black;
+    }
+
+    span.plus {
+      @extend .green-text;
+    }
+    span.minus {
+      @extend .red-text;
     }
   }
 }

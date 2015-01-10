@@ -28,7 +28,7 @@ h3 {
 
   background-color: darkred;
 
-  text-shadow: 1px 1px 2px black;
+  @extend .shadowed-text;
 
   .menu {
     @include squish(2, 2);
@@ -162,7 +162,7 @@ h3 {
           top: 0;
           background: $red;
           color: white;
-          text-shadow: 1px 1px 2px black;
+          @extend .shadowed-text;
         }
         [id^="tab"]:checked ~ [id^="tab-content"] {
           display: block;

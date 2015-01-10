@@ -33,6 +33,22 @@ define([
               maxSCs = powers[0].scs
               powers.map((data) -> data.percent = Math.round(((data.scs / maxSCs) * 100)).toFixed(0))
               $scope.powers = powers
+
+              $scope.textSign = (number) ->
+                if number > 0
+                  return "+"
+                else if number < 0
+                  return "-"
+                else
+                  return ""
+
+              $scope.deltaClass = (number) ->
+                if number > 0
+                  return "plus"
+                else if number < 0
+                  return "minus"
+                else
+                  return ""
           )
       }
     )
