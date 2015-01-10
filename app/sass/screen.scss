@@ -91,7 +91,7 @@ h3 {
       }
     }
 
-    $sidebar-columns: 6;
+    $sidebar-columns: 9;
     div#map {
       @include span($total-columns - $sidebar-columns);
     }
