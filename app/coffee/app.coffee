@@ -5,7 +5,7 @@ define([
   'wsService'
   'services'
   'controllers'
-  'directives/orderWidget'
+  'directives/dipOrders'
   'directives/diplomacyMap'
   'directives/gameState'
   'directives/powersWidget'

@@ -28,9 +28,9 @@ define([
     "Disband": ""
 
   angular.module('diplomacyDirectives')
-    .directive('orderWidget', ['wsService', (ws) ->
+    .directive('dipOrders', ['wsService', (ws) ->
       {
-        templateUrl: 'templates/orderWidget.html'
+        templateUrl: 'templates/dipOrders.html'
         replace: true
         restrict: 'E'
         link: ($scope) ->
