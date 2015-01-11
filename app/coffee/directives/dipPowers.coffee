@@ -10,9 +10,9 @@ define([
   'use strict'
 
   angular.module('diplomacyDirectives')
-    .directive('powersWidget', ->
+    .directive('dipPowers', ->
       {
-        templateUrl: 'templates/powersWidget.html'
+        templateUrl: 'templates/dipPowers.html'
         replace: true
         restrict: 'E'
         link: ($scope, iElem, iAttr) ->

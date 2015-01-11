@@ -6,9 +6,9 @@ define([
   'services'
   'controllers'
   'directives/dipOrders'
+  'directives/dipPowers'
   'directives/diplomacyMap'
   'directives/gameState'
-  'directives/powersWidget'
 ], (
   angular
 ) ->
