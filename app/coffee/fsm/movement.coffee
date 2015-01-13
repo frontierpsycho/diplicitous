@@ -26,7 +26,7 @@ define([
         # instead of provinces, like the rest
         order_type:
           _onEnter: ->
-            newLieutenant.removeActiveHandlers()
+            newLieutenant.deactivateProvinces()
 
             console.debug 'Entered order_type'
 

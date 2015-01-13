@@ -21,10 +21,10 @@ define([
               powers = _.clone(game.Members)
               console.debug("Powers: #{powers}")
               powers = _.chain(powers)
-                .map((member) -> {
-                  power: member,
-                  scs: game.supplyCenters(member.Nation).length
-                  units: game.units(member.Nation).length
+                .map((power) -> {
+                  power: power,
+                  scs: game.supplyCenters(power.Nation).length
+                  units: game.units(power.Nation).length
                 })
                 .sortBy((pair) -> pair.scs)
                 .reverse()

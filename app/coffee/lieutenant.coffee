@@ -27,13 +27,13 @@ define([
       orders: null # OrderCollection
       active: []   # provinces that have event handlers
 
-      addActiveHandlers: (hoverlist, handler) ->
-        console.debug "Adding active handlers"
-        for province in hoverlist
+      activateProvinces: (provinces, handler) ->
+        console.debug "Activating provinces"
+        for province in provinces
           $scope.map.activateProvince(province, handler)
-        this.active = hoverlist
-      removeActiveHandlers: ->
-        console.debug "Removing active handlers"
+        this.active = provinces
+      deactivateProvinces: ->
+        console.debug "Deactivating provinces"
         for province in this.active
           $scope.map.deactivateProvince province
         $scope.map.hideOrders()
@@ -45,7 +45,7 @@ define([
       onEnterWrapper: (onClickFunc) ->
         return ->
           # remove all province event handlers (hovers, clicks)
-          newLieutenant.removeActiveHandlers()
+          newLieutenant.deactivateProvinces()
 
           # determine the provinces/objects that should be active on this state
           nextOptions = newLieutenant.orders.nextOptions()
@@ -61,7 +61,7 @@ define([
           $scope.map.activateCoasts(coastOptions)
 
           # add handlers to the current options
-          newLieutenant.addActiveHandlers nextOptions, onClickFunc
+          newLieutenant.activateProvinces nextOptions, onClickFunc
 
       sendOrders: ->
         _.chain(this.orders.orders)

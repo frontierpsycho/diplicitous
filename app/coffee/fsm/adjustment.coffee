@@ -34,7 +34,7 @@ define([
 
         unit_type:
           _onEnter: ->
-            newLieutenant.removeActiveHandlers()
+            newLieutenant.deactivateProvinces()
 
             console.debug 'Entered unit_type'
 
@@ -57,7 +57,7 @@ define([
 
         blocked:
           _onEnter: ->
-            newLieutenant.removeActiveHandlers()
+            newLieutenant.deactivateProvinces()
 
             console.debug 'Entered blocked (no more units can be ordered)'
 

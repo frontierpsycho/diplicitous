@@ -11,7 +11,7 @@ define([
   Game = (game) ->
     # returns the current logged in player, or undefined if there is none
     game.player = (user) ->
-      _.find(this.Members, (mem) -> mem.User.Email == user.Email)
+      _.find(this.Members, (power) -> power.User.Email == user.Email)
 
     # returns the units of the given power
     game.units = (power) ->

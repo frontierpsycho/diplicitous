@@ -150,14 +150,14 @@ define([
 
       unitFragment.transform(t)
 
-    that.activateProvince = (abbr, callback) ->
-      that.hoverProvince(abbr)
-      that.clickProvince(abbr, callback)
+    that.activateProvince = (abbr, handler) ->
+      that.addHoverHandlers(abbr)
+      that.addClickHandler(abbr, handler)
       that.highlightProvince(abbr)
 
     that.deactivateProvince = (abbr) ->
-      that.unhoverProvince(abbr)
-      that.unclickProvince(abbr)
+      that.removeHoverHandlers(abbr)
+      that.removeClickHandler(abbr)
       that.dehighlightProvince(abbr)
 
     that.findProvinceByAbbr = (abbr, callback) ->
@@ -168,18 +168,18 @@ define([
       else
         console.warn "Cannot find province #{abbr}: it does not exist!"
 
-    that.hoverProvince = (abbr) ->
+    that.addHoverHandlers = (abbr) ->
       that.findProvinceByAbbr(abbr, (province) ->
         province.path.hover hoverIn, hoverOut
       )
 
-    that.unhoverProvince = (abbr) ->
+    that.removeHoverHandlers = (abbr) ->
       that.findProvinceByAbbr(abbr, (province) ->
         province.path.unhover hoverIn, hoverOut
         hoverOut.call(province.path)
       )
 
-    that.clickProvince = (abbr, callback) ->
+    that.addClickHandler = (abbr, callback) ->
       that.findProvinceByAbbr(abbr, (province) ->
         that.clickHandlers[abbr] = (event) ->
           callback.bind(this)()
@@ -187,7 +187,7 @@ define([
         province.path.click that.clickHandlers[abbr]
       )
 
-    that.unclickProvince = (abbr) ->
+    that.removeClickHandler = (abbr) ->
       that.findProvinceByAbbr(abbr, (province) ->
         province.path.unclick that.clickHandlers[abbr]
         delete that.clickHandlers[abbr]
@@ -229,13 +229,15 @@ define([
 
       orderTypes = ["Move", "Support", "Hold", "Convoy", "Army", "Fleet", "Disband"]
 
-      for orderName in orderTypes
+      g = snap.group()
+
+      for orderType in orderTypes
         c = snap.circle(0, 0, 35).attr
           fill: "rgb(236, 240, 241)",
           stroke: "#1f2c39",
           strokeWidth: 3
 
-        text = snap.text(0, 0, orderName[0])
+        text = snap.text(0, 0, orderType[0])
         text.attr({
             'font-size': 50
         })
@@ -246,17 +248,15 @@ define([
           cx: b.cx
           cy: b.cy
 
-        orders[orderName] = snap.group(c, text).attr({
-          id: "order-#{orderName}"
+        orders[orderType] = snap.group(c, text).attr({
+          id: "order-#{orderType}"
         })
 
-        orders[orderName].click ((name) ->
+        orders[orderType].click ((name) ->
           return ->
             $scope.lieutenant.fsm.handle 'chose.order', name
-        )(orderName)
+        )(orderType)
 
-      g = snap.group()
-      for orderType in orderTypes
         g.add(orders[orderType])
 
       g.transform("t-1000,1000").attr({ id: "orderGroup" })
