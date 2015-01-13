@@ -14,8 +14,7 @@ define([
       states:
         start:
           _onEnter: newLieutenant.onEnterWrapper(->
-            $scope.$apply =>
-              newLieutenant.fsm.handle('chose.area', this.attr('id'))
+            newLieutenant.fsm.handle('chose.area', this.attr('id'))
           )
 
           'chose.area': (abbr) ->
