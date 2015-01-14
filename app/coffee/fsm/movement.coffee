@@ -12,7 +12,8 @@ define([
       states:
         start:
           _onEnter: newLieutenant.onEnterWrapper(->
-            newLieutenant.fsm.handle("chose.unit", this.attr("id"))
+            $scope.$apply =>
+              newLieutenant.fsm.handle("chose.unit", this.attr("id"))
           )
 
           'chose.unit': (abbr) ->
