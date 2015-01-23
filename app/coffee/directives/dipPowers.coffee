@@ -19,7 +19,6 @@ define([
           $scope.$watch('game', (game, oldValue) ->
             if game?
               powers = _.clone(game.Members)
-              console.debug("Powers: #{powers}")
               powers = _.chain(powers)
                 .map((power) -> {
                   power: power,
