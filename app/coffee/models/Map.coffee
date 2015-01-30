@@ -35,7 +35,7 @@ define([
 
   # Object that loads and populates the map
   # selector is a jQuery selector for the div where the map should be under
-  Map = ($scope, $q, selector, svgPath) ->
+  Map = (initialScope, $q, selector, svgPath) ->
 
     that = {
       provinces: {} # map of province abbreviation to Province object
@@ -83,15 +83,23 @@ define([
       that.createOrders(s)
 
       console.debug "Map loaded"
-      $scope.$apply ->
+      initialScope.$apply ->
         that.loaded = true
     )
 
     # refresh nationalities and units on map
     that.refresh = (game) ->
       console.debug "Refreshing game", game.Phase.Ordinal
+
+      # this?
+      # deactivate any previously activated provinces
+      for provinceName, province of that.provinces
+        that.deactivateProvince(provinceName)
+
+      # update SC ownership
       for provinceName, nation of game.Phase.SupplyCenters
         province = that.provinces[provinceName]
+
         if province?
           province.setNation(nation)
 
@@ -107,8 +115,6 @@ define([
 
         unitPromise = that.unitSVGs[unit.Type]
         if unitPromise?
-          console.debug "Unit promise found for #{provinceName}"
-
           # closure containing provinceName and unit
           makeInserter = (provinceName, unit) ->
             (unitSVG) ->
@@ -118,9 +124,18 @@ define([
         else
           console.error "No unit promise for #{unit.Type}(#{provinceName})."
 
-    that.insertUnit = (provinceName, unit, unitSVG) ->
-      console.debug "Inserting #{unit.Type} into #{provinceName}"
+    that.bindOrders = (lieutenant) ->
+      for orderType, orderSnap of this.orders
+        orderSnap.unclick this.clickHandlers[orderType] if this.clickHandlers[orderType]?
 
+        this.clickHandlers[orderType] = ((name) ->
+          return ->
+            lieutenant.fsm.handle 'chose.order', name
+        )(orderType)
+
+        orderSnap.click this.clickHandlers[orderType]
+
+    that.insertUnit = (provinceName, unit, unitSVG) ->
       unitLayer = that.snap.select("svg #units")
 
       if unit.Type == "Army"
@@ -197,7 +212,8 @@ define([
       that.findProvinceByAbbr(abbr, (province) -> province.addClass("highlight"))
 
     that.dehighlightProvince = (abbr) ->
-      that.findProvinceByAbbr(abbr, (province) -> province.removeClass("highlight"))
+      that.findProvinceByAbbr(abbr, (province) ->
+        province.removeClass("highlight"))
 
     that.activateOrders = (abbr, orderTypes) ->
       console.debug "Activating orders"
@@ -251,11 +267,6 @@ define([
         orders[orderType] = snap.group(c, text).attr({
           id: "order-#{orderType}"
         })
-
-        orders[orderType].click ((name) ->
-          return ->
-            $scope.lieutenant.fsm.handle 'chose.order', name
-        )(orderType)
 
         g.add(orders[orderType])
 

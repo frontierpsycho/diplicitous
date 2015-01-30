@@ -32,7 +32,7 @@ define([
 
             orderTypes = newLieutenant.orders.nextOptions()
 
-            $scope.map.activateOrders(newLieutenant.orders.currentOrder.unit_area, orderTypes)
+            $scope.map.activateOrders(newLieutenant.orders.currentOrder.unit_area, orderTypes, newLieutenant)
 
           'chose.order': (type) ->
             console.debug "Chose order type #{type}"

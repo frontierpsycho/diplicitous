@@ -28,7 +28,7 @@ define([
       active: []   # provinces that have event handlers
 
       activateProvinces: (provinces, handler) ->
-        console.debug "Activating provinces"
+        console.debug "Activating provinces:", provinces
         for province in provinces
           $scope.map.activateProvince(province, handler)
         this.active = provinces
@@ -146,6 +146,9 @@ define([
         # all orders coming from the backend on load are sent
         that = this
         _.each(this.orders.orders, (order) -> order.sent = true)
+
+        # bind orders symbols on the map to this lieutenant
+        $scope.map.bindOrders(this)
 
         switch type
           when 'Movement'
