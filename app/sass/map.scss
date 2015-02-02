@@ -259,6 +259,30 @@ $order-hover: #FFFFFF;
 
 }
 
+#dip-player {
+  &.France {
+    background-color: $France-color;
+  }
+  &.Austria {
+    background-color: $Austria-color;
+  }
+  &.Germany {
+    background-color: $Germany-color;
+  }
+  &.Russia {
+    background-color: $Russia-color;
+  }
+  &.England {
+    background-color: $England-color;
+  }
+  &.Turkey {
+    background-color: $Turkey-color;
+  }
+  &.Italy {
+    background-color: $Italy-color;
+  }
+}
+
 #stripe line {
   fill: white;
   stroke: white;

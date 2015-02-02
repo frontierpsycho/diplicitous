@@ -7,6 +7,7 @@ define([
   'controllers'
   'directives/dipOrders'
   'directives/dipPowers'
+  'directives/dipPlayer'
   'directives/diplomacyMap'
   'directives/gameState'
 ], (
