@@ -29,10 +29,8 @@ define([
     ])
     .factory('GameService', [
       'wsService'
-      '$rootScope'
       (
         wsService
-        $rootScope
       ) ->
         Service = {}
 
@@ -50,10 +48,8 @@ define([
     ])
     .factory('UserService', [
       'wsService'
-      '$rootScope'
       (
         wsService
-        $rootScope
       ) ->
         Service = {}
 
