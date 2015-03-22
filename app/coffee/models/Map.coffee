@@ -3,12 +3,14 @@ define([
   'snap'
   'models/Province'
   'models/mapData'
+  'drawing'
   'util'
 ], (
   angular
   Snap
   Province
   MapData
+  Drawing
   Util
 ) ->
   'use strict'
@@ -35,8 +37,7 @@ define([
 
   # Object that loads and populates the map
   # selector is a jQuery selector for the div where the map should be under
-  Map = (initialScope, $q, selector, svgPath) ->
-
+  Map = ($q, selector, element) ->
     that = {
       provinces: {} # map of province abbreviation to Province object
       loaded: false
@@ -54,38 +55,6 @@ define([
           deferred.resolve(fragment)
 
       Snap.load("img/#{unitType}.svg", makeResolver(unitType, deferred))
-
-    that.snap = Snap(selector)
-    Snap.load(svgPath, (data) ->
-      coasts = {}
-
-      provinces = data.selectAll("#provinces path")
-      for province in provinces
-        provinceName = cleanCoast(province.attr("id"))
-
-        [landName, coastName] = tokenizeAbbr(provinceName)
-
-        that.provinces[provinceName] = Province(provinceName, province)
-
-        if coastName
-          coasts[landName] ?= {}
-          coasts[landName][coastName] = that.provinces[provinceName]
-
-      for landName, coastSet of coasts
-        that.provinces[landName].setCoasts(coastSet)
-
-      console.debug("Coasts", coasts)
-
-      that.snap.append(data)
-
-      s = Snap("#{selector} svg")
-
-      that.createOrders(s)
-
-      console.debug "Map loaded"
-      initialScope.$apply ->
-        that.loaded = true
-    )
 
     # refresh nationalities and units on map
     that.refresh = (game) ->
@@ -289,6 +258,30 @@ define([
           else
             province.deactivateCoast()
       )
+
+    that.snap = Snap("#{selector} svg")
+
+    coasts = {}
+
+    provinces = that.snap.selectAll("#provinces path")
+    for province in provinces
+      provinceName = cleanCoast(province.attr("id"))
+
+      [landName, coastName] = tokenizeAbbr(provinceName)
+
+      that.provinces[provinceName] = Province(provinceName, province)
+
+      if coastName
+        coasts[landName] ?= {}
+        coasts[landName][coastName] = that.provinces[provinceName]
+
+    for landName, coastSet of coasts
+      that.provinces[landName].setCoasts(coastSet)
+
+    that.createOrders(that.snap)
+
+    console.debug "Map loaded"
+    that.loaded = true
 
     return that
 

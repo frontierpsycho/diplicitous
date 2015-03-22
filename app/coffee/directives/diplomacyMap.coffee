@@ -11,12 +11,12 @@ define([
   angular.module('diplomacyDirectives')
     .directive 'diplomacyMap', ["$q", ($q) ->
       return {
-        template: '<div id="map"></div>'
+        templateUrl: "img/classical.svg"
         replace: true
         restrict: 'E'
         link: {
           pre: (scope, iElement, tAttrs, transclude) ->
-            scope.map = Map(scope, $q, "#map", "img/classical.svg")
+            scope.map = Map($q, "#map", iElement)
         }
       }]
 )

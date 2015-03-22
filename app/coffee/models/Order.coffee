@@ -1,6 +1,8 @@
 define([
+  'drawing'
   'underscore'
 ], (
+  Drawing
   _
 ) ->
   'use strict'
@@ -48,8 +50,37 @@ define([
         soilCoast(that.dst)
       ], undefined)
 
+    that.draw = ->
+      s = Snap("#map svg")
+      if @type == "Move"
+        ABBox = s.select("##{@unit_area}Center").getBBox()
+        BBBox = s.select("##{@dst}Center").getBBox()
+
+        pointA = new Drawing.Point(ABBox.cx, ABBox.cy)
+        pointB = new Drawing.Point(BBBox.cx, BBBox.cy)
+        path = s.path(Drawing.arrowPath(pointA, pointB)).attr({
+          fill: "#32CD32"
+          "fill-opacity": "0.8"
+          stroke: "#2E8B57"
+          "stroke-width": "2px"
+          "stroke-opacity": "0.8"
+        })
+        s.select("#orderMarkings").append(path)
+
+    that.arrowPath = ->
+      s = Snap("#map svg")
+      ABBox = s.select("##{@unit_area}Center").getBBox()
+      BBBox = s.select("##{@dst}Center").getBBox()
+
+      pointA = new Drawing.Point(ABBox.cx, ABBox.cy)
+      pointB = new Drawing.Point(BBBox.cx, BBBox.cy)
+
+      path = Drawing.arrowPath(pointA, pointB).join(" ")
+      path
+
     if unit_area? and diplicity_order?
       that.fromDiplicity(unit_area, diplicity_order)
+
 
     that
 )

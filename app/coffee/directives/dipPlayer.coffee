@@ -17,7 +17,6 @@ define([
         restrict: 'E'
         link: ($scope, iElem, iAttr) ->
           $scope.$watch('lieutenant.player', (player, oldValue) ->
-            console.debug "Greetings from the dipPlayer directive!", player, oldValue
           )
       }
     )

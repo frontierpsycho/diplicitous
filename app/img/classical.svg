@@ -1,7 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?xml-stylesheet href="/app/css/map.css" type="text/css"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -1353,4 +1349,9 @@
      transform="translate(602.34811,513.94131)"
      id="units" /><g
      transform="translate(602.34811,513.94131)"
-     id="orders" /></svg>
+     id="orders" />
+     <g transform="translate(602.34811,513.94131)" id="orderMarkings">
+        <path class="order-arrow" ng-attr-id="{{ order.unit_area }}" ng-repeat="order in lieutenant.orders.orders" ng-attr-d="{{ order.arrowPath() }}" />
+     </g>
+
+     </svg>
