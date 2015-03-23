@@ -127,16 +127,11 @@ define([
         else
           console.warn("Tried to delete order with no fsm present")
 
-      init: (type) ->
-        console.debug 'Initializing Lieutenant'
 
-        unless $scope.user.Email?
-          console.warn "There is no user"
-          return this
+      refresh: (game, user) ->
+        this.deactivateProvinces()
 
-        this.player = Player($scope.game.player($scope.user))
-
-        this.units = $scope.game.Phase.Units
+        this.player = Player(game.player(user))
 
         # read the orders we get from the backend
         this.orders = OrderCollection(this.player.Options)
@@ -150,13 +145,22 @@ define([
         # bind orders symbols on the map to this lieutenant
         $scope.map.bindOrders(this)
 
-        switch type
+        switch game.Phase.Type
           when 'Movement'
-            newLieutenant.fsm = MovementFSM($scope, newLieutenant)
+            this.fsm = MovementFSM($scope, this)
           when 'Adjustment'
-            newLieutenant.fsm = AdjustmentFSM($scope, newLieutenant)
+            this.fsm = AdjustmentFSM($scope, this)
           when 'Retreat'
-            newLieutenant.fsm = RetreatFSM($scope, newLieutenant)
+            this.fsm = RetreatFSM($scope, this)
+
+      init: (type) ->
+        console.debug 'Initializing Lieutenant'
+
+        unless $scope.user.Email?
+          console.warn "There is no user"
+          return this
+
+        this.refresh($scope.game, $scope.user)
 
         return newLieutenant
 
