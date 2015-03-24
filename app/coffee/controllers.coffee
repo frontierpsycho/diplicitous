@@ -23,6 +23,7 @@ define([
     '$interval'
     'UserService'
     'GameService'
+    'MapService'
     'wsService'
     (
       $scope
@@ -30,9 +31,13 @@ define([
       $interval
       UserService
       GameService
+      MapService
       wsService
     ) ->
-      deregisterMap = $scope.$watch('map.loaded', (newValue, oldValue) ->
+      $scope.map = MapService # TODO remove once all references get replaced by MapService
+
+      deregisterMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
+        console.debug("Controller picked it up")
         if newValue
           GameService.subscribe($scope, $routeParams.gameId)
           UserService.subscribe($scope)
@@ -41,7 +46,7 @@ define([
           $scope.$watch('game', (newGame, oldGame) ->
             # if there is a new game, and if we have changed phase
             if newGame? and not (oldGame? and newGame.Phase.Ordinal == oldGame.Phase.Ordinal)
-              $scope.map.refresh(newGame)
+              MapService.refresh(newGame)
 
               deregisterUser = $scope.$watch('user', (newUser, oldUser) ->
                 if newUser? and not _.isEmpty(newUser)

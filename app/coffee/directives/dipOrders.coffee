@@ -1,11 +1,9 @@
 define([
   'angular'
-  'models/Map'
   'wsService'
   'directives/directives'
 ], (
   angular
-  Map
   ws
   directives
 ) ->
