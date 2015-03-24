@@ -8,11 +8,11 @@ define([
   'use strict'
 
   angular.module('diplomacyDirectives')
-    .directive('mapOrder', ->
+    .directive('mapOrders', ->
       {
-        template: "<!-- Hello, nurse! -->"
-        replace: false
-        restrict: 'C'
+        templateUrl: "templates/mapOrders.html"
+        replace: true
+        templateNamespace: "svg"
       }
     )
 )

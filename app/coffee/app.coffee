@@ -10,7 +10,7 @@ define([
   'directives/dipPlayer'
   'directives/diplomacyMap'
   'directives/gameState'
-  'directives/mapOrder'
+  'directives/mapOrders'
 ], (
   angular
 ) ->

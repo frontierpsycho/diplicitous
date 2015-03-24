@@ -1350,8 +1350,5 @@
      id="units" /><g
      transform="translate(602.34811,513.94131)"
      id="orders" />
-     <g transform="translate(602.34811,513.94131)" id="orderMarkings">
-        <path class="order-arrow" ng-attr-id="{{ order.unit_area }}" ng-repeat="order in lieutenant.orders.orders" ng-attr-d="{{ order.arrowPath() }}" />
-     </g>
-
+     <map-orders></map-orders>
      </svg>

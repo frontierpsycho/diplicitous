@@ -81,6 +81,5 @@ define([
     if unit_area? and diplicity_order?
       that.fromDiplicity(unit_area, diplicity_order)
 
-
     that
 )
