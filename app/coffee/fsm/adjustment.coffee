@@ -7,62 +7,62 @@ define([
 ) ->
   'use strict'
 
-  AdjustmentFSM = ($scope, newLieutenant) ->
+  AdjustmentFSM = ($scope, MapService, lieutenant) ->
     return new Machina.Fsm({
       initialState: 'start'
 
       states:
         start:
-          _onEnter: newLieutenant.onEnterWrapper(->
+          _onEnter: lieutenant.onEnterWrapper(->
             $scope.$apply =>
-              newLieutenant.fsm.handle('chose.area', this.attr('id'))
+              lieutenant.fsm.handle('chose.area', this.attr('id'))
           )
 
           'chose.area': (abbr) ->
             console.debug "Chose area to build in: #{abbr}"
-            currentOrder = newLieutenant.orders.currentOrder
+            currentOrder = lieutenant.orders.currentOrder
             currentOrder.unit_area = abbr
 
-            if abbr of $scope.game.Phase.Units
+            if abbr of lieutenant.game.Phase.Units
               currentOrder.type = 'Disband'
-              newLieutenant.fsm.transition("chose_disband")
-              newLieutenant.orders.storeOrder()
-              newLieutenant.fsm.transition("start")
+              lieutenant.fsm.transition("chose_disband")
+              lieutenant.orders.storeOrder()
+              lieutenant.fsm.transition("start")
             else
               currentOrder.type = 'Build'
-              newLieutenant.fsm.transition("unit_type")
+              lieutenant.fsm.transition("unit_type")
 
         unit_type:
           _onEnter: ->
-            newLieutenant.deactivateProvinces()
+            lieutenant.deactivateProvinces()
 
             console.debug 'Entered unit_type'
 
-            unitTypes = newLieutenant.orders.nextOptions()
+            unitTypes = lieutenant.orders.nextOptions()
 
-            $scope.map.activateOrders(newLieutenant.orders.currentOrder.unit_area, unitTypes)
+            MapService.activateOrders(lieutenant.orders.currentOrder.unit_area, unitTypes)
 
           'chose.order': (type) ->
             console.debug "Chose unit type #{type}"
             $scope.$apply ->
-              newLieutenant.orders.currentOrder.unit_type = type
-              newLieutenant.orders.storeOrder()
-              nation = newLieutenant.player.Nation
-              availableUnits = $scope.game.supplyCenters(nation).length - $scope.game.units(nation).length
-              console.debug 'availableUnits', availableUnits, $scope.game.supplyCenters(nation), $scope.game.units(nation)
-              if _.size(newLieutenant.orders.orders) >= availableUnits
-                newLieutenant.fsm.transition("blocked")
+              lieutenant.orders.currentOrder.unit_type = type
+              lieutenant.orders.storeOrder()
+              nation = lieutenant.player.Nation
+              availableUnits = lieutenant.game.supplyCenters(nation).length - lieutenant.game.units(nation).length
+              console.debug 'availableUnits', availableUnits, lieutenant.game.supplyCenters(nation), lieutenant.game.units(nation)
+              if _.size(lieutenant.orders.orders) >= availableUnits
+                lieutenant.fsm.transition("blocked")
               else
-                newLieutenant.fsm.transition("start")
+                lieutenant.fsm.transition("start")
 
         blocked:
           _onEnter: ->
-            newLieutenant.deactivateProvinces()
+            lieutenant.deactivateProvinces()
 
             console.debug 'Entered blocked (no more units can be ordered)'
 
           'order.deleted': (abbr) ->
-            newLieutenant.fsm.transition("start")
+            lieutenant.fsm.transition("start")
 
     })
 

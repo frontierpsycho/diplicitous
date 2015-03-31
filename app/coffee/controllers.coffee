@@ -1,10 +1,8 @@
 define([
   'angular'
-  'lieutenant'
   'underscore'
 ], (
   angular
-  Lieutenant
   _
 ) ->
   'use strict'
@@ -24,6 +22,7 @@ define([
     'UserService'
     'GameService'
     'MapService'
+    'Lieutenant'
     'wsService'
     (
       $scope
@@ -32,9 +31,11 @@ define([
       UserService
       GameService
       MapService
+      Lieutenant
       wsService
     ) ->
       $scope.map = MapService # TODO remove once all references get replaced by MapService
+      $scope.lieutenant = Lieutenant
 
       deregisterMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
         console.debug("Controller picked it up")
@@ -51,10 +52,7 @@ define([
               deregisterUser = $scope.$watch('user', (newUser, oldUser) ->
                 if newUser? and not _.isEmpty(newUser)
                   # we have both a game and a user
-                  unless $scope.lieutenant
-                    $scope.lieutenant = Lieutenant($scope, wsService).init(newGame.Phase.Type)
-                  else
-                    $scope.lieutenant.refresh(newGame, newUser)
+                  Lieutenant.refresh(newGame, newUser)
 
                   deregisterUser()
               )

@@ -5,6 +5,7 @@ define([
   'wsService'
   'services/services'
   'services/map'
+  'services/lieutenant'
   'controllers'
   'directives/dipOrders'
   'directives/dipPowers'

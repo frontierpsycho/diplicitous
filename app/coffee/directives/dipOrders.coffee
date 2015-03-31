@@ -26,7 +26,7 @@ define([
     "Disband": ""
 
   angular.module('diplomacyDirectives')
-    .directive('dipOrders', ['wsService', (ws) ->
+    .directive('dipOrders', ['wsService', 'Lieutenant', (ws, Lieutenant) ->
       {
         templateUrl: 'templates/dipOrders.html'
         replace: true
@@ -35,20 +35,20 @@ define([
           console.debug "Order widget linking"
 
           $scope.commitOrders = ->
-            $scope.lieutenant.commitOrders()
+            Lieutenant.commitOrders()
 
           $scope.uncommitOrders = ->
-            $scope.lieutenant.uncommitOrders()
+            Lieutenant.uncommitOrders()
 
           $scope.sendOrders = ->
-            $scope.lieutenant.sendOrders()
+            Lieutenant.sendOrders()
 
           $scope.typeSymbols = typeSymbols
 
           $scope.secondaryTypeSymbols = secondaryTypeSymbols
       }
     ])
-    .directive('order', ['wsService', (ws) ->
+    .directive('order', ['wsService', 'Lieutenant', (ws, Lieutenant) ->
       {
         templateUrl: 'templates/order.html'
         replace: true
@@ -65,11 +65,11 @@ define([
           $scope.secondaryTypeSymbols = secondaryTypeSymbols
 
           $scope.deleteOrder = (order) ->
-            $scope.lieutenant.deleteRemoteOrder(order)
+            Lieutenant.deleteRemoteOrder(order)
             console.debug "Sent order deletion (#{order.unit_area})"
 
           $scope.cancelOrder = ->
-            $scope.lieutenant.cancelOrder()
+            Lieutenant.cancelOrder()
       }
     ])
 )
