@@ -32,8 +32,6 @@ define([
         replace: true
         restrict: 'E'
         link: ($scope) ->
-          console.debug "Order widget linking"
-
           $scope.commitOrders = ->
             Lieutenant.commitOrders()
 
@@ -58,8 +56,6 @@ define([
           lieutenant: "="
           newOrder: "@"
         link: ($scope) ->
-          console.debug "Existing order widget linking"
-
           $scope.typeSymbols = typeSymbols
 
           $scope.secondaryTypeSymbols = secondaryTypeSymbols

@@ -34,11 +34,9 @@ define([
       Lieutenant
       wsService
     ) ->
-      $scope.map = MapService # TODO remove once all references get replaced by MapService
       $scope.lieutenant = Lieutenant
 
       deregisterMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
-        console.debug("Controller picked it up")
         if newValue
           GameService.subscribe($scope, $routeParams.gameId)
           UserService.subscribe($scope)
