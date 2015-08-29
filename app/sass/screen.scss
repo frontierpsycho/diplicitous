@@ -5,6 +5,7 @@
 @import "dipPowers";
 @import "dipOrders";
 @import "dipPlayer";
+@import "gameState";
 
 /* -------------------------------------------------------------------------*/
 /* Layout */
@@ -12,9 +13,6 @@
 body {
 }
 
-h2 {
-  font-size: 2em;
-}
 h3 {
   font-size: 1.8em;
   margin: 0.8em 1em;
@@ -68,10 +66,6 @@ h3 {
 
   position: relative;
   background-color: white;
-
-  h2 {
-    margin: 1em;
-  }
 
   .content {
     @include squish(2, 2);

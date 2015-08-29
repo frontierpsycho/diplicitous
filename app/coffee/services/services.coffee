@@ -46,6 +46,25 @@ define([
 
         Service
     ])
+    .factory('GamePhaseService', [
+      'wsService'
+      (
+        wsService
+      ) ->
+        Service = {}
+
+        uri = (id, phase) -> "/games/#{id}/#{phase}"
+
+        Service.subscribe = (target, id, phase) ->
+          wsService.subscribe(uri(id, phase), {
+            target: target
+            name: 'game'
+            callback: (data) ->
+              Game(data)
+          })
+
+        Service
+    ])
     .factory('UserService', [
       'wsService'
       (

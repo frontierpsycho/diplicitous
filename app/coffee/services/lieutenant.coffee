@@ -144,7 +144,8 @@ define([
           # read the orders we get from the backend
           this.orders = OrderCollection(this.player.Options)
           # and turn them into Order objects
-          this.orders.convertOrders(game.Phase.Orders[this.player.Nation])
+          for nation, nationOrders of game.Phase.Orders
+            this.orders.convertOrders(nationOrders)
 
           # all orders coming from the backend on load are sent
           that = this

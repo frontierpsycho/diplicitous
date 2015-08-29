@@ -1,0 +1,13 @@
+div#gameState {
+  margin: 0.5em 0;
+  font-size: 2em;
+  span.navigation {
+    padding: 0.2em;
+    margin-right: 0.2em;
+    color: white;
+    background-color: #007EFF;
+    &:hover {
+      background-color: #004EFF;
+    }
+  }
+}
