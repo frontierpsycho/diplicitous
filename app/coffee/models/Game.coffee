@@ -29,6 +29,8 @@ define([
     # time left until next phase, in seconds
     game.timeLeft = -> Math.floor(game.TimeLeft / 1000000000)
 
+    game.isCurrentPhase = -> game.Phase.Ordinal == game.Phases
+
     return game
 
   Game

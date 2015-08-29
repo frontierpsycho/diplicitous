@@ -154,13 +154,14 @@ define([
           # bind orders symbols on the map to this lieutenant
           MapService.bindOrders(this)
 
-          switch game.Phase.Type
-            when 'Movement'
-              this.fsm = MovementFSM($scope, MapService, this)
-            when 'Adjustment'
-              this.fsm = AdjustmentFSM($scope, MapService, this)
-            when 'Retreat'
-              this.fsm = RetreatFSM($scope, MapService, this)
+          if game.isCurrentPhase()
+            switch game.Phase.Type
+              when 'Movement'
+                this.fsm = MovementFSM($scope, MapService, this)
+              when 'Adjustment'
+                this.fsm = AdjustmentFSM($scope, MapService, this)
+              when 'Retreat'
+                this.fsm = RetreatFSM($scope, MapService, this)
 
         return this
     ])
