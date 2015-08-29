@@ -50,7 +50,7 @@ define([
           type = data['Type']
 
           switch type
-            when 'Create', 'Fetch', 'Update'
+            when 'Create', 'Fetch', 'Update' # TODO should probably separate those
               $rootScope.$apply ->
                 containedData = data['Object']['Data']
 

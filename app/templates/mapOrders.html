@@ -1,4 +1,4 @@
 <g transform="translate(602.34811,513.94131)" id="orderMarkings">
-  <path ng-if="order.type == 'Move'" class="order-arrow" ng-attr-id="{{ order.unit_area }}" ng-repeat="order in lieutenant.orders.orders" ng-attr-d="{{ order.arrowPath() }}" />
+  <path class="order-arrow {{ order.type}}" ng-attr-id="{{ order.unit_area }}" ng-repeat="order in lieutenant.orders.orders" ng-attr-d="{{ order.arrowPath() }}" />
 </g>
 
