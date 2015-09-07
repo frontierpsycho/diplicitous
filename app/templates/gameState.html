@@ -1,1 +1,3 @@
-<div id="gameState"><span class="navigation shadowed-text left">&larr;</span><span class="navigation shadowed-text right">&rarr;</span>{{ game.Phase.Season }} {{ game.Phase.Year }}, {{ game.Phase.Type }} ({{ timeLeftHumanReadable() }} left)</div>
+<div id="gameState">
+  <span ng-if="!firstPhase()" class="navigation shadowed-text left" ng-click="previousPhase()">&larr;</span><span ng-if="!lastPhase()" class="navigation shadowed-text right" ng-click="nextPhase()">&rarr;</span>{{ game.Phase.Season }} {{ game.Phase.Year }}, {{ game.Phase.Type }} ({{ timeLeftHumanReadable() }} left)
+</div>
