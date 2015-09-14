@@ -55,6 +55,7 @@ define([
           order: "="
           lieutenant: "="
           newOrder: "@"
+          game: "="
         link: ($scope) ->
           $scope.typeSymbols = typeSymbols
 

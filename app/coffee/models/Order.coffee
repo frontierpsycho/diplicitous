@@ -22,6 +22,7 @@ define([
   Order = (unit_area, diplicity_order) ->
     that = {
       sent: false
+      resolution: ""
     }
 
     that.fromDiplicity = (unit_area, diplicity_order) ->

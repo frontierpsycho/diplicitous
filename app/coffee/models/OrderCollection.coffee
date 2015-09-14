@@ -7,11 +7,12 @@ define([
 ) ->
   'use strict'
 
-  OrderCollection = (options) ->
+  OrderCollection = (options, resolutions) ->
     that =
       orders: {}
       currentOrder: Order()
       options: options
+      resolutions: resolutions || {}
 
     that.get = ->
       that.orders
@@ -56,6 +57,11 @@ define([
           .Next
 
       _.keys(options)
+
+    that.resolve = (resolutions) ->
+      _.each(resolutions, (resolution, provinceAbbr) ->
+        that.orders[provinceAbbr]?.resolution = resolution
+      )
 
     that
 )

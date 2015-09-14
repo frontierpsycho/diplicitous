@@ -147,6 +147,9 @@ define([
           for nation, nationOrders of game.Phase.Orders
             this.orders.convertOrders(nationOrders)
 
+          if game.Phase.Resolved
+            this.orders.resolve(game.Phase.Resolutions)
+
           # all orders coming from the backend on load are sent
           that = this
           _.each(this.orders.orders, (order) -> order.sent = true)

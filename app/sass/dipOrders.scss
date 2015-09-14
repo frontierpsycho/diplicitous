@@ -6,6 +6,20 @@
       background-color: white;
       .order {
         padding: 0.25em 0.5em;
+        i {
+          color: #494949;
+        }
+        .delete-button {
+          padding: 0.3em;
+          float: right;
+          i:hover {
+            color: #BEBEBE;
+          }
+        }
+        .resolution {
+          padding: 0.3em;
+          float: right;
+        }
       }
       .sent {
         background-color: $sent-green;
