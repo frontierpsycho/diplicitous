@@ -17,9 +17,9 @@ define([
     that.get = ->
       that.orders
 
-    that.convertOrders = (diplicity_orders) ->
+    that.convertOrders = (nation, diplicity_orders) ->
       for own unit_area, diplicity_order of diplicity_orders
-        that.orders[unit_area] = Order(unit_area, diplicity_order)
+        that.orders[unit_area] = Order(unit_area, nation, diplicity_order)
 
     that.storeOrder = ->
       console.debug "Storing order", that.currentOrder

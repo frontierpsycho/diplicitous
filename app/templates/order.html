@@ -1,4 +1,4 @@
-<div class="order {{ lieutenant.player.Nation }}" ng-class="{ sent: order.sent }">
+<div class="order {{ order.nation }}" ng-class="{ sent: order.sent }">
   <span ng-show="order.unit_type">{{ order.unit_type[0] }}</span>
   <span ng-show="order.unit_area" class="badge">{{ order.unit_area }}</span>
   <span ng-show="order.type" ng-bind-html='typeSymbols[order.type]'></span>

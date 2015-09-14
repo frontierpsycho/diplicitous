@@ -145,7 +145,7 @@ define([
           this.orders = OrderCollection(this.player.Options)
           # and turn them into Order objects
           for nation, nationOrders of game.Phase.Orders
-            this.orders.convertOrders(nationOrders)
+            this.orders.convertOrders(nation, nationOrders)
 
           if game.Phase.Resolved
             this.orders.resolve(game.Phase.Resolutions)
