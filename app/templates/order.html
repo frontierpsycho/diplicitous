@@ -10,11 +10,11 @@
   <span ng-if="newOrder" ng-show="order.unit_area">
     <button ng-click="cancelOrder()">Cancel</button>
   </span>
-  <span ng-if="!newOrder" ng-click="deleteOrder(order)" class="delete-button"><i class="fa fa-trash-o" alt="Delete"></i></span>
+  <span ng-if="(!newOrder) && editable" ng-click="deleteOrder(order)" class="delete-button"><i class="fa fa-trash-o" alt="Delete"></i></span>
   <span class="resolution" ng-switch="order.resolution">
-    <i ng-switch-when="OK" class="fa fa-check-circle-o"></i>
+    <i ng-switch-when="OK" class="fa fa-check-circle-o" title="Succeeded"></i>
     <i ng-switch-when="" class="fa"></i>
-    <i ng-switch-default class="fa fa-ban"></i>
+    <i ng-switch-default class="fa fa-ban" title="Failed"></i>
   </span>
   </span>
 </div>

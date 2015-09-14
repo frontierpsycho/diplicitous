@@ -5,7 +5,7 @@
 </div>
 <div id="orders">
 	<h3>Orders</h3>
-	<order order="order" lieutenant="lieutenant" ng-repeat="(unit_area, order) in lieutenant.orders.orders"></order>
+	<order order="order" lieutenant="lieutenant" editable="game.isCurrentPhase()" ng-repeat="(unit_area, order) in lieutenant.orders.orders"></order>
 </div>
 <div id="controls">
 	<button id="send-button" ng-click="sendOrders()">Send</button>
