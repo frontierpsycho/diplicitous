@@ -2,6 +2,7 @@ define([
   'angular'
   'angular-route'
   'angular-sanitize'
+  'angular-hotkeys'
   'wsService'
   'services/services'
   'services/map'
@@ -24,6 +25,7 @@ define([
     'diplomacyDirectives'
     'ngRoute'
     'ngSanitize'
+    'cfp.hotkeys'
   ])
     .config(['$routeProvider', ($routeProvider) ->
 

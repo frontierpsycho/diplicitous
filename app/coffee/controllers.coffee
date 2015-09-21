@@ -19,6 +19,7 @@ define([
     '$scope'
     '$routeParams'
     '$interval'
+    'hotkeys'
     'UserService'
     'GameService'
     'MapService'
@@ -28,6 +29,7 @@ define([
       $scope
       $routeParams
       $interval
+      hotkeys
       UserService
       GameService
       MapService
@@ -35,6 +37,33 @@ define([
       wsService
     ) ->
       $scope.lieutenant = Lieutenant
+
+      hotkeys.bindTo($scope)
+        .add(
+          combo: 'left'
+          description: 'Display the previous phase'
+          callback: -> $scope.previousPhase()
+        )
+        .add(
+          combo: 'right'
+          description: 'Display the next phase'
+          callback: -> $scope.nextPhase()
+        )
+        .add(
+          combo: 'shift+left'
+          description: 'Display the first phase'
+          callback: -> $scope.firstPhase()
+        )
+        .add(
+          combo: 'shift+right'
+          description: 'Display the last phase'
+          callback: -> $scope.lastPhase()
+        )
+        .add(
+          combo: 'esc'
+          description: 'Cancel current order'
+          callback: -> Lieutenant.cancelOrder()
+        )
 
       deregisterMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
         if newValue

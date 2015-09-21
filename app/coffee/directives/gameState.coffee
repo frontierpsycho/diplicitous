@@ -15,16 +15,22 @@ define([
         restrict: 'E'
         link: ($scope, iElem, iAttr) ->
           $scope.previousPhase = ->
-            console.log("Displaying previous phase (#{$scope.game.Phase.Ordinal - 1})")
-            GamePhaseService.subscribe($scope, $scope.game.Id, $scope.game.Phase.Ordinal - 1)
+            if (!$scope.isFirstPhase())
+              console.log("Displaying previous phase (#{$scope.game.Phase.Ordinal - 1})")
+              GamePhaseService.subscribe($scope, $scope.game.Id, $scope.game.Phase.Ordinal - 1)
+            else
+              console.log("Not displaying previous phase, we're at the first one")
 
           $scope.firstPhase = ->
             console.log("Displaying first phase")
             GamePhaseService.subscribe($scope, $scope.game.Id, 0)
 
           $scope.nextPhase = ->
-            console.log("Displaying next phase (#{$scope.game.Phase.Ordinal + 1})")
-            GamePhaseService.subscribe($scope, $scope.game.Id, $scope.game.Phase.Ordinal + 1)
+            if (!$scope.isLastPhase())
+              console.log("Displaying next phase (#{$scope.game.Phase.Ordinal + 1})")
+              GamePhaseService.subscribe($scope, $scope.game.Id, $scope.game.Phase.Ordinal + 1)
+            else
+              console.log("Not displaying next phase, we're at the last one")
 
           $scope.lastPhase = ->
             console.log("Displaying last phase")
