@@ -7,29 +7,29 @@ define([
 ) ->
   'use strict'
 
-  OrderCollection = (options, resolutions) ->
+  OrderCollection = (options, nation) ->
     that =
       orders: {}
-      currentOrder: Order()
+      currentOrder: Order(nation)
       options: options
-      resolutions: resolutions || {}
+      nation: nation
 
     that.get = ->
       that.orders
 
     that.convertOrders = (nation, diplicity_orders) ->
       for own unit_area, diplicity_order of diplicity_orders
-        that.orders[unit_area] = Order(unit_area, nation, diplicity_order)
+        that.orders[unit_area] = Order(nation, unit_area, diplicity_order)
 
     that.storeOrder = ->
       console.debug "Storing order", that.currentOrder
       that.orders[that.currentOrder.unit_area] = that.currentOrder
-      that.currentOrder = Order()
+      that.currentOrder = Order(that.nation)
 
       console.debug "Orders:", that.orders
 
     that.cancelOrder = ->
-      that.currentOrder = Order()
+      that.currentOrder = Order(that.nation)
 
     that.deleteOrder = (order) ->
       if order.unit_area of that.orders

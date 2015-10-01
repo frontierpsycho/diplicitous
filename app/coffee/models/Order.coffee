@@ -19,7 +19,7 @@ define([
     else
       abbr
 
-  Order = (unit_area, nation, diplicity_order) ->
+  Order = (nation, unit_area, diplicity_order) ->
     that = {
       sent: false
       nation: nation

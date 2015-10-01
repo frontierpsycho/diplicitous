@@ -142,7 +142,7 @@ define([
           this.player = Player(game.player(user))
 
           # read the orders we get from the backend
-          this.orders = OrderCollection(this.player.Options)
+          this.orders = OrderCollection(this.player.Options, this.player.Nation)
           # and turn them into Order objects
           for nation, nationOrders of game.Phase.Orders
             this.orders.convertOrders(nation, nationOrders)
