@@ -1,0 +1,34 @@
+{
+  "name": "diplicitous",
+  "version": "0.0.1",
+  "homepage": "https://github.com/frontierpsycho/diplicitous",
+  "authors": [
+    "NamelessOne <unfortunate42@gmail.com>"
+  ],
+  "description": "",
+  "main": "js/main.js",
+  "moduleType": [],
+  "keywords": [
+    "diplomacy"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "~1.4.7",
+    "angular-sanitize": "~1.4.7",
+    "requirejs": "~2.1.20",
+    "moment": "~2.10.6",
+    "requirejs-domready": "~2.0.1",
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.6.0",
+    "Snap.svg": "0.3.0",
+    "machina": "~1.1.2",
+    "lodash": "~3.10.1"
+  }
+}

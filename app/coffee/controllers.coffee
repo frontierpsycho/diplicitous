@@ -1,8 +1,10 @@
 define([
   'angular'
+  'moment'
   'underscore'
 ], (
   angular
+  moment
   _
 ) ->
   'use strict'

@@ -12,3 +12,4 @@ build.xml
 app/css/*.css
 
 node_modules/
+bower_components/

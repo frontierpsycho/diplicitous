@@ -1,6 +1,5 @@
 define([
   'angular'
-  'machina'
   'models/Player'
   'models/OrderCollection'
   'fsm/movement'
@@ -10,7 +9,6 @@ define([
   'services/services'
 ], (
   angular
-  Machina
   Player
   OrderCollection
   MovementFSM

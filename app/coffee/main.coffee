@@ -3,16 +3,17 @@ require.config(
 
     # alias libraries paths
     paths:
-      'domReady': '../lib/requirejs/domReady',
-      'angular': '../lib/angular/angular'
-      'angular-route': '../lib/angular/angular-route'
-      'angular-sanitize': '../lib/angular/angular-sanitize'
-      'angular-hotkeys': '../lib/angular-hotkeys/hotkeys'
-      'snap': '../lib/snap/snap.svg'
+      'domReady': '../bower_components/requirejs-domready/domReady',
+      'angular': '../bower_components/angular/angular'
+      'angular-route': '../bower_components/angular-route/angular-route'
+      'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize'
+      'angular-hotkeys': '../bower_components/angular-hotkeys/build/hotkeys'
+      'snap': '../bower_components/Snap.svg/dist/snap.svg'
       'underscore': '../lib/underscore/underscore'
-      'machina': '../lib/machina/machina'
+      'lodash': '../bower_components/lodash/lodash'
+      'machina': '../bower_components/machina/lib/machina'
+      'moment': '../bower_components/moment/moment'
       'config': '../config/client'
-      'moment': '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min'
 
     # angular does not support AMD out of the box, put it in a shim
     shim:
