@@ -10,7 +10,7 @@ define([
 ], (
   angular
   Player
-  OrderCollection
+  Orders
   MovementFSM
   AdjustmentFSM
   RetreatFSM
@@ -138,15 +138,21 @@ define([
           this.deactivateProvinces()
 
           this.game = game
-          this.player = Player(game.player(user))
 
-          # read the orders we get from the backend
-          this.orders = OrderCollection(this.player.Options, this.player.Nation)
-          # and turn them into Order objects
-          for nation, nationOrders of game.Phase.Orders
-            this.orders.convertOrders(nation, nationOrders)
+          this.userMode = user.Email != "" # if we don't have an email, we shouldn't show the player widget, etc.
+
+          if this.userMode
+            this.player = Player(game.player(user))
+
+            # initialize orders with user's options
+            this.orders = new Orders.CurrentOrderCollection(game.Phase.Orders, this.player.Options, this.player.Nation)
+          else
+            # read the orders we get from the backend
+            # and turn them into Order objects
+            this.orders = new Orders.OrderCollection(game.Phase.Orders)
 
           if game.Phase.Resolved
+            console.log(this.orders)
             this.orders.resolve(game.Phase.Resolutions)
 
           # all orders coming from the backend on load are sent
@@ -156,7 +162,7 @@ define([
           # bind orders symbols on the map to this lieutenant
           MapService.bindOrders(this)
 
-          if game.isCurrentPhase()
+          if game.isCurrentPhase() && this.userMode
             switch game.Phase.Type
               when 'Movement'
                 this.fsm = MovementFSM($scope, MapService, this)
