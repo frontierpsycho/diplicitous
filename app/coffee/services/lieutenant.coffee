@@ -55,7 +55,7 @@ define([
             nextOptions = that.orders.nextOptions()
 
             # make a list of options that are coastal
-            coastOptions = _.chain(nextOptions)
+            coastOptions = _(nextOptions)
               .filter((item) -> item.indexOf("/") != -1)
               .map((item) -> item.replace("/", "-"))
               .value()
@@ -69,7 +69,7 @@ define([
 
         this.sendOrders = ->
           that = this
-          _.chain(this.orders.orders)
+          _(this.orders.orders)
             .filter((order) -> (not order.sent))
             .each((order) ->
               ws.sendRPC(
@@ -85,6 +85,7 @@ define([
               )
               console.debug "Sent", order.toDiplicity()
             )
+            .run()
 
         this.commitOrders = ->
           that = this

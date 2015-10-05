@@ -67,7 +67,7 @@ define([
           callback: -> Lieutenant.cancelOrder()
         )
 
-      deregisterMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
+      unwatchMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
         if newValue
           GameService.subscribe($scope, $routeParams.gameId)
           UserService.subscribe($scope)
@@ -78,12 +78,12 @@ define([
             if newGame? and not (oldGame? and newGame.Phase.Ordinal == oldGame.Phase.Ordinal)
               MapService.refresh(newGame)
 
-              deregisterUser = $scope.$watch('user', (newUser, oldUser) ->
+              unwatchUser = $scope.$watch('user', (newUser, oldUser) ->
                 if newUser? and not _.isEmpty(newUser)
                   # we have both a game and a user
                   Lieutenant.refresh(newGame, newUser)
 
-                  deregisterUser()
+                  unwatchUser()
               )
 
               # get initial time left
@@ -96,7 +96,7 @@ define([
                 moment.duration($scope.timeLeft, "seconds").humanize()
           )
 
-          deregisterMap()
+          unwatchMap()
       )
   ])
 )

@@ -19,7 +19,7 @@ define([
           $scope.$watch('game', (game, oldValue) ->
             if game?
               powers = _.clone(game.Members)
-              powers = _.chain(powers)
+              powers = _(powers)
                 .map((power) -> {
                   power: power,
                   scs: game.supplyCenters(power.Nation).length

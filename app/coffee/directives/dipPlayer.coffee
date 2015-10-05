@@ -15,9 +15,6 @@ define([
         templateUrl: 'templates/dipPlayer.html'
         replace: true
         restrict: 'E'
-        link: ($scope, iElem, iAttr) ->
-          $scope.$watch('lieutenant.player', (player, oldValue) ->
-          )
       }
     )
 )
