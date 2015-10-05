@@ -1,6 +1,6 @@
 define([
   'models/Order'
-  'underscore'
+  'lodash'
 ], (
   Order
   _
@@ -16,7 +16,7 @@ define([
           "war"
         ]
 
-        converted = Order("mos", diplicity_order)
+        converted = Order("Russia", "mos", diplicity_order)
 
         expect(_.pick(converted, "type", "unit_area", "dst"))
           .toEqual(
@@ -32,7 +32,7 @@ define([
           "war"
         ]
 
-        converted = Order("mos", diplicity_order)
+        converted = Order("Russia", "mos", diplicity_order)
 
         expect(_.pick(converted, "type", "unit_area", "dst", "src"))
           .toEqual(

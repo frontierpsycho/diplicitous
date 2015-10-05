@@ -1,7 +1,7 @@
 define([
   'angular'
   'moment'
-  'underscore'
+  'lodash'
 ], (
   angular
   moment

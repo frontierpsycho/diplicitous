@@ -1,6 +1,6 @@
 define([
   'machina'
-  'underscore'
+  'lodash'
 ], (
   Machina
   _

@@ -1,6 +1,6 @@
 define([
   'models/mapData'
-  'underscore'
+  'lodash'
 ], (
   MapData
   _

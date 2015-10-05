@@ -1,7 +1,7 @@
 define([
   'angular'
   'directives/directives'
-  'underscore'
+  'lodash'
 ], (
   angular
   directives

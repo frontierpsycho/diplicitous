@@ -12,17 +12,17 @@ require.config({
   baseUrl: '/base/coffee',
 
   paths: {
-    'angular': '../lib/angular/angular',
-    'underscore': '../lib/underscore/underscore',
-    'machina': '../lib/machina/machina',
-    'domReady': '../lib/requirejs/domReady',
-    'angular-route': '../lib/angular/angular-route',
-    'angular-sanitize': '../lib/angular/angular-sanitize',
-    'snap': '../lib/snap/snap.svg'
+    'angular': '../bower_components/angular/angular',
+    'angular-route': '../bower_components/angular-route/angular-route',
+    'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize',
+    'lodash': '../bower_components/lodash/lodash',
+    'machina': '../bower_components/machina/lib/machina',
+    'domReady': '../bower_components/requirejs-domready/domReady',
+    'snap': '../bower_components/Snap.svg/dist/snap.svg'
   },
 
   shim: {
-    'underscore': {
+    'lodash': {
       exports: '_'
     },
     'angular': {

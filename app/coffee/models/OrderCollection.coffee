@@ -1,6 +1,6 @@
 define([
   'models/Order'
-  'underscore'
+  'lodash'
 ], (
   Order
   _

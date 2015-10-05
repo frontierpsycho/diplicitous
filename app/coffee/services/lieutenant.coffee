@@ -5,7 +5,7 @@ define([
   'fsm/movement'
   'fsm/adjustment'
   'fsm/retreat'
-  'underscore'
+  'lodash'
   'services/services'
 ], (
   angular

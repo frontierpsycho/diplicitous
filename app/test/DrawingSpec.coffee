@@ -1,6 +1,6 @@
 define([
   'drawing'
-  'underscore'
+  'lodash'
 ], (
   Drawing
   _

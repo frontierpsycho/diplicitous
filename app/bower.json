@@ -29,6 +29,7 @@
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.6.0",
     "Snap.svg": "0.3.0",
     "machina": "~1.1.2",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "angular": "~1.4.7"
   }
 }
