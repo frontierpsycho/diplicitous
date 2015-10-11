@@ -139,9 +139,9 @@ define([
 
           this.game = game
 
-          this.userMode = user.Email != "" # if we don't have an email, we shouldn't show the player widget, etc.
+          this.interactiveMode = user.Email != "" # if we don't have an email, we shouldn't show the player widget, etc.
 
-          if this.userMode
+          if this.interactiveMode
             this.player = Player(game.player(user))
 
             # initialize orders with user's options
@@ -162,7 +162,7 @@ define([
           # bind orders symbols on the map to this lieutenant
           MapService.bindOrders(this)
 
-          if game.isCurrentPhase() && this.userMode
+          if game.isCurrentPhase() && this.interactiveMode
             switch game.Phase.Type
               when 'Movement'
                 this.fsm = MovementFSM($scope, MapService, this)

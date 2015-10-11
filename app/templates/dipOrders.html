@@ -1,5 +1,5 @@
 <div id="dip-orders">
-<div id="current-order">
+<div id="current-order" ng-if="lieutenant.interactiveMode">
 	<h3>Current order</h3>
 	<order order="lieutenant.orders.currentOrder" lieutenant="lieutenant" new-order="true"></order>
 </div>
@@ -7,7 +7,7 @@
 	<h3>Orders</h3>
 	<order order="order" lieutenant="lieutenant" editable="game.isCurrentPhase()" ng-repeat="(unit_area, order) in lieutenant.orders.orders"></order>
 </div>
-<div id="controls">
+<div id="controls" ng-if="lieutenant.interactiveMode">
 	<button id="send-button" ng-click="sendOrders()">Send</button>
 	<span ng-switch="lieutenant.player.Committed">
 		<button id="commit-button" ng-switch-when="false" ng-click="commitOrders()">Commit</button>
