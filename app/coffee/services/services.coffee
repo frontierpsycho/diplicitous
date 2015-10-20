@@ -1,8 +1,10 @@
 define([
+  'config'
   'angular'
   'models/Game'
   'wsService'
 ], (
+  Config
   angular
   Game
 ) ->
@@ -79,6 +81,28 @@ define([
             target: target
             name: 'user'
           })
+
+        Service
+    ])
+    .factory('TokenService', [
+      '$http'
+      (
+        $http
+      ) ->
+        Service = {}
+        console.debug('Initializing Token Service')
+        Service.loaded = false
+
+        $http(
+          method: 'GET'
+          url: 'http://' + Config.wsHost + '/token'
+          withCredentials: true
+        ).then((response) =>
+          Service.data = response.data
+          Service.token = -> this.data.Encoded
+          Service.loaded = true
+          console.debug('Token initialized!', Service)
+        )
 
         Service
     ])

@@ -1,4 +1,4 @@
-<div class="content" ng-controller="GameListCtrl">
+<div class="content">
   <h2>Available Games</h2>
   <div class="game-row" ng-repeat="(id, game) in games">
     <a href="#/game/{{id}}">{{ id }}</a> ({{ game.Members.length }} players)

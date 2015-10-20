@@ -1,8 +1,10 @@
 define([
+  'config'
   'angular'
   'moment'
   'lodash'
 ], (
+  Config
   angular
   moment
   _
@@ -14,8 +16,13 @@ define([
   diplomacyControllers.controller('GameListCtrl', [
     '$scope'
     'GameListService'
-    ($scope, GameListService) ->
-      GameListService.subscribe($scope)
+    'TokenService'
+    'wsService'
+    ($scope, GameListService, wsService) ->
+      $scope.$watch((-> wsService.loaded), (newValue, oldValue) ->
+        if newValue
+          GameListService.subscribe($scope)
+      )
   ])
   .controller('GameCtrl', [
     '$scope'
@@ -67,36 +74,40 @@ define([
           callback: -> Lieutenant.cancelOrder()
         )
 
-      unwatchMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
+      $scope.$watch((-> wsService.connected), (newValue, oldValue) ->
+        console.log("GameService", newValue, oldValue)
         if newValue
-          GameService.subscribe($scope, $routeParams.gameId)
-          UserService.subscribe($scope)
+          unwatchMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
+            if newValue
+              GameService.subscribe($scope, $routeParams.gameId)
+              UserService.subscribe($scope)
 
-          console.debug "Start watching game to init Lieutenant"
-          $scope.$watch('game', (newGame, oldGame) ->
-            # if there is a new game, and if we have changed phase
-            if newGame? and not (oldGame? and newGame.Phase.Ordinal == oldGame.Phase.Ordinal)
-              MapService.refresh(newGame)
+              console.debug "Start watching game to init Lieutenant"
+              $scope.$watch('game', (newGame, oldGame) ->
+                # if there is a new game, and if we have changed phase
+                if newGame? and not (oldGame? and newGame.Phase.Ordinal == oldGame.Phase.Ordinal)
+                  MapService.refresh(newGame)
 
-              unwatchUser = $scope.$watch('user', (newUser, oldUser) ->
-                if newUser? and not _.isEmpty(newUser)
-                  # we have both a game and a user
-                  Lieutenant.refresh(newGame, newUser)
+                  unwatchUser = $scope.$watch('user', (newUser, oldUser) ->
+                    if newUser? and not _.isEmpty(newUser)
+                      # we have both a game and a user
+                      Lieutenant.refresh(newGame, newUser)
 
-                  unwatchUser()
+                      unwatchUser()
+                  )
+
+                  # get initial time left
+                  $scope.timeLeft = newGame.timeLeft()
+
+                  # decrement per second
+                  $interval((-> $scope.timeLeft -= 1), 1000)
+
+                  $scope.timeLeftHumanReadable = ->
+                    moment.duration($scope.timeLeft, "seconds").humanize()
               )
 
-              # get initial time left
-              $scope.timeLeft = newGame.timeLeft()
-
-              # decrement per second
-              $interval((-> $scope.timeLeft -= 1), 1000)
-
-              $scope.timeLeftHumanReadable = ->
-                moment.duration($scope.timeLeft, "seconds").humanize()
+              unwatchMap()
           )
-
-          unwatchMap()
       )
   ])
 )
