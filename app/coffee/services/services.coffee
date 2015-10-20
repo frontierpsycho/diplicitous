@@ -12,15 +12,17 @@ define([
 
   angular.module('diplomacyServices')
     .factory('GameListService', ['wsService', (wsService) ->
-      Service = {}
+      Service = { loaded: false }
 
       uri = "/games/mine"
 
-      Service.subscribe = (target) ->
+      Service.subscribe = ->
         wsService.subscribe(uri, {
-          target: target
+          target: Service
           name: 'games'
           callback: (games) ->
+            Service.loaded = true
+
             _.chain(games)
               .map((elem) -> [ elem.Id, elem ] )
               .object()
@@ -36,30 +38,21 @@ define([
       ) ->
         Service = {}
 
-        uri = (id) -> "/games/#{id}"
+        uri = (gameId) -> "/games/#{gameId}"
 
-        Service.subscribe = (target, id) ->
-          wsService.subscribe(uri(id), {
-            target: target
+        Service.subscribe = (gameId) ->
+          wsService.subscribe(uri(gameId), {
+            target: Service
             name: 'game'
             callback: (data) ->
               Game(data)
           })
 
-        Service
-    ])
-    .factory('GamePhaseService', [
-      'wsService'
-      (
-        wsService
-      ) ->
-        Service = {}
+        uriPhase = (gameId, phase) -> "#{uri(gameId)}/#{phase}"
 
-        uri = (id, phase) -> "/games/#{id}/#{phase}"
-
-        Service.subscribe = (target, id, phase) ->
-          wsService.subscribe(uri(id, phase), {
-            target: target
+        Service.subscribePhase = (gameId, phase) ->
+          wsService.subscribe(uriPhase(gameId, phase), {
+            target: Service
             name: 'game'
             callback: (data) ->
               Game(data)
@@ -78,7 +71,7 @@ define([
 
         Service.subscribe = (target) ->
           wsService.subscribe(uri, {
-            target: target
+            target: Service
             name: 'user'
           })
 

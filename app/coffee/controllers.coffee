@@ -21,7 +21,12 @@ define([
     ($scope, GameListService, wsService) ->
       $scope.$watch((-> wsService.loaded), (newValue, oldValue) ->
         if newValue
-          GameListService.subscribe($scope)
+          GameListService.subscribe()
+
+          $scope.$watch((-> GameListService.loaded), (loaded) ->
+            if loaded
+              $scope.games = GameListService.games
+          )
       )
   ])
   .controller('GameCtrl', [
@@ -75,21 +80,25 @@ define([
         )
 
       $scope.$watch((-> wsService.connected), (newValue, oldValue) ->
-        console.log("GameService", newValue, oldValue)
         if newValue
           unwatchMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
             if newValue
-              GameService.subscribe($scope, $routeParams.gameId)
-              UserService.subscribe($scope)
+              GameService.subscribe($routeParams.gameId)
+              UserService.subscribe()
 
               console.debug "Start watching game to init Lieutenant"
-              $scope.$watch('game', (newGame, oldGame) ->
+              $scope.$watch((-> GameService.game), (newGame, oldGame) ->
                 # if there is a new game, and if we have changed phase
-                if newGame? and not (oldGame? and newGame.Phase.Ordinal == oldGame.Phase.Ordinal)
+                if newGame? or (oldGame? and newGame.Phase.Ordinal == oldGame.Phase.Ordinal)
+                  $scope.game = GameService.game
+
                   MapService.refresh(newGame)
 
-                  unwatchUser = $scope.$watch('user', (newUser, oldUser) ->
-                    if newUser? and not _.isEmpty(newUser)
+                  unwatchUser = $scope.$watch((-> UserService.user), (newUser, oldUser) ->
+                    # backend returns empty user when no user available/accessible
+                    unless _.isEmpty(newUser)
+                      $scope.user = UserService.user
+
                       # we have both a game and a user
                       Lieutenant.refresh(newGame, newUser)
 
