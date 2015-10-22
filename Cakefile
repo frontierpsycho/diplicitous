@@ -5,7 +5,7 @@ task 'compile', 'Compiles coffee in app/coffee/ to js in app/js/', ->
   compile()
 
 task 'test', 'Runs the tests unders test/', ->
-  tests = spawn('./node_modules/karma/bin/karma', ['start', 'app/karma.conf.js'])
+  tests = spawn('./node_modules/karma/bin/karma', ['start', 'karma.conf.js'])
 
   tests.stdout.pipe(process.stdout)
   tests.stderr.pipe(process.stderr)

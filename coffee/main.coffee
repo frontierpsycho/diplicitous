@@ -1,5 +1,5 @@
 require.config(
-    baseUrl: 'coffee/',
+    baseUrl: 'js/',
 
     # alias libraries paths
     paths:
@@ -12,7 +12,8 @@ require.config(
       'lodash': '../bower_components/lodash/lodash'
       'machina': '../bower_components/machina/lib/machina'
       'moment': '../bower_components/moment/moment'
-      'config': '../config/client'
+      'config': 'config/client'
+      'configdefaults': 'config/client.defaults'
 
     # angular does not support AMD out of the box, put it in a shim
     shim:
