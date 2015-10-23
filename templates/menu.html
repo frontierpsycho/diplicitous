@@ -1,0 +1,8 @@
+<div class="nav">
+<ul>
+  <li ng-if="user.Email == ''"><a href="http://{{ oauthHost }}/login?return_to={{ return_to }}">Login</a></li>
+  <li ng-if="user.Email != ''"><a href="http://{{ oauthHost }}/logout?return_to={{ return_to }}">Logout</a></li>
+  <li><a href="#/games">Games</a></li>
+</ul>
+</div>
+

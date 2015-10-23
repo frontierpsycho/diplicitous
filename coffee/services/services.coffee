@@ -73,6 +73,10 @@ define([
           wsService.subscribe(uri, {
             target: Service
             name: 'user'
+            callback: (user) ->
+              Service.loaded = true
+
+              user
           })
 
         Service

@@ -14,6 +14,7 @@ define([
   'directives/diplomacyMap'
   'directives/gameState'
   'directives/mapOrders'
+  'directives/menu'
 ], (
   angular
 ) ->
