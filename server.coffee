@@ -23,9 +23,10 @@ app.use('/js', coffeeMiddleware({
 
 app.use(express.static('.'))
 
-server = app.listen(8002, ->
+port = parseInt(process.argv[2]) || 8000
+server = app.listen(port, ->
   host = server.address().address
   port = server.address().port
-  console.log 'Example app listening at http://%s:%s', host, port
+  console.log 'Diplicity listening at http://%s:%s', host, port
   return
 )
