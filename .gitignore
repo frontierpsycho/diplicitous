@@ -9,7 +9,10 @@ build.xml
 *.swp
 *.swo
 .sass-cache/
-app/css/*.css
+css/*.css
+js/
 
 node_modules/
 bower_components/
+
+Session.vim
