@@ -96,6 +96,7 @@ define([
           withCredentials: true
         ).then((response) =>
           Service.data = response.data
+          Service.email = -> this.data.Principal
           Service.token = -> this.data.Encoded
           Service.loaded = true
           console.debug('Token initialized!', Service)

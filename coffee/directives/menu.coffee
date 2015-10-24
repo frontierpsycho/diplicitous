@@ -20,6 +20,11 @@ define([
           $scope.oauthHost = Config.wsHost
           $scope.return_to = encodeURIComponent(document.URL)
 
+          $scope.loggedIn = ->
+            not _.isEmpty(UserService.user.Email)
+
+          $scope.loaded = -> UserService.loaded
+
           $scope.$watch((-> UserService.loaded), (loaded) ->
             if loaded
               console.debug('User', UserService.user)

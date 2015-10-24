@@ -21,9 +21,9 @@ define([
 
         $rootScope.$watch((-> TokenService.loaded), (newValue, oldValue) ->
           if newValue
-            wsURL = "ws:#{Config.wsHost}/ws?email=#{Config.email}"
+            wsURL = "ws:#{Config.wsHost}/ws"
             if TokenService.token()
-              wsURL += "&token=#{TokenService.token()}"
+              wsURL += "?token=#{TokenService.token()}"
 
             console.debug "Initializing wsService #{wsURL}"
             ws = new WebSocket wsURL
