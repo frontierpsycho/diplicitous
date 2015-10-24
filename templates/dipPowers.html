@@ -2,12 +2,12 @@
 <table>
 	<tr ng-repeat="power in powers" class="{{ power.power.Nation }} power">
 		<td>
-			<div class="name">{{ power.power.Nation }}
-				<span ng-switch="power.power.Committed">
-					<span ng-switch-when="false"><img src="img/open-iconic/svg/x.svg" alt="Not committed" title="Not committed"></span>
-					<span ng-switch-when="true"><img src="img/open-iconic/svg/check.svg" alt="Committed" title="Committed"></span>
-				</span>
-			</div>
+			<span class="name">{{ power.power.Nation }}
+			</span>
+			<span ng-switch="power.power.Committed">
+				<span class="committedness" ng-switch-when="false"><i class="fa fa-times-circle-o" alt="Not committed" title="Not committed"></i></span>
+				<span class="committedness" ng-switch-when="true"><i class="fa fa-check-circle-o" alt="Committed" title="Committed"></i></span>
+			</span>
 			<div class="units">{{ power.units }} units (<span class="{{ deltaClass(power.scs - power.units) }}">{{ textSign(power.scs - power.units) }}{{ power.scs - power.units }}</span>)</div>
 		</td>
 		<td class="SCCount">{{ power.scs }} SCs<div class="power-bar" style="width: {{ power.percent }}%"></div></td>
