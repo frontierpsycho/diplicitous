@@ -1,6 +1,14 @@
 <div class="content">
-  <h2>Available Games</h2>
-  <div class="game-row" ng-repeat="(id, game) in games">
-    <a href="#/game/{{id}}">{{ id }}</a> ({{ game.Members.length }} players)
+  <div class="game-section-title">My Games</div>
+  <div class="game-row" ng-repeat="(id, game) in games.mine">
+    <a href="#/game/{{id}}">{{ game.Phase.Type}}, {{ game.Phase.Season }} {{ game.Phase.Year }} ({{ game.Members.length }} players)</a>
+  </div>
+  <div class="game-section-title">Open Games</div>
+  <div class="game-row" ng-repeat="(id, game) in games.open">
+    <a href="#/game/{{id}}">{{ game.Phase.Type}}, {{ game.Phase.Season }} {{ game.Phase.Year }} ({{ game.Members.length }} players)</a>
+  </div>
+  <div class="game-section-title">Closed Games</div>
+  <div class="game-row" ng-repeat="(id, game) in games.closed">
+    <a href="#/game/{{id}}">{{ game.Phase.Type}}, {{ game.Phase.Season }} {{ game.Phase.Year }} ({{ game.Members.length }} players)</a>
   </div>
 </div>

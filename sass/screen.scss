@@ -6,6 +6,7 @@
 @import "dipOrders";
 @import "dipPlayer";
 @import "gameState";
+@import "games";
 
 /* -------------------------------------------------------------------------*/
 /* Layout */
@@ -72,20 +73,6 @@ h3 {
   .content {
     @include squish(2, 2);
     @include span($total-columns - 4);
-
-    div.game-row {
-      @include squish(1, 1);
-      @include span($total-columns - 2);
-      background-color: #FF7B00;
-      padding-top: 1em;
-      padding-bottom: 1em;
-      color: white;
-      font-size: 1.2em;
-
-      &:hover {
-        background-color: #DC6A00;
-      }
-    }
 
     $sidebar-columns: 9;
     div#map {

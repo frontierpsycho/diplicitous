@@ -21,7 +21,9 @@ define([
     ($scope, GameListService, wsService) ->
       $scope.$watch((-> wsService.loaded), (newValue, oldValue) ->
         if newValue
-          GameListService.subscribe()
+          GameListService.subscribeMine()
+          GameListService.subscribeOpen()
+          GameListService.subscribeClosed()
 
           $scope.$watch((-> GameListService.loaded), (loaded) ->
             if loaded

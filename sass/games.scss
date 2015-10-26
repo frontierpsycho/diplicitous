@@ -1,0 +1,32 @@
+@import "base";
+
+.container {
+  @include container;
+  @include show-grid;
+
+  div.game-section-title {
+    @include span($total-columns);
+    font-size: 1.4em;
+    font-weight: bold;
+    padding: 1em;
+  }
+
+  div.game-row {
+    @include squish(1, 1);
+    @include span($total-columns - 2);
+
+    background-color: #FBFBED;
+    font-size: 1.2em;
+
+    a {
+      display: block;
+      padding: 1em;
+      text-decoration: none;
+      color: black;
+    }
+
+    &:hover {
+      background-color: #ECECDC;
+    }
+  }
+}

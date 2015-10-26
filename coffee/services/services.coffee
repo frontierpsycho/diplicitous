@@ -12,14 +12,42 @@ define([
 
   angular.module('diplomacyServices')
     .factory('GameListService', ['wsService', (wsService) ->
-      Service = { loaded: false }
+      Service = { loaded: false, games: {} }
 
-      uri = "/games/mine"
+      uriMine = "/games/mine"
+      uriOpen = "/games/open"
+      uriClosed = "/games/closed"
 
-      Service.subscribe = ->
-        wsService.subscribe(uri, {
-          target: Service
-          name: 'games'
+      Service.subscribeMine = ->
+        wsService.subscribe(uriMine, {
+          target: Service.games
+          name: 'mine'
+          callback: (games) ->
+            Service.loaded = true
+
+            _.chain(games)
+              .map((elem) -> [ elem.Id, elem ] )
+              .object()
+              .value()
+        })
+
+      Service.subscribeOpen = ->
+        wsService.subscribe(uriOpen, {
+          target: Service.games
+          name: 'open'
+          callback: (games) ->
+            Service.loaded = true
+
+            _.chain(games)
+              .map((elem) -> [ elem.Id, elem ] )
+              .object()
+              .value()
+        })
+
+      Service.subscribeClosed = ->
+        wsService.subscribe(uriClosed, {
+          target: Service.games
+          name: 'closed'
           callback: (games) ->
             Service.loaded = true
 
@@ -95,6 +123,7 @@ define([
           url: 'http://' + Config.wsHost + '/token'
           withCredentials: true
         ).then((response) =>
+          # FIXME what if data is not defined? Dimwit.
           Service.data = response.data
           Service.email = -> this.data.Principal
           Service.token = -> this.data.Encoded
