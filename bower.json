@@ -30,6 +30,7 @@
     "Snap.svg": "0.3.0",
     "machina": "~1.1.2",
     "lodash": "~3.10.1",
-    "angular": "~1.4.7"
+    "angular": "~1.4.7",
+    "components-font-awesome": "~4.4.0"
   }
 }
