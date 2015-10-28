@@ -16,11 +16,12 @@ define([
   diplomacyControllers.controller('GameListCtrl', [
     '$scope'
     'GameListService'
-    'TokenService'
+    'UserService'
     'wsService'
-    ($scope, GameListService, wsService) ->
-      $scope.$watch((-> wsService.loaded), (newValue, oldValue) ->
+    ($scope, GameListService, UserService, wsService) ->
+      $scope.$watch((-> wsService.connected), (newValue, oldValue) ->
         if newValue
+          UserService.subscribe()
           GameListService.subscribeMine()
           GameListService.subscribeOpen()
           GameListService.subscribeClosed()

@@ -30,7 +30,8 @@ define([
 
             ws.onopen = ->
               console.debug "Socket opened", this.readyState
-              Service.connected = true
+              $rootScope.$apply ->
+                Service.connected = true
 
             ws.onmessage = (message) ->
               data = JSON.parse(message.data)
