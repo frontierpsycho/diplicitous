@@ -7,18 +7,6 @@ define([
 ) ->
   'use strict'
 
-  cleanCoast = (abbr) ->
-    if abbr?
-      abbr.replace("/", "-")
-    else
-      abbr
-
-  soilCoast = (abbr) ->
-    if abbr?
-      abbr.replace("-", "/")
-    else
-      abbr
-
   Order = (nation, unit_area, diplicity_order) ->
     that = {
       sent: false
@@ -30,14 +18,14 @@ define([
       if (not diplicity_order?) or _.isEmpty(diplicity_order) or (not diplicity_order[0]?)
         return that
 
-      that.unit_area = cleanCoast(unit_area)
+      that.unit_area = unit_area
       that.type = diplicity_order[0]
       switch that.type
         when 'Move'
-          that.dst = cleanCoast(diplicity_order[1])
+          that.dst = diplicity_order[1]
         when 'Support', 'Convoy'
-          that.src = cleanCoast(diplicity_order[1])
-          that.dst = cleanCoast(diplicity_order[2])
+          that.src = diplicity_order[1]
+          that.dst = diplicity_order[2]
         when 'Build'
           that.unit_type = diplicity_order[1]
 
@@ -45,11 +33,11 @@ define([
 
     that.toDiplicity = ->
       _.without([
-        soilCoast(that.unit_area)
+        that.unit_area
         that.type
         that.unit_type
-        soilCoast(that.src)
-        soilCoast(that.dst)
+        that.src
+        that.dst
       ], undefined)
 
     that.draw = ->

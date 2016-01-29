@@ -31,11 +31,6 @@ define([
   tokenizeAbbr = (abbr) ->
     abbr.split("-")
 
-  # diplicity coasts have slashes, which is invalid
-  # this cleans them up (turns them into dashes)
-  cleanCoast = (abbr) ->
-    abbr.replace("/", "-")
-
   angular.module('diplomacyServices')
     .service('MapService', ['$q', ($q) ->
       this.provinces = {} # map of province abbreviation to Province object
@@ -78,9 +73,6 @@ define([
 
         # insert new units
         for provinceName, unit of game.Phase.Units
-          if provinceName.indexOf("/") > -1
-            provinceName = cleanCoast(provinceName)
-
           unitPromise = unitSVGs[unit.Type]
           if unitPromise?
             # closure containing provinceName and unit
@@ -145,7 +137,7 @@ define([
         this.dehighlightProvince(abbr)
 
       this.findProvinceByAbbr = (abbr, callback) ->
-        province = this.provinces[cleanCoast(abbr)]
+        province = this.provinces[abbr]
 
         if province?
           callback(province)
@@ -251,11 +243,14 @@ define([
 
       # activate the given coasts, deactivate all the rest
       this.activateCoasts = (coasts) ->
+        that = this
         coasts = coasts || []
         _.each(this.provinces, (province, provinceName) ->
           if (province.isCoast())
             if (provinceName in coasts)
               province.activateCoast()
+              console.debug("Activating coast #{province.abbr}, plus parent:", province.parent)
+              that.highlightProvince(province.parent.abbr)
             else
               province.deactivateCoast()
         )
@@ -267,7 +262,7 @@ define([
 
         provinces = this.snap.selectAll("#provinces path")
         for province in provinces
-          provinceName = cleanCoast(province.attr("id"))
+          provinceName = province.attr("id")
 
           [landName, coastName] = tokenizeAbbr(provinceName)
 

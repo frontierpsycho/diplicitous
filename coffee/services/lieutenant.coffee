@@ -56,8 +56,7 @@ define([
 
             # make a list of options that are coastal
             coastOptions = _(nextOptions)
-              .filter((item) -> item.indexOf("/") != -1)
-              .map((item) -> item.replace("/", "-"))
+              .filter((item) -> item.indexOf("-") != -1)
               .value()
 
             console.debug("Activate coasts:", coastOptions)
