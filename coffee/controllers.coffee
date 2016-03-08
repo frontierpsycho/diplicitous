@@ -41,6 +41,7 @@ define([
     'GameService'
     'MapService'
     'Lieutenant'
+    'Postman'
     'wsService'
     (
       $scope
@@ -51,9 +52,11 @@ define([
       GameService
       MapService
       Lieutenant
+      Postman
       wsService
     ) ->
       $scope.lieutenant = Lieutenant
+      $scope.postman = Postman
 
       hotkeys.bindTo($scope)
         .add(
@@ -87,6 +90,7 @@ define([
           unwatchMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
             if newValue
               GameService.subscribe($routeParams.gameId)
+              Postman.subscribeMessages($routeParams.gameId)
               UserService.subscribe()
 
               console.debug "Start watching game to init Lieutenant"

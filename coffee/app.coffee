@@ -7,6 +7,7 @@ define([
   'services/services'
   'services/map'
   'services/lieutenant'
+  'services/postman'
   'controllers'
   'directives/dipOrders'
   'directives/dipPowers'
@@ -15,6 +16,7 @@ define([
   'directives/gameState'
   'directives/mapOrders'
   'directives/menu'
+  'directives/dipPress'
 ], (
   angular
 ) ->

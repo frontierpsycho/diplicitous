@@ -1,0 +1,9 @@
+<div id="dip-press">
+	<div>
+    <dip-message message="message" ng-repeat="message in postman.messages|orderBy:'+CreatedAt'"></dip-message>
+	</div>
+	<div>
+		<input type="text" id="press" />
+		<button id="send-press" ng-click="sendPress()">Send</button>
+	</div>
+</div>

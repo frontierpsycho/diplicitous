@@ -141,6 +141,12 @@ define([
                 URI: uri
             }))
 
+          Service.sendCreate = (data) ->
+            this.send(JSON.stringify({
+              Type: "Create"
+              Object: data
+            }))
+
           Service.sendRPC = (method, data, callback) ->
             randomId = Math.random().toString(36).substring(2)
 
