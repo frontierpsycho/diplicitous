@@ -141,7 +141,7 @@ define([
           this.interactiveMode = user.Email != "" # if we don't have an email, we shouldn't show the player widget, etc.
 
           if this.interactiveMode
-            this.player = Player(game.player(user))
+            this.player = game.membersByEmail[user.Email]
 
             # initialize orders with user's options
             this.orders = new Orders.CurrentOrderCollection(game.Phase.Orders, this.player.Options, this.player.Nation)

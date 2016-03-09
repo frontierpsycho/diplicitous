@@ -283,6 +283,30 @@ $order-hover: #FFFFFF;
   }
 }
 
+#dip-press {
+  .message > span.France {
+    background-color: $France-color;
+  }
+  .message > span.Austria {
+    background-color: $Austria-color;
+  }
+  .message > span.Germany {
+    background-color: $Germany-color;
+  }
+  .message > span.Russia {
+    background-color: $Russia-color;
+  }
+  .message > span.England {
+    background-color: $England-color;
+  }
+  .message > span.Turkey {
+    background-color: $Turkey-color;
+  }
+  .message > span.Italy {
+    background-color: $Italy-color;
+  }
+}
+
 #stripe line {
   fill: white;
   stroke: white;

@@ -39,6 +39,9 @@ define([
         restrict: 'E'
         scope:
           message: "="
+          game: "="
+        link: ($scope) ->
+          $scope.sender = $scope.game.membersById[$scope.message.SenderId]
       }
     )
 )

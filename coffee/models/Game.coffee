@@ -1,7 +1,9 @@
 define([
+  'models/Player'
   'lodash'
   'moment'
 ], (
+  Player
   _
   moment
 ) ->
@@ -17,6 +19,16 @@ define([
         else
           null
       )
+
+    game.membersByEmail = _.reduce(game.Members, (acc, member) ->
+      acc[member.User.Email] = Player(member)
+      return acc
+    , {})
+
+    game.membersById = _.reduce(game.Members, (acc, member) ->
+      acc[member.Id] = game.membersByEmail[member.User.Email]
+      return acc
+    , {})
 
     # returns the units of the given power
     game.units = (power) ->
