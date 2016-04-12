@@ -1,1 +1,1 @@
-<div class="message"><span class="{{ sender.Nation }}">{{ sender.Nation}}</span>: {{ message.Body }}</div>
+<div class="message" ng-class="seen ? 'seen' : 'not-seen'"><span class="{{ sender.Nation }}">{{ sender.Nation}}</span> {{ message.Body }}</div>

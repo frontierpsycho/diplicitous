@@ -40,8 +40,10 @@ define([
         scope:
           message: "="
           game: "="
+          user: "="
         link: ($scope) ->
           $scope.sender = $scope.game.membersById[$scope.message.SenderId]
+          $scope.seen = $scope.message.SeenBy[$scope.user?.Id] || false
       }
     )
 )

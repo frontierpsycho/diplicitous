@@ -60,7 +60,18 @@ define([
                 type = data['Type']
 
                 switch type
-                  when 'Create', 'Fetch', 'Update' # TODO should probably separate those
+                  when 'Create'
+                    $rootScope.$apply ->
+                      containedData = data['Object']['Data']
+
+                      _.each(containedData, (dataPoint) ->
+                        # transform data with subscription callback
+                        if subscription.callback?
+                          dataPoint = subscription.callback(dataPoint)
+
+                        subscription.target[subscription.name].push(dataPoint)
+                      )
+                  when 'Fetch', 'Update' # TODO should probably separate those
                     $rootScope.$apply ->
                       containedData = data['Object']['Data']
 
