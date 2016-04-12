@@ -5,6 +5,7 @@ define([
   'models/mapData'
   'drawing'
   'util'
+  'lodash'
   'services/services'
 ], (
   angular
@@ -13,6 +14,7 @@ define([
   MapData
   Drawing
   Util
+  _
 ) ->
   'use strict'
 
@@ -30,6 +32,24 @@ define([
   # example: spa-sc -> [spa, sc]
   tokenizeAbbr = (abbr) ->
     abbr.split("-")
+
+  ViewBoxString = (viewBoxString) ->
+    [this.x, this.y, this.width, this.height] = _.map(viewBoxString.split(" "), (v) -> parseFloat(v))
+    console.log(this.x, this.y, this.width, this.height)
+
+  ViewBoxString.prototype.scroll = (x, y) ->
+    this.x = x
+    this.y = y
+
+  ViewBoxString.prototype.zoom = (w, h) ->
+    this.width = w
+    this.height = y
+
+  ViewBoxString.prototype.zoomPercent = (percent) ->
+    this.width = this.width * (percent / 100)
+    this.height = this.height * (percent / 100)
+
+  ViewBoxString.prototype.toString = -> "#{this.x} #{this.y} #{this.width} #{this.height}"
 
   angular.module('diplomacyServices')
     .service('MapService', ['$q', ($q) ->
@@ -182,7 +202,7 @@ define([
         provinceCenter = Snap.select("##{abbr}Center").getBBox()
 
         that = this
-        [validOrderTypes, invalidOrderTypes] = _.partition(orderTypes, (item) -> _.contains(_.keys(that.orders), item))
+        [validOrderTypes, invalidOrderTypes] = _.partition(orderTypes, (item) -> _.includes(_.keys(that.orders), item))
 
         console.debug orderTypes, validOrderTypes, invalidOrderTypes
         points = Util.placeOrdersCircular(validOrderTypes.length)
@@ -254,6 +274,16 @@ define([
             else
               province.deactivateCoast()
         )
+
+      this.scroll = (x, y) ->
+        vb = new ViewBoxString(this.snap.node.getAttribute('viewBox'))
+        vb.scroll(x, y)
+        this.snap.node.setAttribute('viewBox', vb.toString())
+
+      this.zoomPercent = (percent) ->
+        vb = new ViewBoxString(this.snap.node.getAttribute('viewBox'))
+        vb.zoomPercent(percent)
+        this.snap.node.setAttribute('viewBox', vb.toString())
 
       this.init = ->
         this.snap = Snap("#map svg")

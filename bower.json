@@ -29,8 +29,11 @@
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.6.0",
     "Snap.svg": "0.3.0",
     "machina": "~1.1.2",
-    "lodash": "~3.10.1",
+    "lodash": "~4.10.0",
     "angular": "~1.4.7",
     "components-font-awesome": "~4.4.0"
+  },
+  "resolutions": {
+    "lodash": "~4.10.0"
   }
 }
