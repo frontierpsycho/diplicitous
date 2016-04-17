@@ -5,6 +5,7 @@ define([
   'models/mapData'
   'drawing'
   'util'
+  'services/viewBoxString'
   'lodash'
   'services/services'
 ], (
@@ -14,6 +15,7 @@ define([
   MapData
   Drawing
   Util
+  ViewBoxString
   _
 ) ->
   'use strict'
@@ -32,24 +34,6 @@ define([
   # example: spa-sc -> [spa, sc]
   tokenizeAbbr = (abbr) ->
     abbr.split("-")
-
-  ViewBoxString = (viewBoxString) ->
-    [this.x, this.y, this.width, this.height] = _.map(viewBoxString.split(" "), (v) -> parseFloat(v))
-    console.log(this.x, this.y, this.width, this.height)
-
-  ViewBoxString.prototype.scroll = (x, y) ->
-    this.x = x
-    this.y = y
-
-  ViewBoxString.prototype.zoom = (w, h) ->
-    this.width = w
-    this.height = y
-
-  ViewBoxString.prototype.zoomPercent = (percent) ->
-    this.width = this.width * (percent / 100)
-    this.height = this.height * (percent / 100)
-
-  ViewBoxString.prototype.toString = -> "#{this.x} #{this.y} #{this.width} #{this.height}"
 
   angular.module('diplomacyServices')
     .service('MapService', ['$q', ($q) ->
@@ -284,6 +268,9 @@ define([
         vb = new ViewBoxString(this.snap.node.getAttribute('viewBox'))
         vb.zoomPercent(percent)
         this.snap.node.setAttribute('viewBox', vb.toString())
+
+      this.setViewBox = (viewBoxString) ->
+        this.snap.node.setAttribute('viewBox', viewBoxString)
 
       this.init = ->
         this.snap = Snap("#map svg")

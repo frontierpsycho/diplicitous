@@ -84,6 +84,19 @@ define([
           description: 'Cancel current order'
           callback: -> Lieutenant.cancelOrder()
         )
+        .add(
+          combo: 'ctrl+z'
+          description: 'Toggle zoom'
+          callback: ->
+            if $scope.zoomed # TODO get actual viewbox and compare to unzoomed
+              MapService.setViewBox("0 0 1407 1186" ) # TODO blergh get original when loading, restore to that
+              $scope.zoomed = false
+            else
+              MapService.zoomPercent(70)
+              $scope.zoomed = true
+        )
+
+      $scope.zoomed = false
 
       $scope.$watch((-> wsService.connected), (newValue, oldValue) ->
         if newValue
