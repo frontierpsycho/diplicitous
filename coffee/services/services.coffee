@@ -27,7 +27,7 @@ define([
 
             _.chain(games)
               .map((elem) -> [ elem.Id, elem ] )
-              .object()
+              .fromPairs()
               .value()
         })
 
@@ -40,7 +40,7 @@ define([
 
             _.chain(games)
               .map((elem) -> [ elem.Id, elem ] )
-              .object()
+              .fromPairs()
               .value()
         })
 
@@ -53,7 +53,7 @@ define([
 
             _.chain(games)
               .map((elem) -> [ elem.Id, elem ] )
-              .object()
+              .fromPairs()
               .value()
         })
 
