@@ -33,7 +33,6 @@ define([
                 vb = new ViewBoxString(MapService.snap.node.getAttribute('viewBox'))
                 scrollStartX = vb.x + event.clientX
                 scrollStartY = vb.y + event.clientY
-                console.log('mousedown!', scrollStartX, scrollStartY)
             )
 
             iElement.on('mouseleave', (event) ->
@@ -60,7 +59,6 @@ define([
             iElement.on('mouseup', (event) ->
               scrolling = false
               moving = false
-              console.log('mouseup!', event.clientX, event.clientY)
             )
         }
       }]
