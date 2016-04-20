@@ -7,21 +7,21 @@
 	<div id="sidebar">
 		<ul class="tabs">
 			<li>
-				<input type="radio" name="tabs" id="tab1" checked />
+				<input type="radio" name="tabs" id="tab1" ng-model="activeTab" value="powers" />
 				<label for="tab1">Powers</label>
 				<div id="tab-content1" class="tab-content">
 					<dip-powers></dip-powers>
 				</div>
 			</li>
 			<li>
-				<input type="radio" name="tabs" id="tab2" />
+				<input type="radio" name="tabs" id="tab2" ng-model="activeTab" value="orders" />
 				<label for="tab2">Orders</label>
 				<div id="tab-content2" class="tab-content">
 					<dip-orders></dip-orders/>
 				</div>
 			</li>
 			<li>
-				<input type="radio" name="tabs" id="tab3" />
+				<input type="radio" name="tabs" id="tab3" ng-model="activeTab" value="press" />
 				<label for="tab3">Press</label>
 				<div id="tab-content3" class="tab-content">
 					<dip-press></dip-presS>

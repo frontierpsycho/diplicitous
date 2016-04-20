@@ -98,6 +98,14 @@ define([
 
       $scope.zoomed = false
 
+      $scope.activeTab = "powers"
+
+      $scope.changeTab = (newTabName) ->
+        if $("#sidebar .tabs [value='#{newTabName}']").length > 0
+          $scope.activeTab = newTabName
+        else
+          console.warn("Inexistent tab!", newTabName)
+
       $scope.$watch((-> wsService.connected), (newValue, oldValue) ->
         if newValue
           unwatchMap = $scope.$watch((-> MapService.loaded), (newValue, oldValue) ->
