@@ -24,6 +24,7 @@
     "karma-jasmine": "^0.1.5",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-requirejs": "^0.2.1",
-    "morgan": "^1.6.1"
+    "morgan": "^1.6.1",
+    "yargs": "^4.6.0"
   }
 }

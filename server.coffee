@@ -3,15 +3,18 @@ compression = require('compression')
 express = require('express')
 morgan = require('morgan')
 coffeeMiddleware = require 'express-coffee-script'
-minify = require('express-minify')
+
+argv = require('yargs').argv
 
 app = express()
 
 app.use(compression())
 
-app.use(minify(
-  coffee_match: /\/coffee/
-))
+if argv.m
+  minify = require('express-minify')
+  app.use(minify(
+    coffee_match: /\/coffee/
+  ))
 
 app.use(morgan('dev'))
 
