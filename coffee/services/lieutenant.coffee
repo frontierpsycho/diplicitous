@@ -84,7 +84,6 @@ define([
               )
               console.debug "Sent", order.toDiplicity()
             )
-            .run()
 
         this.commitOrders = ->
           that = this

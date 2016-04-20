@@ -118,18 +118,22 @@ define([
         console.debug('Initializing Token Service')
         Service.loaded = false
 
-        $http(
-          method: 'GET'
-          url: 'http://' + Config.wsHost + '/token'
-          withCredentials: true
-        ).then((response) =>
-          # FIXME what if data is not defined? Dimwit.
-          Service.data = response.data
-          Service.email = -> this.data.Principal
-          Service.token = -> this.data.Encoded
-          Service.loaded = true
-          console.debug('Token initialized!', Service)
-        )
+        Service.refresh = ->
+          Service.loaded = false
+          $http(
+            method: 'GET'
+            url: 'http://' + Config.wsHost + '/token'
+            withCredentials: true
+          ).then((response) =>
+            # FIXME what if data is not defined? Dimwit.
+            Service.data = response.data
+            Service.email = -> this.data.Principal
+            Service.token = -> this.data.Encoded
+            Service.loaded = true
+            console.debug('Token initialized!', Service)
+          )
+
+        Service.refresh()
 
         Service
     ])
