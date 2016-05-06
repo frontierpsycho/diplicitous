@@ -89,6 +89,20 @@ define([
           else
             console.error "No unit promise for #{unit.Type}(#{provinceName})."
 
+        # insert dislodged units
+        for provinceName, unit of game.Phase.Dislodgeds
+          unitPromise = unitSVGs[unit.Type]
+          if unitPromise?
+            # closure containing provinceName and unit
+            that = this
+            makeInserter = (provinceName, unit) ->
+              (unitSVG) ->
+                that.insertDislodgedUnit(provinceName, unit, unitSVG)
+
+            unitPromise.then(makeInserter(provinceName, unit))
+          else
+            console.error "No unit promise for #{unit.Type}(#{provinceName})."
+
       this.bindOrders = (lieutenant) ->
         for orderType, orderSnap of this.orders
           orderSnap.unclick clickHandlers[orderType] if clickHandlers[orderType]?
@@ -100,8 +114,8 @@ define([
 
           orderSnap.click clickHandlers[orderType]
 
-      this.insertUnit = (provinceName, unit, unitSVG) ->
-        unitLayer = this.snap.select("svg #units")
+      this.insertUnit = (provinceName, unit, unitSVG, dislodged) ->
+        unitLayer = this.snap.select(if dislodged then "svg #dislodged-units" else "svg #units")
 
         if unit.Type == "Army"
           unitFragmentOriginal = unitSVG.select("#body")
@@ -129,6 +143,9 @@ define([
         })
 
         unitFragment.transform(t)
+
+      this.insertDislodgedUnit = (provinceName, unit, unitSVG) ->
+        this.insertUnit(provinceName, unit, unitSVG, true)
 
       this.activateProvince = (abbr, handler) ->
         this.addHoverHandlers(abbr)
